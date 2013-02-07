@@ -1,0 +1,52 @@
+/* Body
+**********/
+
+body {
+	font: 62.5%/1.5 Arial, Helvetica, sans-serif;
+}
+
+#wrapper {
+	background-color: #ccc;
+	margin: 0 auto;
+	width: 960px;
+}
+
+/* Header
+**********/
+header {
+	height: 100px;
+	background-color: #999;
+	
+header h1 {
+	font-size: 2em;
+	float: left;
+}
+
+/* Nav
+**********/
+#nav {
+	list-style-type: none;
+	list-style-position: inside;
+}
+#nav li {
+	display: inline;
+	font-size: 2em;
+}
+
+/* Content
+**********/
+
+/* Footer
+**********/
+
+/* Text and links
+**********/
+a {
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover {
+	color: aqua;
+	text-decoration: underline;
+}
