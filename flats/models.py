@@ -54,9 +54,9 @@ class Task(models.Model):
 		return self.name
 	
 class Assigned_Task(models.Model):
-	task = models.OneToOneField(Person, related_name='person_task')
-	person = models.OneToOneField(Person, related_name='person_person')
-	flat = models.OneToOneField(Person, related_name='person_flat')
+	task = models.OneToOneField(Task)
+	person = models.OneToOneField(Person)
+	flat = models.OneToOneField(Flat)
 	creation_date = models.DateTimeField(editable=False)
 	due_date = models.DateTimeField(editable=True)
 	completion_date = models.DateTimeField(editable=False)
