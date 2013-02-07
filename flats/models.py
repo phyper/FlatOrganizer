@@ -33,13 +33,19 @@ class Flat(models.Model):
 	
 	def __unicode__(self):
 		return self.name
+		
+class Category(models.Model):
+	name = models.CharField(max_length=100)
+
+	def __unicode__(self):
+		return self.name		
 	
 class Task(models.Model):
 	#person = models.ForeignKey(Person) # each Task is related to a single Person
 	name = models.CharField(max_length=50)
 	description = models.CharField(max_length=100)
 	credits = models.IntegerField() # try to limit value between 1 and 10
-	#category = models.OneToOneField(Category)
+	category = models.OneToOneField(Category)
 	#creation_date = models.DateTimeField(editable=False)
 	#due_date = models.DateTimeField(editable=True)
 	#completion_date = models.DateTimeField(editable=False)
@@ -47,16 +53,11 @@ class Task(models.Model):
 	def __unicode__(self):
 		return self.name
 	
-#class Assigned_Task(models.Model):
-#	task = models.OneToOneField(Person)
-#	person = models.OneToOneField(Person)
-#	flat = models.OneToOneField(Person)
-#	creation_date = models.DateTimeField(editable=False)
-#	due_date = models.DateTimeField(editable=True)
-#	completion_date = models.DateTimeField(editable=False)
+class Assigned_Task(models.Model):
+	task = models.OneToOneField(Person, related_name='person_task')
+	person = models.OneToOneField(Person, related_name='person_person')
+	flat = models.OneToOneField(Person, related_name='person_flat')
+	creation_date = models.DateTimeField(editable=False)
+	due_date = models.DateTimeField(editable=True)
+	completion_date = models.DateTimeField(editable=False)
 	
-class Category(models.Model):
-	name = models.CharField(max_length=100)
-		
-	def __unicode__(self):
-		return self.name
