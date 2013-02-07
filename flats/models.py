@@ -10,8 +10,8 @@ class UserProfile (models.Model):
 	last_name = models.CharField(max_length=50)
 	email = models.EmailField()
 	num_stars = models.IntegerField()
-	amount_of_points = models.IntegerField(editable=False);
- 	#avatar = models.ImageField(upload_to='images')
+	amount_of_points = models.IntegerField(editable=False)
+ 	avatar = models.ImageField(upload_to='images');
 	
 	#def __unicode__(self):
      #   return self.user.username
