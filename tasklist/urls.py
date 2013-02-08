@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from flats import views
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -14,4 +15,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+	url(r'^flats/', include('flats.urls')),
+	#url(r'^$', views.index, name='index'),
+	#url(r'^tasklist/', include('tasklist.urls')),
+	url(r'^register/$', views.register, name='register'),
 )

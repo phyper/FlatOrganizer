@@ -1,0 +1,26 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Register</title>
+		<meta content="Keep your flat organized with your mates." name="description">
+		<meta content="flat, apartment, organizer" name="keywords">
+		<link href="css/reset.css" rel="stylesheet" type="text/css" />
+		<link href="css/main.css" rel="stylesheet" type="text/css" />
+		<!--[if lt IE 9]><script src="dist/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+	
+	<BODY>
+	{% if registered %}
+	    <A href="/rango/">Rango</A> says: thank you for registering.
+	{% else %}
+	        rango says: register here!
+	        <FORM id="user_form" method="post" action="/rango/register/">
+	        {% csrf_token %}
+	        {{ uform.as_p }}
+	        {{ pform.as_p }}
+	        <INPUT type="submit" name="submit" value="submit" />
+	        </FORM>
+	{% endif %}
+	</BODY>
+</html>
