@@ -12,10 +12,10 @@
 	
 	<BODY>
 	{% if registered %}
-	    <A href="/rango/">Rango</A> says: thank you for registering.
+	    <A href="/flats/">Rango</A> says: thank you for registering.
 	{% else %}
 	        rango says: register here!
-	        <FORM id="user_form" method="post" action="/rango/register/">
+	        <FORM id="user_form" method="post" action="/flats/register/">
 	        {% csrf_token %}
 	        {{ uform.as_p }}
 	        {{ pform.as_p }}
