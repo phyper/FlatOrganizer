@@ -2,22 +2,32 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 from PIL import Image
+from django import forms
+from django.forms import ModelForm
+
 
 class UserProfile (models.Model):
 	user = models.OneToOneField(User)
-	first_name = models.CharField(max_length=50)
-	last_name = models.CharField(max_length=50)
-	email = models.EmailField()
+	#first_name = models.CharField(max_length=30)
+	#last_name = models.CharField(max_length=30)
+	#email = models.EmailField()
 	num_stars = models.IntegerField()
 	amount_of_points = models.IntegerField(editable=False)
- 	avatar = models.ImageField(upload_to='images')
+ 	picture = models.ImageField(upload_to='images', blank=True)
+	
+	#Accessing a users profile is done by calling user.get_profile(), 
+	#but in order to use this function, Django needs to know where to 
+	#look for the profile object.
+	#So add this line to settings.py : AUTH_PROFILE_MODULE = "account.UserProfile"
 	
 	#def __unicode__(self):
      #   return self.user.username
 
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
 class Person(models.Model):
-	first_name = models.CharField(max_length=50)
-	last_name = models.CharField(max_length=50)
+	first_name = models.CharField(max_length=30)
+	last_name = models.CharField(max_length=30)
 	email = models.EmailField()
 	num_stars = models.IntegerField()
 	amount_of_points = models.IntegerField(editable=False) # can't edit this
@@ -26,14 +36,20 @@ class Person(models.Model):
 		return self.first_name
 	
 class Flat(models.Model):
-	persons = models.ManyToManyField(Person) # each person lives in a Flat (or several flats -> how to do)
+	#persons = models.ManyToManyField(Person) # each person lives in a Flat (or several flats -> how to do)
 	name = models.CharField(max_length=30)
 	description = models.CharField(max_length=100)
-	active = models.BooleanField() # a flat can be in use or not
+	#active = models.BooleanField() # a flat can be in use or not
 	
 	def __unicode__(self):
 		return self.name
-		
+
+class Flat_Member(models.Model):
+	#person = models.OneToManyField(Flat)
+	flat = models.OneToOneField(Flat)
+	join_date = models.DateField(editable=False)
+	active = models.BooleanField() # a flat can be in use or not
+			
 class Category(models.Model):
 	name = models.CharField(max_length=100)
 
@@ -60,4 +76,15 @@ class Assigned_Task(models.Model):
 	creation_date = models.DateTimeField(editable=False)
 	due_date = models.DateTimeField(editable=True)
 	completion_date = models.DateTimeField(editable=False)
+	expences = models
+	
+
+class UserForm(forms.ModelForm):
+	class Meta:
+	        model = User
+	        fields = ["username", "email", "password"]
+
+class UserProfileForm(forms.ModelForm):
+	class Meta:	        
+		model = UserProfile
 	
