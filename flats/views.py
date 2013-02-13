@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from flats.models import UserProfile
 from flats.models import UserForm, UserProfileForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 # Index page
 
@@ -17,7 +20,7 @@ def index(request):
 def register(request):
 	context = RequestContext(request)
 	registered = False
-	if request.method =='Post':
+	if request.method =='POST':
 		uform = UserForm(data = request.POST)
 		pform = UserProfileForm(data = request.POST)
 		if uform.is_valid() and pform.is_valid():
@@ -33,6 +36,27 @@ def register(request):
 		pform = UserProfileForm()
 	return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 	
+def user_login(request):
+    context = RequestContext(request)
+    if request.method == 'POST':
+          username = request.POST['username']
+          password = request.POST['password']
+          user = authenticate(username=username, password=password)
+          if user is not None:
+              if user.is_active:
+                  login(request, user)
+                  # Redirect to index page.
+                  return HttpResponseRedirect("flats/")
+              else:
+                  # Return a 'disabled account' error message
+                  return HttpResponse("You're account is disabled.")
+          else:
+              # Return an 'invalid login' error message.
+              print  "invalid login details " + username + " " + password
+              return render_to_response('flats/login.html', {}, context)
+    else:
+        # the login is a  GET request, so just show the user the login form.
+        return render_to_response('flats/login.html', {}, context)
 
 ## Not sure about this
 #@login_required
