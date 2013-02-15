@@ -3,24 +3,145 @@
 		<meta charset="utf-8">
 		<title>Register</title>
 		<meta content="Keep your flat organized with your mates." name="description">
-		<meta content="flat, apartment, organizer" name="keywords">
-		<link href="{{ STATIC_URL }}reset.css" rel="stylesheet" type="text/css" />
-		<link href="{{ STATIC_URL }}main.css" rel="stylesheet" type="text/css" />
+		<meta content="flat, apartment, organizer, register" name="keywords">
 		<!--[if lt IE 9]><script src="dist/html5shiv.js"></script>
 		<![endif]-->
+		<link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        .login_form {
+            max-width: 300px;
+            padding: 19px 29px 29px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+        .login_form .login_form-heading,
+        .login_form .checkbox {
+            margin-bottom: 10px;
+        }
+        .login_form input[type="text"],
+        .login_form input[type="password"] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        } 
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        .form-signin {
+            max-width: 300px;
+            padding: 19px 29px 29px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+        .form-signin input[type="text"],
+        .form-signin input[type="password"] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        } 
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 	</head>
 	
-	<BODY>
+	<body>
+		<!--{% if registered %}
+			<A href="/flats/">Flat Organizer</A> says: thank you for registering.
+		{% else %}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="span8">
+					<form class="form-horizontal" id="registerHere" method="post" action="flats/register/"> {% csrf_token %}
+						<fieldset>
+							<legend>
+								Sign up
+							</legend>
+							<div class="control-group">
+								<label class="control-label">First name</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge" id="first_name" name="firts_name" rel="popover" data-content="Enter your first name." data-original-title="First Name">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Last name</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge" id="last_name" name="last_name" rel="popover" data-content="Enter your last name." data-original-title="Last Name">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Email</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge" id="user_email" name="user_email" rel="popover" data-content="What is your email address?" data-original-title="Email">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Username</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge" id="username" name="username" rel="popover" data-content="Enter your username." data-original-title="Username">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Password</label>
+								<div class="controls">
+									<input type="password" class="input-xlarge" id="password" name="password" rel="popover" data-content="Enter your password." data-original-title="Password">
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label"></label>
+								<div class="controls">
+									<button type="submit" name="submit" value="submit" class="btn btn-success" >Create My Account</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+		{% endif %}-->
+		
 	{% if registered %}
-	    <A href="/flats/">Flat Organizer</A> says: thank you for registering.
+	    <a href="/flats/">Flat Organizer</a> says: thank you for registering.
 	{% else %}
 	        Flat Organizer says: register here!
-	        <FORM id="user_form" method="post" action="/flats/register/">
+	        <form id="login_form" method="post" action="/flats/register/">
 	        {% csrf_token %}
 	        {{ uform.as_p }}
 	        {{ pform.as_p }}
-	        <INPUT type="submit" name="submit" value="submit" />
-	        </FORM>
+	        <input type="submit" name="submit" value="submit" />
+	        </form>
 	{% endif %}
-	</BODY>
+	</body>
 </html>

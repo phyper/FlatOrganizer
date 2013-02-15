@@ -3,30 +3,67 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Flat Organizer</title>
-		<meta content="Keep your flat organized with your mates." name="description">
+		<meta content="Keep your flat organized with your mates" name="description">
 		<meta content="flat, apartment, organizer" name="keywords">
-		<link href="{{ STATIC_URL }}main.css" rel="stylesheet" type="text/css" />
-		<link href="{{ STATIC_URL }}main.css" rel="stylesheet" type="text/css" />
+		
 		<!--[if lt IE 9]><script src="dist/html5shiv.js"></script>
 		<![endif]-->
+		<link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+		<style type="text/css">
+		body {
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+		.sidebar-nav {
+			padding: 9px 0;
+		}
+		</style>
+		<link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet"></link>
+	
 	</head>
 	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+	        <div class="container-fluid">
+	          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </a>
+	          <a class="brand" href="/flats/">Flat Organizer</a>
+	          <div class="nav-collapse collapse">
+			<p class="navbar-text pull-right">
+				{% if user.is_authenticated %}
+					Welcome {{ user.username }} |
+					<a href="/flats/logout/">Logout</A>
+				{% else %}
+					<a href="/flats/register/">Register</A> |
+					<a href="/flats/login/">Login</A>
+                                {% endif %}
+			</p>
+			<ul class="nav">
+
+				<li><a href="/flats/">Home</a></li>
+				<li><a href="/flats/search/">Search</a></li>
+				<li><a href="/flats/restricted" >Restricted</a></li>
+				<li><a href="/flats/about/" >About</a></li>
+			</ul>
+		</div><!--/.nav-collapse -->
+		</div>
+		</div>
+		</div>
+		
 		<div id="wrapper">
 			<div class="front-bg">
-				<img class="front-image" src="https://twimg0-a.akamaihd.net/a/1358461320/t1/img/front_page/jp-mountain@2x.jpg">
+				<!--<img class="front-image" src="https://twimg0-a.akamaihd.net/a/1358461320/t1/img/front_page/jp-mountain@2x.jpg">-->
 			</div>
 			<div class="front-card">	
 				<div class="front-welcome">
 					<div class="front-welcome-text">
-						<h1>Welcome to use Flat Organizer.</h1>
-						<p>Keep your flat organized with your mates.</p>
+						<h1>Welcome to use Flat Organizer</h1>
+						<p>Keep your flat organized with your mates</p>
 					</div>
 				</div>
-				<div class="links">
-					<a href="/flats/register/">Register Here</a>
-					<a href="/flats/login/">Login</a>
-				</div>
-			</div>
 		</div>
 		<footer>
 			<p>&copy; 2013 Flat Organizer</p>

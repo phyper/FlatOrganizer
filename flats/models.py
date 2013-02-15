@@ -10,7 +10,7 @@ class UserProfile (models.Model):
 	user = models.OneToOneField(User)
 	num_stars = models.IntegerField(default=0, editable=False)
 	amount_of_points = models.IntegerField(default=0, editable=False)
-	picture = models.ImageField(upload_to='images', blank=True)
+	picture = models.ImageField(upload_to='imgs', blank=True)
 	
 	#Accessing a users profile is done by calling user.get_profile(), 
 	#but in order to use this function, Django needs to know where to 

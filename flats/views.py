@@ -1,5 +1,6 @@
 from django.template import RequestContext, loader
 from django.contrib.auth.models import User
+from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from flats.models import UserProfile
@@ -7,6 +8,7 @@ from flats.models import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.core.context_processors import csrf
 
 # Index page
 
@@ -39,14 +41,14 @@ def register(request):
 def user_login(request):
     context = RequestContext(request)
     if request.method == 'POST':
-          username = request.POST['username']
-          password = request.POST['password']
-          user = authenticate(username=username, password=password)
+          username = request.POST.get('username', '')
+          password = request.POST.get('password', '')
+          user = auth.authenticate(username=username, password=password)
           if user is not None:
               if user.is_active:
-                  login(request, user)
+                  auth.login(request, user)
                   # Redirect to index page.
-                  return HttpResponseRedirect("flats/")
+                  return HttpResponseRedirect("/flats/")
               else:
                   # Return a 'disabled account' error message
                   return HttpResponse("You're account is disabled.")
@@ -57,6 +59,13 @@ def user_login(request):
     else:
         # the login is a  GET request, so just show the user the login form.
         return render_to_response('flats/login.html', {}, context)
+
+@login_required
+def user_logout(request):
+    context = RequestContext(request)
+    logout(request)
+    # Redirect back to index page.
+    return HttpResponseRedirect('//')
 
 ## Not sure about this
 #@login_required
