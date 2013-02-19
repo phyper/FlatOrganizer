@@ -1,3 +1,4 @@
-sqlite3.db
-tasklist/settings.py
+flatorganizer.db
 *.pyc
+tasklist/*.pyc
+flats/*.pyc
