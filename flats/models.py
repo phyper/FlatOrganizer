@@ -8,12 +8,9 @@ from django.forms import ModelForm
 
 class UserProfile (models.Model):
 	user = models.OneToOneField(User)
-	#first_name = models.CharField(max_length=30)
-	#last_name = models.CharField(max_length=30)
-	#email = models.EmailField()
-	num_stars = models.IntegerField()
-	amount_of_points = models.IntegerField(editable=False)
- 	picture = models.ImageField(upload_to='images', blank=True)
+	num_stars = models.IntegerField(default=0, editable=False)
+	amount_of_points = models.IntegerField(default=0, editable=False)
+	picture = models.ImageField(upload_to='imgs', blank=True)
 	
 	#Accessing a users profile is done by calling user.get_profile(), 
 	#but in order to use this function, Django needs to know where to 
@@ -21,20 +18,10 @@ class UserProfile (models.Model):
 	#So add this line to settings.py : AUTH_PROFILE_MODULE = "account.UserProfile"
 	
 	#def __unicode__(self):
-     #   return self.user.username
+	#   return self.user.username
 
-User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+#User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
-class Person(models.Model):
-	first_name = models.CharField(max_length=30)
-	last_name = models.CharField(max_length=30)
-	email = models.EmailField()
-	num_stars = models.IntegerField()
-	amount_of_points = models.IntegerField(editable=False) # can't edit this
-	
-	def __unicode__(self):
-		return self.first_name
-	
 class Flat(models.Model):
 	#persons = models.ManyToManyField(Person) # each person lives in a Flat (or several flats -> how to do)
 	name = models.CharField(max_length=30)
@@ -71,20 +58,19 @@ class Task(models.Model):
 	
 class Assigned_Task(models.Model):
 	task = models.OneToOneField(Task)
-	person = models.OneToOneField(Person)
+	person = models.OneToOneField(UserProfile)
 	flat = models.OneToOneField(Flat)
 	creation_date = models.DateTimeField(editable=False)
 	due_date = models.DateTimeField(editable=True)
 	completion_date = models.DateTimeField(editable=False)
 	expences = models
 	
-
 class UserForm(forms.ModelForm):
 	class Meta:
 	        model = User
-	        fields = ["username", "email", "password"]
+	        fields = ["first_name", "last_name", "email", "username", "password"]
 
 class UserProfileForm(forms.ModelForm):
 	class Meta:	        
 		model = UserProfile
-	
+		fields = ['picture']

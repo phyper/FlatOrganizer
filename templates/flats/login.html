@@ -1,0 +1,81 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sign in to Flat Organizer</title>
+    <meta content="Keep your flat organized with your mates." name="description">
+    <meta content="flat, apartment, organizer, login" name="keywords">
+    <!--[if lt IE 9]><script src="dist/html5shiv.js"></script>
+    <![endif]-->
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        .login_form {
+            max-width: 300px;
+            padding: 19px 29px 29px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+        .login_form .login_form-heading,
+        .login_form .checkbox {
+            margin-bottom: 10px;
+        }
+        .login_form input[type="text"],
+        .login_form input[type="password"] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        } 
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="login_form" method="post" action="/flats/login/"> {% csrf_token %}
+           <!-- <div style='display:none'>
+                <input type='hidden' name='csrfmiddlewaretoken' value='a643fab735d5ce6377ff456e73c4b1af' />
+            </div>-->
+            <h2 class="login_form-heading">Please sign in</h2>
+            <div class="placeholing-input username">
+                <input type="text" name="username" value="" id="username" placeholder="User name" size="50" />
+                <!--<input class="input-block-level" type="text" name="username id="username" value="" tabindex="1" placeholder="User name" />    -->
+            </div>
+            <table class="flex-table password-signin">
+                <tbody>
+                    <tr>
+                        <td class="flex-table-primary">
+                            <div class="placeholding-input password flex-table-form hasome">
+                                <input type="password" name="password" value="" id="password" placeholder="Password" size="50" />
+                                <!--<input id="signin-password class="input-block-level" type="password" id="password" value="" tabindex="2" placeholder="Password">-->
+                            </div>
+                        </td>
+                        <td class="flex-table-secondary">
+                            <button class="submit btn btn-large btn-primary" tabindex="4" type="submit" name="submit">Sign in</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="remember-forgot">
+                <label class="remember">
+                    <input type="checkbox" tabindex="3" name="remember-me" value="1">
+                    <span>Remember me</span>
+                </label>
+                <span class="separator"> </span>
+                <a class="forgot" href="#">Forgot password?</a>
+            </div>            
+        </form>
+    </div>
+</body>
+</html>
