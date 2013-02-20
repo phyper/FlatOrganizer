@@ -68,12 +68,17 @@ class Assigned_Task(models.Model):
 	expences = models
 	
 class UserCreateForm(UserCreationForm):
-	email = forms.EmailField(required = True)
-	class Meta:
-	        model = User
-	        fields = ["first_name", "last_name", "email", "username"]
+    email = forms.EmailField(required = True)
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email", "username"]
 
 class UserProfileForm(forms.ModelForm):
-	class Meta:	        
-		model = UserProfile
-		fields = ['picture']
+    class Meta:
+        model = UserProfile
+        fields = ['picture']
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email"]

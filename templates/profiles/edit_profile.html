@@ -4,7 +4,7 @@
 {% block content %}
 <h1>Profile - {{ user }}</h1>
 <form action="" method="POST">
-    {% for field in form.visible_fields %}
+    {% for field in pform.visible_fields %}
         {% csrf_token %}
         <p>
             {{ field.name }}
@@ -13,7 +13,17 @@
             {{ field.errors }}
         </p>
     {% endfor %}
+
+    {% for field in uform.visible_fields %}
+        {% csrf_token %}
+        <p>
+            {{ field.name }}
+            {{ field }}
+            {{ field.help_text }}
+            {{ field.errors }}
+        </p>
+    {% endfor %}
+
     <input id="submit" type="submit" name="submit" value="Update" />
 </form>
- 
 {% endblock content %}
