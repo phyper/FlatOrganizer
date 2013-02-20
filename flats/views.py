@@ -4,7 +4,7 @@ from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from flats.models import UserProfile, UserCreateForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from flats.models import UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -20,6 +20,16 @@ def index(request):
 	return HttpResponse(template.render(context))
 
 # User Registration view/Template
+
+def password_change(request):
+	context = RequestContext(request)
+	if request.method =='POST':
+		passwdform = PasswordResetForm(data = request.POST)
+		if passwdform.is_valid():
+			passwdform.save()
+			return render_to_response('flats/login.html', {}, context)
+		
+	return render_to_response('flats/forgot.html', {}, context)
 
 def register(request):
 	context = RequestContext(request)
@@ -83,14 +93,15 @@ def profile(request):
 
     instance = User(request.user)
     if request.method == 'POST' :
-        form = UserForm(request.POST, instance=instance)
-        if form.is_valid():
-            #save stuff here
-            #form.save()
-            print "success - not implemented"
+	form = UserForm(request.POST, instance=instance)
+	pform = UserProfileForm(request.POST)
+	if form.is_valid() and pform.is_valid():
+		#save stuff here
+		#form.save()
+		print "success - not implemented"
         else:
             print form.errors
     else:
-        form = UserForm(instance=instance)
+        form = UserProfileForm(instance=instance)
 
-    return render_to_response('profiles/edit_profile.html', {'form':form }, context)
+    return render_to_response('profiles/edit_profile.html', {'form':form, 'pform': pform }, context)
