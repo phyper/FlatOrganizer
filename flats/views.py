@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import UserProfile, UserCreateForm
-from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm
+from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from flats.models import UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -16,12 +16,14 @@ from crispy_forms.helper import FormHelper
 
 def index(request):
 	template = loader.get_template('flats/index.html')
-	context = RequestContext(request,{})
+	
+	flat_list = Flat_Member.objects.all()
+	context = RequestContext(request,{ 'flat_list' : flat_list })
 	return HttpResponse(template.render(context))
 
 # User Registration view/Template
 
-def password_change(request):
+def resend_password(request):
 	context = RequestContext(request)
 	if request.method =='POST':
 		passwdform = PasswordResetForm(data = request.POST)
@@ -29,7 +31,7 @@ def password_change(request):
 			passwdform.save()
 			return render_to_response('flats/login.html', {}, context)
 		
-	return render_to_response('flats/forgot.html', {}, context)
+	return render_to_response('flats/resend_password.html', {}, context)
 
 def register(request):
 	context = RequestContext(request)
