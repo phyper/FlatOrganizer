@@ -1,2 +1,7 @@
-sqlite3.db
-tasklist/settings.py
+flatOrganizer.tmprojflat
+flatorganizer.db
+tasklist/.DS_Store
+templates/.DS_Store
+tasklist/.DS_Store
+.DS_Store
+~/*.pyc
