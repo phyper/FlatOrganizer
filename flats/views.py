@@ -3,12 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from flats.models import UserProfile
-from flats.models import UserForm, UserProfileForm
+from flats.models import UserProfile, UserCreateForm
+from django.contrib.auth.forms import UserCreationForm
+from flats.models import UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
+from crispy_forms.helper import FormHelper
 
 # Index page
 
@@ -23,7 +25,7 @@ def register(request):
 	context = RequestContext(request)
 	registered = False
 	if request.method =='POST':
-		uform = UserForm(data = request.POST)
+		uform = UserCreateForm(data = request.POST)
 		pform = UserProfileForm(data = request.POST)
 		if uform.is_valid() and pform.is_valid():
 			user = uform.save()
@@ -34,7 +36,7 @@ def register(request):
 		else:
 			print uform.errors, pform.errors
 	else:
-		uform = UserForm()
+		uform = UserCreateForm()
 		pform = UserProfileForm()
 	return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 	

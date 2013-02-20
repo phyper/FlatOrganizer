@@ -14,8 +14,6 @@ MANAGERS = ADMINS
 
 LOGIN_URL='/flats/login'
 
-# Gives the path of application folder
-#SITE_ROOT = os.getcwd()
 PROJECT_ROOT = os.getcwd()
 
 PASSWORD_HASHERS = (

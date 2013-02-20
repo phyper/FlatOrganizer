@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 import datetime
 from PIL import Image
-from django import forms
 from django.forms import ModelForm
+
 
 
 class UserProfile (models.Model):
@@ -65,10 +67,11 @@ class Assigned_Task(models.Model):
 	completion_date = models.DateTimeField(editable=False)
 	expences = models
 	
-class UserForm(forms.ModelForm):
+class UserCreateForm(UserCreationForm):
+	email = forms.EmailField(required = True)
 	class Meta:
 	        model = User
-	        fields = ["first_name", "last_name", "email", "username", "password"]
+	        fields = ["first_name", "last_name", "email", "username"]
 
 class UserProfileForm(forms.ModelForm):
 	class Meta:	        
