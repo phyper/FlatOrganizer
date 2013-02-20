@@ -1,6 +1,7 @@
 from flats.models import UserProfile
 from flats.models import Flat
 from flats.models import Task
+from flats.models import Flat_Member
 from django.contrib import admin
 
 class PersonAdmin(admin.ModelAdmin):
@@ -12,3 +13,4 @@ class PersonAdmin(admin.ModelAdmin):
 admin.site.register(UserProfile)
 admin.site.register(Flat)
 admin.site.register(Task)
+admin.site.register(Flat_Member)

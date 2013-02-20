@@ -34,7 +34,7 @@ class Flat(models.Model):
 		return self.name
 
 class Flat_Member(models.Model):
-	user = models.ForeignKey(UserProfile)
+	user = models.ForeignKey(User)
 	flat = models.ForeignKey(Flat)
 	join_date = models.DateField(editable=False)
 	active = models.BooleanField() # a flat can be in use or not
@@ -61,7 +61,7 @@ class Task(models.Model):
 	
 class Assigned_Task(models.Model):
 	task = models.ForeignKey(Task)
-	user = models.ForeignKey(UserProfile)
+	user = models.ForeignKey(User)
 	flat = models.ForeignKey(Flat)
 	creation_date = models.DateTimeField(editable=False)
 	due_date = models.DateTimeField(editable=True)
@@ -79,3 +79,7 @@ class UserProfileForm(forms.ModelForm):
 		model = UserProfile
 		fields = ['picture']
 		
+class UserEditForm(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ["first_name", "last_name", "email"]

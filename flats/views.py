@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from flats.models import UserProfileForm
 from django.contrib.auth import authenticate, login, logout
@@ -89,21 +89,18 @@ def user_logout(request):
 @login_required
 def profile(request):
     context = RequestContext(request)
-    #Cant get users?
-    #UserProfile or User ?
-    #Need some more work here - Daniel
-
-    instance = User(request.user)
-    if request.method == 'POST' :
-	form = UserForm(request.POST, instance=instance)
-	pform = UserProfileForm(request.POST)
-	if form.is_valid() and pform.is_valid():
-		#save stuff here
-		#form.save()
-		print "success - not implemented"
+    u_instance = request.user
+    if request.method == 'POST':
+        u_form = UserEditForm(request.POST, instance=u_instance)
+        p_form = UserProfileForm(request.POST)
+        if u_form.is_valid():
+            #p_form.save()
+            u_form.save()
         else:
-            print form.errors
+            print u_form.errors
+            #print p_form.errors
     else:
-        form = UserProfileForm(instance=instance)
+        u_form = UserEditForm(instance=u_instance)
+        p_form = UserProfileForm()
 
-    return render_to_response('profiles/edit_profile.html', {'form':form, 'pform': pform }, context)
+    return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form}, context)
