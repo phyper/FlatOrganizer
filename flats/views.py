@@ -2,7 +2,7 @@ from django.template import RequestContext, loader
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from flats.models import UserProfile, UserCreateForm
 from django.contrib.auth.forms import UserCreationForm
 from flats.models import UserProfileForm
@@ -73,4 +73,24 @@ def user_logout(request):
 #@login_required
 #def view_profile(request):
 #	user_profile = request.user.get_profile()
-	
+
+@login_required
+def profile(request):
+    context = RequestContext(request)
+    #Cant get users?
+    #UserProfile or User ?
+    #Need some more work here - Daniel
+
+    instance = User(request.user)
+    if request.method == 'POST' :
+        form = UserForm(request.POST, instance=instance)
+        if form.is_valid():
+            #save stuff here
+            #form.save()
+            print "success - not implemented"
+        else:
+            print form.errors
+    else:
+        form = UserForm(instance=instance)
+
+    return render_to_response('profiles/edit_profile.html', {'form':form }, context)
