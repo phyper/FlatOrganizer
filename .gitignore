@@ -1,9 +1,11 @@
 flatOrganizer.tmprojflat
 flatorganizer.db
-.DS_Store
 tasklist/.DS_Store
 templates/.DS_Store
 .DS_Store
 *.pyc
 tasklist/*.pyc
 flats/*.pyc
+tasklist/.DS_Store
+templates/.DS_Store
+.DS_Store
