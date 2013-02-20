@@ -36,7 +36,7 @@ class Flat(models.Model):
 class Flat_Member(models.Model):
 	user = models.ForeignKey(User)
 	flat = models.ForeignKey(Flat)
-	join_date = models.DateField(editable=False)
+	join_date = models.DateTimeField(auto_now_add = True)
 	active = models.BooleanField() # a flat can be in use or not
 			
 class Category(models.Model):
