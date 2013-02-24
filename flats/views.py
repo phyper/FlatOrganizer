@@ -18,8 +18,10 @@ def index(request):
 	template = loader.get_template('flats/index.html')
 	
 	#flat_list = Flat_Member.objects.filter(user = request.user)
-	flat_list = Flat_Member.objects.all()
-	context = RequestContext(request,{ 'flat_list' : flat_list })
+	flats = Flat_Member.objects.filter(user=request.user)
+	members = Flat_Member.objects.all();
+	
+	context = RequestContext(request,{ 'flats' : flats, 'members' : members })
 	return HttpResponse(template.render(context))
 
 # User Registration view/Template
