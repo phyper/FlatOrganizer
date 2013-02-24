@@ -17,6 +17,7 @@ from crispy_forms.helper import FormHelper
 def index(request):
 	template = loader.get_template('flats/index.html')
 	
+	#flat_list = Flat_Member.objects.filter(user = request.user)
 	flat_list = Flat_Member.objects.all()
 	context = RequestContext(request,{ 'flat_list' : flat_list })
 	return HttpResponse(template.render(context))
