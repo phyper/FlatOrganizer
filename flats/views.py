@@ -4,9 +4,9 @@ from django.contrib import auth
 from django.http import HttpResponse
 from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm
+from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
-from flats.models import UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -36,7 +36,18 @@ def index(request):
 
 # User Registration view/Template
 
+def flat(request):
+    context = RequestContext(request)
+
+    flat_info = Flat.objects.all();
+    return render_to_response('flats/flat.html', {'flat_info': flat_info} , context)
+
+def password_change(request):
+    context = RequestContext(request)
+    return render_to_response('flats/login.html', {}, context)
+
 def resend_password(request):
+
 	context = RequestContext(request)
 	if request.method =='POST':
 		passwdform = PasswordResetForm(data = request.POST)
@@ -59,7 +70,7 @@ def register(request):
 			profile.save()
 			registered = True
 		else:
-			print uform.errors, pform.errors
+			print (uform.errors, pform.errors)
 	else:
 		uform = UserCreateForm()
 		pform = UserProfileForm()
@@ -81,7 +92,7 @@ def user_login(request):
                   return HttpResponse("You're account is disabled.")
           else:
               # Return an 'invalid login' error message.
-              print  "invalid login details " + username + " " + password
+              print  ("invalid login details " + username + " " + password)
               return render_to_response('flats/login.html', {}, context)
     else:
         # the login is a  GET request, so just show the user the login form.
@@ -110,7 +121,7 @@ def profile(request):
             #p_form.save()
             u_form.save()
         else:
-            print u_form.errors
+            print (u_form.errors)
             #print p_form.errors
     else:
         u_form = UserEditForm(instance=u_instance)
