@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -28,9 +28,9 @@ def index(request):
 
 def flat(request):
     context = RequestContext(request)
-
-    flat_info = Flat.objects.all();
-    return render_to_response('flats/flat.html', {'flat_info': flat_info} , context)
+    task_list = Task.objects.all()
+    flat_info = Flat.objects.filter(id = 1);
+    return render_to_response('flats/flat.html', {'flat_info': flat_info, 'task_list' : task_list} , context)
 
 def password_change(request):
     context = RequestContext(request)
