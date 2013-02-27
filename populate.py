@@ -20,7 +20,7 @@ user3.save()
 flat1 = Flat(name='26 Winton Drive', description='----')
 flat1.save()
 
-Flat_Member(user=user1, flat=flat1, join_date=datetime.datetime.now(), active=True).save()
+##Flat_Member(user=user1, flat=flat1, join_date=datetime.datetime.now(), active=True).save()
 Flat_Member(user=user2, flat=flat1, join_date=datetime.datetime.now(), active=True).save()
 Flat_Member(user=user3, flat=flat1, join_date=datetime.datetime.now(), active=True).save()
 
@@ -34,3 +34,15 @@ flat3.save()
 
 Flat_Member(user=user2, flat=flat3, join_date=datetime.datetime.now(), active=False).save()
 
+cat1 = Category(name = "Cleaning")
+cat1.save()
+
+cat2 = Category(name = "Shopping")
+cat2.save()
+
+task1 = Task(name ="Clean the kitchen", description = "TestDesc", credits = 10, flat = flat1, category = cat1)
+task1.save()
+task2 = Task(name ="Buy Toiletpaper", description = "TestPaper", credits = 5, flat = flat1, category = cat2)
+task2.save()
+task3 = Task(name ="Clean the shower", description = "TestShower", credits = 15, flat = flat1, category = cat1)
+task3.save()

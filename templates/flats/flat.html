@@ -1,14 +1,42 @@
 <!DOCTYPE html>
-<html>
+
 <head>
     <title>Selected flat!</title>
 </head>
 <body>
-    <h1>Welcome to the flat!</h1>
+    <h1>Welcome to the flat! </h1>
 
     {% for flat in flat_info %}
             {{ flat.name }}
+            {{ flat.id }}
+            {{ flat.description }}
+    </br>
     {% endfor %}
+    </br>
+
+    <h1>Task listed in this flat:</h1>
+    {% for task in task_list %}
+            {{ task.name }}
+            {{ task.id }}
+            {{ task.flat }}
+            {{ task.category }}
+
+        </br>
+    {% endfor %}
+test
+    </br>
+
+    <h1>Shopping items listed in this flat:</h1>
+    {% for shopping_item in shopping_list %}
+        {{ shopping_item.name }}
+        {{ shopping_item.id }}
+        {{ shopping_item.flat }}
+        {{ shopping_item.category }}
+        </br>
+
+
+    {% endfor %}
+
 
 </body>
 </html>
