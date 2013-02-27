@@ -2,6 +2,7 @@ from django.template import RequestContext, loader
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404
 from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
@@ -18,10 +19,19 @@ def index(request):
 	template = loader.get_template('flats/index.html')
 	
 	#flat_list = Flat_Member.objects.filter(user = request.user)
-	flats = Flat_Member.objects.filter(user=request.user)
-	members = Flat_Member.objects.all();
+	u = User.objects.get(username=request.user)
+	flats_user = Flat_Member.objects.filter(user=u)
 	
-	context = RequestContext(request,{ 'flats' : flats, 'members' : members })
+	for fu in flats_user:
+		flat_members = Flat_Member.objects.filter(flat=fu.flat)
+		fu.member_list = flat_members
+		print fu.flat.name
+		print fu.user
+		print flat_members
+		
+	#members = Flat_Member.objects.all()
+	#members = Flat_Member.objects.get(user= request.user)
+	context = RequestContext(request,{ 'flats' : flats_user})
 	return HttpResponse(template.render(context))
 
 # User Registration view/Template
