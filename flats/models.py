@@ -34,9 +34,9 @@ class Flat(models.Model):
 		return self.name
 
 class Flat_Member(models.Model):
-	#person = models.OneToManyField(Flat)
-	flat = models.OneToOneField(Flat)
-	join_date = models.DateField(editable=False)
+	user = models.ForeignKey(User)
+	flat = models.ForeignKey(Flat)
+	join_date = models.DateTimeField(auto_now_add = True)
 	active = models.BooleanField() # a flat can be in use or not
 			
 class Category(models.Model):
@@ -50,7 +50,8 @@ class Task(models.Model):
 	name = models.CharField(max_length=50)
 	description = models.CharField(max_length=100)
 	credits = models.IntegerField() # try to limit value between 1 and 10
-	category = models.OneToOneField(Category)
+	flat = models.ForeignKey(Flat)
+	category = models.ForeignKey(Category)
 	#creation_date = models.DateTimeField(editable=False)
 	#due_date = models.DateTimeField(editable=True)
 	#completion_date = models.DateTimeField(editable=False)
@@ -59,26 +60,26 @@ class Task(models.Model):
 		return self.name
 	
 class Assigned_Task(models.Model):
-	task = models.OneToOneField(Task)
-	person = models.OneToOneField(UserProfile)
-	flat = models.OneToOneField(Flat)
+	task = models.ForeignKey(Task)
+	user = models.ForeignKey(User)
+	flat = models.ForeignKey(Flat)
 	creation_date = models.DateTimeField(editable=False)
 	due_date = models.DateTimeField(editable=True)
 	completion_date = models.DateTimeField(editable=False)
 	expences = models
 	
 class UserCreateForm(UserCreationForm):
-    email = forms.EmailField(required = True)
-    class Meta:
-        model = User
-        fields = ["first_name", "last_name", "email", "username"]
+	email = forms.EmailField(required = True)
+	class Meta:
+		model = User
+		fields = ["first_name", "last_name", "email", "username"]
 
 class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['picture']
-
+	class Meta:	        
+		model = UserProfile
+		fields = ['picture']
+		
 class UserEditForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ["first_name", "last_name", "email"]
+	class Meta:
+		model = User
+		fields = ["first_name", "last_name", "email"]

@@ -8,7 +8,9 @@
 		
 		<!--[if lt IE 9]><script src="dist/html5shiv.js"></script>
 		<![endif]-->
+		<link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet">
 		<link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="{{STATIC_URL}}bootstrap/js/bootstrap.js" rel="stylesheet">
 		<style type="text/css">
 		body {
 			padding-top: 60px;
@@ -22,51 +24,75 @@
 	
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-	        <div class="container-fluid">
-	          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </a>
-	          <a class="brand" href="/flats/">Flat Organizer</a>
-	          <div class="nav-collapse collapse">
-			<p class="navbar-text pull-right">
-				{% if user.is_authenticated %}
-					Welcome {{ user.username }} |
-					<a href="/flats/logout/">Logout</A>
-				{% else %}
-					<a href="/flats/register/">Register</A> |
-					<a href="/flats/login/">Login</A>
-                                {% endif %}
-			</p>
-			<ul class="nav">
-
-				<li><a href="/flats/">Home</a></li>
-				<li><a href="/flats/search/">Search</a></li>
-				<li><a href="/flats/restricted" >Restricted</a></li>
-				<li><a href="/flats/about/" >About</a></li>
-			</ul>
-		</div><!--/.nav-collapse -->
-		</div>
-		</div>
-		</div>
 		
-		<div id="wrapper">
-			<div class="front-bg">
-				<!--<img class="front-image" src="https://twimg0-a.akamaihd.net/a/1358461320/t1/img/front_page/jp-mountain@2x.jpg">-->
-			</div>
-			<div class="front-card">	
-				<div class="front-welcome">
-					<div class="front-welcome-text">
-						<h1>Welcome to use Flat Organizer</h1>
-						<p>Keep your flat organized with your mates</p>
-					</div>
+		
+		<div class="container">
+			<div class="navbar navbar-inverse navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container-fluid">
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+				                 </a>
+						<a class="brand" href="/flats/">Flat Organizer</a>
+						<ul class="nav-collapse collapse">
+							<p class="navbar-text pull-right">
+								{% if user.is_authenticated %}
+									Welcome {{ user.first_name }} |
+									<a href="/flats/logout/">Logout</a>
+								{% else %}
+									<a href="/flats/register/">Register</a> |
+									<a href="/flats/login/">Login</a>
+								{% endif %}
+							</p>
+							<ul class="nav">
+								<li class=""><a href="/flats/">Home</a></li>
+								<li class=""><a href="#">Search</a></li>
+								<li class=""><a href="#" >Restricted</a></li>
+								<li class=""><a href="#" >About</a></li>
+							</ul>
+						</ul>
+					</div><!--/.nav-collapse -->
 				</div>
+			</div>
+			
+			<div class="content">
+				<div class="page-header">
+				<h1 class="text-center">Please select your flat</h1>
+			</div>
+			{% if flats %}
+			{% for flat in flats %}
+				<div class="row hero-unit" style="margin-left: 0px;">
+					<div class="span4">
+						<a href="#">
+							<img src="http://lorempixum.com/210/150/city/6" alt="house" class="img-rounded">
+						</a>
+					</div>
+					<div class="bottomaligned">
+						<div class="span6">
+							<a href="#">
+								<p>{{flat.flat}}</p>
+							</a>
+							<p>
+								{% if members %}
+									{% for member in members %}
+										<a href="#">{{member.user}}</a>
+									{% endfor %}
+								{% endif %}
+							</p>
+							<p><a href="#">Invite</a><p>
+						</div>
+					</div><!-- /span -->
+				</div>
+					{% endfor %}
+					{% endif %}
+					
+			</div>	
+					
+			<footer>
+				<p>&copy; 2013 Flat Organizer</p>
+			</footer>
 		</div>
-		<footer>
-			<p>&copy; 2013 Flat Organizer</p>
-		</footer> <!---End Footer->
 	</body>
 </html>
