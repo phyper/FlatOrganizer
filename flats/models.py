@@ -38,6 +38,9 @@ class Flat_Member(models.Model):
 	flat = models.ForeignKey(Flat)
 	join_date = models.DateTimeField(auto_now_add = True)
 	active = models.BooleanField() # a flat can be in use or not
+	
+	def __unicode__(self):
+		return self.user.first_name + " " + self.flat.name 
 			
 class Category(models.Model):
 	name = models.CharField(max_length=100)
