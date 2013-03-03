@@ -14,6 +14,7 @@
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/js/bootstrap.js" rel="stylesheet">
+
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -47,12 +48,7 @@
                             <a href="/flats/login/">Login</a>
                         {% endif %}
                     </p>
-                    <ul class="nav">
-                        <li class=""><a href="/flats/">Home</a></li>
-                        <li class=""><a href="#">Search</a></li>
-                        <li class=""><a href="#" >Restricted</a></li>
-                        <li class=""><a href="#" >About</a></li>
-                    </ul>
+
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -73,9 +69,11 @@
         {% block content %}{% endblock %}
     </DIV>
 
-    <DIV id="page_footer">
-        {% block footer %}{% endblock %}
-    </DIV>
+    <footer id="page_footer" class ="footer custom-footer">
+        {% block footer %}
+            <p>&copy; 2013 Flat Organizer</p>
+        {% endblock %}
+    </footer>
 
     <DIV>
 </BODY>

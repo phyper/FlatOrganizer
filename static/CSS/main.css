@@ -38,6 +38,11 @@ header h1 {
 
 /* Footer
 **********/
+#custom-footer {
+    position: fixed;
+    bottom: 0px;
+}
+
 
 /* Text and links
 **********/
