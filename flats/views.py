@@ -39,22 +39,22 @@ def index(request):
 def flat(request):
     context = RequestContext(request)
 
-    flat = Flat.objects.filter(id = 1);
+    flat = Flat.objects.filter(id = 1)
     full_list = Task.objects.filter(flat =flat )
     task_list = []
     shopping_list = []
-    print (full_list)
-    for list_item in full_list:
-        print (list_item.category.name)
 
+    for list_item in full_list:
         if list_item.category.name != "Shopping":
             task_list.append(list_item)
         else:
             shopping_list.append(list_item)
 
+    flat_members = Flat_Member.objects.filter(flat=flat)
+    print (flat_members[0].user.first_name)
 
 
-    return render_to_response('flats/flat.html', {'flat_info': flat, 'task_list' : task_list, 'shopping_list' : shopping_list} , context)
+    return render_to_response('flats/flat.html', {'flat_info': flat, 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members} , context)
 
 def password_change(request):
     context = RequestContext(request)

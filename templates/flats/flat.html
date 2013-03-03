@@ -6,13 +6,35 @@
 
     <div id="flatDescription" class ="row">
         <div class = "span12" id="flatInfo">
-            {% for flat in flat_info %}
-                {{ flat.name }}
-                {{ flat.id }}
+            <h5>Adress: <small>
+                {% for flat in flat_info %}
+                    {{ flat.name }}
+                    </br>
+                {% endfor %}
+            </small>
+            </h5>
+
+            <h5>Flat description: <small>
+                {% for flat in flat_info %}
                 {{ flat.description }}
                 </br>
-            {% endfor %}
-            </br>
+                {% endfor %}
+            </small>
+            </h5>
+
+
+            <div id="memberList" >
+                <h5>Members in flat:<small>
+                {% for member in flat_members %}
+                {{ member.user.first_name }},
+                <!--{{ member.name }}-->
+                <!--{{ member.id }}-->
+
+                {% endfor %}
+                </small>
+                </h5>
+            </div>
+
         </div>
     </div>
 
@@ -21,21 +43,25 @@
         <div id="flatTaskList" class ="span6">
             <h3>Task listed in this flat:</h3>
             {% for task in task_list %}
-                {{ task.name }}
-                {{ task.id }}
-                {{ task.flat }}
-                {{ task.category }}
-                </br>
+                <ul>
+                    <li>{{ task.name }}
+                    {{ task.id }}
+                    {{ task.flat }}
+                    {{ task.category }}</li>
+                </ul>
+
             {% endfor %}
         </div>
 
         <div id="flatShoppingList" class ="span6">
             <h3>Shopping items listed in this flat:</h3>
             {% for shopping_item in shopping_list %}
-                {{ shopping_item.name }}
-                {{ shopping_item.id }}
-                {{ shopping_item.flat }}
-                {{ shopping_item.category }}
+                <ul>
+                    <li>{{ shopping_item.name }}
+                    {{ shopping_item.id }}
+                    {{ shopping_item.flat }}
+                    {{ shopping_item.category }}</li>
+                </ul>
             {% endfor %}
             </br>
         </div>
