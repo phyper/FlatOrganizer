@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<HEADER>
+    <META http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <title>Flat Organizer</title>
+    <meta content="Keep your flat organized with your mates" name="description">
+    <meta content="flat, apartment, organizer" name="keywords">
+
+    <!--[if lt IE 9]><script src="dist/html5shiv.js"></script> <![endif]-->
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}bootstrap/js/bootstrap.js" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet"></link>
+</HEADER>
+<BODY>
+
+<div class="container">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="/flats/">Flat Organizer</a>
+                <ul class="nav-collapse collapse">
+                    <p class="navbar-text pull-right">
+                        {% if user.is_authenticated %}
+                            Welcome {{ user.first_name }} |
+                            <a href="/flats/logout/">Logout</a>
+                        {% else %}
+                            <a href="/flats/register/">Register</a> |
+                            <a href="/flats/login/">Login</a>
+                        {% endif %}
+                    </p>
+                    <ul class="nav">
+                        <li class=""><a href="/flats/">Home</a></li>
+                        <li class=""><a href="#">Search</a></li>
+                        <li class=""><a href="#" >Restricted</a></li>
+                        <li class=""><a href="#" >About</a></li>
+                    </ul>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+<DIV>
+    <DIV id="page_header">
+    </DIV>
+
+    <DIV id="page_navbar">
+    </DIV>
+
+    <DIV>
+        {% block sidebar %}{% endblock %}
+    </DIV>
+
+    <DIV id="page_content">
+        {% block content %}{% endblock %}
+    </DIV>
+
+    <DIV id="page_footer">
+        {% block footer %}{% endblock %}
+    </DIV>
+
+    <DIV>
+</BODY>
+</HTML>
