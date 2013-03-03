@@ -8,10 +8,9 @@ urlpatterns = patterns('',
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
-    url(r'^profile/', views.profile, name='profile'),
+    url(r'^(?P<flatid>\d+)/(?P<username>\w+)/$', views.profile, name='flatuser'),
+    url(r'^profile/$', views.profile, name='profile'),
     url(r'^password_change/', views.password_change, name='password_change'),
     url(r'^flat/', views.flat, name='flat'),
     url(r'^resend_password/', views.resend_password, name='resend_password'),
-
-    
 )

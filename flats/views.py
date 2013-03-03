@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from crispy_forms.helper import FormHelper
+from django.http import Http404
 
 # Index page
 
@@ -125,20 +126,45 @@ def user_logout(request):
 #	user_profile = request.user.get_profile()
 
 @login_required
-def profile(request):
+def profile(request, flatid=None, username=None):
     context = RequestContext(request)
-    u_instance = request.user
-    if request.method == 'POST':
-        u_form = UserEditForm(request.POST, instance=u_instance)
-        p_form = UserProfileForm(request.POST)
-        if u_form.is_valid():
-            #p_form.save()
-            u_form.save()
+    if flatid and username:
+        logged_in_user = User.objects.get(username=request.user)
+        logged_in_user_in_flat = False
+        view_user_in_flat = False
+        try:
+            view_flat = Flat.objects.get(id=flatid)
+            view_user = User.objects.get(username=username)
+            flat_members_in_view_flat = Flat_Member.objects.filter(flat=view_flat)
+            for member in flat_members_in_view_flat:
+                #One can only view persons in own flat
+                if member.user == logged_in_user:
+                    logged_in_user_in_flat = True
+                #Person to look at need to belong to the selected flat
+                if member.user == view_user:
+                    view_user_in_flat = True
+        except:
+            #Happens when no valid flat number or username
+            #Perhaps raise something else than a 404
+            raise Http404
+        if logged_in_user_in_flat and view_user_in_flat:
+            return render_to_response('profiles/user_profile.html', {'view_user':view_user}, context)
         else:
-            print (u_form.errors)
-            #print p_form.errors
+            #Happens when user do not live in selected flat
+            #Perhaps raise something else than a 404
+            raise Http404
     else:
-        u_form = UserEditForm(instance=u_instance)
-        p_form = UserProfileForm()
-
-    return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form}, context)
+        u_instance = request.user
+        if request.method == 'POST':
+            u_form = UserEditForm(request.POST, instance=u_instance)
+            p_form = UserProfileForm(request.POST)
+            if u_form.is_valid():
+                #p_form.save()
+                u_form.save()
+            else:
+                print (u_form.errors)
+                #print p_form.errors
+        else:
+            u_form = UserEditForm(instance=u_instance)
+            p_form = UserProfileForm()
+        return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form}, context)
