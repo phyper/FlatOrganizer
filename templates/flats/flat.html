@@ -1,42 +1,47 @@
-<!DOCTYPE html>
+{% extends "base_site.html" %}
+{% block title %}Flat Organizer{% endblock %}
 
-<head>
-    <title>Selected flat!</title>
-</head>
-<body>
-    <h1>Welcome to the flat! </h1>
+{% block content %}
+    <h2>Welcome to the flat! </h2>
 
-    {% for flat in flat_info %}
-            {{ flat.name }}
-            {{ flat.id }}
-            {{ flat.description }}
-    </br>
-    {% endfor %}
-    </br>
-
-    <h1>Task listed in this flat:</h1>
-    {% for task in task_list %}
-            {{ task.name }}
-            {{ task.id }}
-            {{ task.flat }}
-            {{ task.category }}
-
-        </br>
-    {% endfor %}
-test
-    </br>
-
-    <h1>Shopping items listed in this flat:</h1>
-    {% for shopping_item in shopping_list %}
-        {{ shopping_item.name }}
-        {{ shopping_item.id }}
-        {{ shopping_item.flat }}
-        {{ shopping_item.category }}
-        </br>
+    <div id="flatDescription" class ="row">
+        <div class = "span12" id="flatInfo">
+            {% for flat in flat_info %}
+                {{ flat.name }}
+                {{ flat.id }}
+                {{ flat.description }}
+                </br>
+            {% endfor %}
+            </br>
+        </div>
+    </div>
 
 
-    {% endfor %}
+    <div id="flatLists" class = "row">
+        <div id="flatTaskList" class ="span6">
+            <h3>Task listed in this flat:</h3>
+            {% for task in task_list %}
+                {{ task.name }}
+                {{ task.id }}
+                {{ task.flat }}
+                {{ task.category }}
+                </br>
+            {% endfor %}
+        </div>
+
+        <div id="flatShoppingList" class ="span6">
+            <h3>Shopping items listed in this flat:</h3>
+            {% for shopping_item in shopping_list %}
+                {{ shopping_item.name }}
+                {{ shopping_item.id }}
+                {{ shopping_item.flat }}
+                {{ shopping_item.category }}
+            {% endfor %}
+            </br>
+        </div>
+    </div>
 
 
-</body>
-</html>
+
+
+{% endblock content %}
