@@ -51,7 +51,7 @@
 		{% if registered %}
 		    <a href="/flats/">Flat Organizer</a> says: thank you for registering.
 		{% else %}
-			Flat Organizer says: register here!
+			<big>Register here!</big>
 			<form id="login_form" method="post" action="/flats/register/"> {% csrf_token %}
 				{{ uform.as_p }}
 				{{ pform.as_p }}
