@@ -64,12 +64,9 @@ class Task(models.Model):
 	
 class Assigned_Task(models.Model):
 	task = models.ForeignKey(Task)
-	user = models.ForeignKey(User)
-	flat = models.ForeignKey(Flat)
+	member = models.ForeignKey(Flat_Member)
 	creation_date = models.DateTimeField(editable=False)
-	due_date = models.DateTimeField(editable=True)
 	completion_date = models.DateTimeField(editable=False)
-	expences = models
 	
 class UserCreateForm(UserCreationForm):
 	email = forms.EmailField(required = True)
