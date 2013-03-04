@@ -42,26 +42,41 @@
     <div id="flatLists" class = "row">
         <div id="flatTaskList" class ="span6">
             <h3>Task listed in this flat:</h3>
-            {% for task in task_list %}
-                <ul>
-                    <li>{{ task.name }}
-                    {{ task.id }}
-                    {{ task.flat }}
-                    {{ task.category }}</li>
-                </ul>
-
-            {% endfor %}
+            <table class="table table-striped">
+                <tr>
+                    <th>Taskname: </th>
+                    <th>Category:</th>
+                    <th>Points:</th>
+                    <th>Done:</th>
+                </tr>
+                {% for task in task_list %}
+                    <tr>
+                        <td>
+                            - {{ task.name }}
+                        </td>
+                        <td>
+                            {{ task.category }}
+                        </td>
+                        <td>
+                            {{ task.credits }}
+                        </td>
+                        <td>
+                            <input type="button" value ="Done" id="btnSetTaskDone" class ="btn-primary"/>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
 
         <div id="flatShoppingList" class ="span6">
             <h3>Shopping items listed in this flat:</h3>
             {% for shopping_item in shopping_list %}
-                <ul>
-                    <li>{{ shopping_item.name }}
+                <table class = "table table-striped">
+                    {{ shopping_item.name }}
                     {{ shopping_item.id }}
                     {{ shopping_item.flat }}
-                    {{ shopping_item.category }}</li>
-                </ul>
+                    {{ shopping_item.category }}
+                </table>
             {% endfor %}
             </br>
         </div>
