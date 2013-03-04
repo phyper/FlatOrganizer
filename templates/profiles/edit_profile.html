@@ -2,28 +2,41 @@
 {% block title %}Edit Profile{% endblock %}
  
 {% block content %}
-<h1>Profile - {{ user }}</h1>
+<div class="row" id="profile_edit_top">
+    <div class="span8">
+        <h2>Your Profile</h2>
+        <h3><strong>Username: {{ user }} </strong></h3>
+    </div>
+</div>
+<br>
+<br>
 <form action="" method="POST">
-    {% for field in pform.visible_fields %}
-        {% csrf_token %}
-        <p>
-            {{ field.name }}
-            {{ field }}
-            {{ field.help_text }}
-            {{ field.errors }}
-        </p>
-    {% endfor %}
+    <div class="row" id="profile_edit">
+        <div class="span2">
+            [Picture here]
+        </div>
+        <div class="span8">
+            {% for field in pform.visible_fields %}
+                {% csrf_token %}
+                <p>
+                    {{ field }}
+                    {{ field.help_text }}
+                    {{ field.errors }}
+                </p>
+            {% endfor %}
 
-    {% for field in uform.visible_fields %}
-        {% csrf_token %}
-        <p>
-            {{ field.name }}
-            {{ field }}
-            {{ field.help_text }}
-            {{ field.errors }}
-        </p>
-    {% endfor %}
-
-    <input id="submit" type="submit" name="submit" value="Update" />
+            {% for field in uform.visible_fields %}
+                {% csrf_token %}
+                <p>
+                    {{ field }}
+                    {{ field.help_text }}
+                    {{ field.errors }}
+                </p>
+            {% endfor %}
+            <input id="submit" type="submit" name="submit" value="Update" />
+            {{ saved }}
+        </div>
+    </div>
 </form>
+<br>
 {% endblock content %}

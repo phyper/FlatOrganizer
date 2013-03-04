@@ -149,6 +149,8 @@ def profile(request, flatid=None, username=None):
             raise Http404
         if logged_in_user_in_flat and view_user_in_flat:
             tasks_assigned = Assigned_Task.objects.filter(member = member_to_view)
+            #Sort the list later on by doing something like Assigned_Task.objects.order_by('')
+
             #Consider moved to another place
             sum_credits = 0
             for tasks in tasks_assigned:
@@ -163,16 +165,19 @@ def profile(request, flatid=None, username=None):
             raise Http404
     else:
         u_instance = request.user
+        saved = ""
         if request.method == 'POST':
             u_form = UserEditForm(request.POST, instance=u_instance)
             p_form = UserProfileForm(request.POST)
             if u_form.is_valid():
                 #p_form.save()
                 u_form.save()
+                saved = "Saved"
             else:
                 print (u_form.errors)
+                saved = "Error - not saved"
                 #print p_form.errors
         else:
             u_form = UserEditForm(instance=u_instance)
             p_form = UserProfileForm()
-        return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form}, context)
+        return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form, 'saved' : saved}, context)

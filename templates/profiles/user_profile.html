@@ -4,7 +4,7 @@
 {% block content %}
     <br>
     <div class="row" id="profile_infor">
-        <div class="span4">
+        <div class="span2">
             [Picture here]
         </div>
         <div class="span8">
@@ -21,8 +21,13 @@
     <br>
     <div class="row" id="profile_takslist">
         <div class="span12">
-            <table class="table table-bordered">
+            <table class="table table-striped">
                 <thead><strong>{{ member.user.first_name }} {{ member.user.last_name }}'s completed tasks in  {{ flat.name }}</strong></thead>
+                <tr>
+                    <th>Task name</th>
+                    <th>Date completed</th>
+                    <th>Task credit</th>
+                </tr>
                 <tr>
                     {% for tasks in tasks_assigned %}
                         <td>{{ tasks.task.name }}</td>

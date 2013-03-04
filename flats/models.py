@@ -83,3 +83,8 @@ class UserEditForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ["first_name", "last_name", "email"]
+                widgets = {
+                    'first_name' : forms.TextInput(attrs = {'placeholder': 'First name'}),
+                    'last_name' : forms.TextInput(attrs = {'placeholder': 'Last name'}),
+                    'email'    : forms.TextInput(attrs = {'placeholder': 'E-mail'}),
+                    }
