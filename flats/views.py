@@ -136,6 +136,7 @@ def profile(request, flatid=None, username=None):
             view_flat = Flat.objects.get(id=flatid)
             view_user = User.objects.get(username=username)
             flat_members_in_view_flat = Flat_Member.objects.filter(flat=view_flat)
+            member_to_view = None
             for member in flat_members_in_view_flat:
                 #One can only view persons in own flat
                 if member.user == logged_in_user:
@@ -143,12 +144,13 @@ def profile(request, flatid=None, username=None):
                 #Person to look at need to belong to the selected flat
                 if member.user == view_user:
                     view_user_in_flat = True
+                    member_to_view = member
         except:
             #Happens when no valid flat number or username
             #Perhaps raise something else than a 404
             raise Http404
         if logged_in_user_in_flat and view_user_in_flat:
-            return render_to_response('profiles/user_profile.html', {'view_user':view_user}, context)
+            return render_to_response('profiles/user_profile.html', {'member': member_to_view, 'flat': view_flat}, context)
         else:
             #Happens when user do not live in selected flat
             #Perhaps raise something else than a 404
