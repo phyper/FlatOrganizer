@@ -52,10 +52,10 @@ def flat(request):
             shopping_list.append(list_item)
 
     flat_members = Flat_Member.objects.filter(flat=flat)
-    print (flat_members[0].user.first_name)
+    print (flat[0].name)
 
 
-    return render_to_response('flats/flat.html', {'flat_info': flat, 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members} , context)
+    return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members} , context)
 
 def password_change(request):
     context = RequestContext(request)
