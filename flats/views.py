@@ -4,7 +4,7 @@ from django.contrib import auth
 from django.http import HttpResponse
 from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task, Assigned_Task
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -148,7 +148,15 @@ def profile(request, flatid=None, username=None):
             #Perhaps raise something else than a 404
             raise Http404
         if logged_in_user_in_flat and view_user_in_flat:
-            return render_to_response('profiles/user_profile.html', {'member': member_to_view, 'flat': view_flat}, context)
+            tasks_assigned = Assigned_Task.objects.filter(member = member_to_view)
+            #Consider moved to another place
+            sum_credits = 0
+            for tasks in tasks_assigned:
+                sum_credits = sum_credits + tasks.task.credits
+            return render_to_response('profiles/user_profile.html', {'member': member_to_view,
+                                                                     'flat': view_flat,
+                                                                     'tasks_assigned': tasks_assigned,
+                                                                     'sum': sum_credits}, context)
         else:
             #Happens when user do not live in selected flat
             #Perhaps raise something else than a 404
