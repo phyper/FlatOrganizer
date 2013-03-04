@@ -17,23 +17,26 @@ from django.http import Http404
 # Index page
 
 def index(request):
-	template = loader.get_template('flats/index.html')
+	try: # This might need refactoring later as this is not the best way to check user's status
+		u = User.objects.get(username=request.user)
+		template = loader.get_template('flats/index.html')
 	
-	#flat_list = Flat_Member.objects.filter(user = request.user)
-	u = User.objects.get(username=request.user)
-	flats_user = Flat_Member.objects.filter(user=u)
-	
-	for fu in flats_user:
-		flat_members = Flat_Member.objects.filter(flat=fu.flat)
-		fu.member_list = flat_members
-		print (fu.flat.name)
-		print (fu.user)
-		print (flat_members)
 		
-	#members = Flat_Member.objects.all()
-	#members = Flat_Member.objects.get(user= request.user)
-	context = RequestContext(request,{ 'flats' : flats_user})
-	return HttpResponse(template.render(context))
+		flats_user = Flat_Member.objects.filter(user=u)
+	
+		for fu in flats_user:
+			flat_members = Flat_Member.objects.filter(flat=fu.flat)
+			fu.member_list = flat_members
+			# For testing #
+			#print (fu.flat.name)
+			#print (fu.user)
+			#print (flat_members)
+		
+		context = RequestContext(request,{ 'flats' : flats_user})
+		return HttpResponse(template.render(context))
+	except:
+		context = RequestContext(request)
+		return render_to_response('flats/login.html', {}, context)
 
 # User Registration view/Template
 
@@ -119,11 +122,6 @@ def user_logout(request):
     logout(request)
     # Redirect back to index page.
     return HttpResponseRedirect('//')
-
-## Not sure about this
-#@login_required
-#def view_profile(request):
-#	user_profile = request.user.get_profile()
 
 @login_required
 def profile(request, flatid=None, username=None):
