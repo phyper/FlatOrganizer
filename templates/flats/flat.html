@@ -2,6 +2,7 @@
 {% block title %}Flat Organizer{% endblock %}
 
 {% block content %}
+
     <h2>Welcome to {{ flat_info.name }}!</h2>
 
     <div id="flatDescription" class ="row">
@@ -44,7 +45,7 @@
                     <th>Done</th>
                 </tr>
                 {% for task in task_list %}
-                    <tr>
+                    <tr id="{{task.id}}">
                         <td> {{ task.name }}</td>
                         <td> {{ task.category }} </td>
                         <td> {{ task.credits }}</td>
@@ -66,7 +67,7 @@
                         <td> {{ shopping_item.name }} </td>
                         <td> {{ shopping_item.category }}</td>
                         <td> {{ shopping_item.credits }} </td>
-                        <td> <input type="button" value ="Done" id="btnSetTaskDone" class ="btn-primary"/> </td>
+                        <td> <input type="button" value ="Done" id="btnSetShoppingListDone" class ="btn-primary"/> </td>
                     </tr>
 
 

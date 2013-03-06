@@ -2,20 +2,23 @@
 <HTML lang="en">
 
 <HEADER>
-    <META http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <title>Flat Organizer</title>
-    <meta content="Keep your flat organized with your mates" name="description">
-    <meta content="flat, apartment, organizer" name="keywords">
+    <meta content="Keep your flat organized with your mates" name="description"/>
+    <meta content="flat, apartment, organizer" name="keywords"/>
+
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     
     <!--[if lt IE 9]><script src="dist/html5shiv.js"></script> <![endif]-->
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+
     
-    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
-    
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet"/>
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="{{STATIC_URL}}bootstrap/js/bootstrap.js" rel="stylesheet"/>
+
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -26,7 +29,7 @@
         }
     </style>
 
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet"></link>
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet"/>
 </HEADER>
 <BODY>
 <div class="container">
@@ -65,8 +68,8 @@
                             <a href="/flats/">Your flats</a> |
                             <a href="/flats/logout/">Logout</a>
                         {% else %}
-                            <a href="/flats/register/">Register</a> |
-                            <a href="/flats/login/">Login</a>
+                        <a href="/flats/register/">Register</a> |
+                        <a href="/flats/login/">Login</a>
                         {% endif %}
                     </p>
 
@@ -75,28 +78,43 @@
         </div>
     </div>
 
-<DIV>
-    <DIV id="page_header">
-    </DIV>
-
-    <DIV id="page_navbar">
-    </DIV>
-
     <DIV>
-        {% block sidebar %}{% endblock %}
-    </DIV>
+        <DIV id="page_header">
+        </DIV>
 
-    <DIV id="page_content">
-        {% block content %}{% endblock %}
-    </DIV>
+        <DIV id="page_navbar">
+        </DIV>
 
-    <footer id="page_footer" class ="footer custom-footer">
-        {% block footer %}
+        <DIV>
+            {% block sidebar %}{% endblock %}
+        </DIV>
+
+        <DIV id="page_content">
+            {% block content %}{% endblock %}
+        </DIV>
+
+        <footer id="page_footer" class ="footer custom-footer">
+            {% block footer %}
             <p>&copy; 2013 Flat Organizer</p>
         {% endblock %}
         
     </footer>
 
-    <DIV>
+
+    </DIV>
+</div>
 </BODY>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#btnSetTaskDone").click(function() {
+            alert("Button clicked");
+            var taskId = $(this).parent.attr("id").val;
+            alert(taskId);
+            //Use this ID to update this in DB.
+
+            $(".alert").alert();
+        });
+    });
+</script>
 </HTML>
