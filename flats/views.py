@@ -40,11 +40,10 @@ def index(request):
 
 # User Registration view/Template
 
-def flat(request):
+def flat(request, flatid=None):
     context = RequestContext(request)
-
-    flat = Flat.objects.filter(id = 1)
-    full_list = Task.objects.filter(flat =flat )
+    flat = Flat.objects.filter(id = flatid)
+    full_list = Task.objects.filter(flat = flat )
     task_list = []
     shopping_list = []
 
