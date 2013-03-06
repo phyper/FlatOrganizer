@@ -3,6 +3,7 @@ from flats.models import Flat
 from flats.models import Task
 from flats.models import Flat_Member
 from flats.models import Assigned_Task
+from flats.models import Category
 from django.contrib import admin
 
 class PersonAdmin(admin.ModelAdmin):
@@ -16,3 +17,4 @@ admin.site.register(Flat)
 admin.site.register(Task)
 admin.site.register(Flat_Member)
 admin.site.register(Assigned_Task)
+admin.site.register(Category)
