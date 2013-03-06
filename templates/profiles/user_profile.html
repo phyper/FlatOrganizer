@@ -28,16 +28,16 @@
                     <th>Date completed</th>
                     <th>Task credit</th>
                 </tr>
+                {% for tasks in tasks_assigned %}
                 <tr>
-                    {% for tasks in tasks_assigned %}
                         <td>{{ tasks.task.name }}</td>
                         <td>{{ tasks.completion_date }}</td>
                         <td>{{ tasks.task.credits}}</td>
-                    {% endfor %}
                 </tr>
+                {% endfor %}
                 <tr>
                     <td colspan="2"></td>
-                    <td  class="text-right"><strong>Sum</strong> {{ sum }}</td>
+                    <td><strong>Sum</strong> {{ sum }}</td>
                 </tr>
             </table>
         </div>
