@@ -64,12 +64,9 @@ class Task(models.Model):
 	
 class Assigned_Task(models.Model):
 	task = models.ForeignKey(Task)
-	user = models.ForeignKey(User)
-	flat = models.ForeignKey(Flat)
-	creation_date = models.DateTimeField(editable=False)
-	due_date = models.DateTimeField(editable=True)
-	completion_date = models.DateTimeField(editable=False)
-	expences = models
+	member = models.ForeignKey(Flat_Member)
+	creation_date = models.DateTimeField(auto_now_add = True)
+	completion_date = models.DateTimeField(auto_now_add = True)
 	
 class UserCreateForm(UserCreationForm):
 	email = forms.EmailField(required = True)
@@ -83,6 +80,11 @@ class UserProfileForm(forms.ModelForm):
 		fields = ['picture']
 		
 class UserEditForm(forms.ModelForm):
-	class Meta:
-		model = User
-		fields = ["first_name", "last_name", "email"]
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "email"]
+        widgets = {
+            'first_name' : forms.TextInput(attrs = {'placeholder': 'First name'}),
+            'last_name' : forms.TextInput(attrs = {'placeholder': 'Last name'}),
+            'email' : forms.TextInput(attrs = {'placeholder': 'E-mail'}),
+            }

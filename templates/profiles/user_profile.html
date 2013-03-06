@@ -2,5 +2,46 @@
 {% block title %}User profile{% endblock %}
 
 {% block content %}
-    <h1>{{ view_user.first_name }} {{ view_user.last_name }}'s user profile</h1>
+    <br>
+    <div class="row" id="profile_infor">
+        <div class="span2">
+            [Picture here]
+        </div>
+        <div class="span8">
+            <h4>{{ member.user.first_name }} {{ member.user.last_name }}</h4>
+            <p> Email {{ member.user.email }}</p>
+            <p> Username {{ member.user.username }}</p>
+            <p>Member of {{ flat.name }}</p>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="row" id="profile_takslist">
+        <div class="span12">
+            <table class="table table-striped">
+                <thead><strong>{{ member.user.first_name }} {{ member.user.last_name }}'s completed tasks in  {{ flat.name }}</strong></thead>
+                <tr>
+                    <th>Task name</th>
+                    <th>Date completed</th>
+                    <th>Task credit</th>
+                </tr>
+                {% for tasks in tasks_assigned %}
+                <tr>
+                        <td>{{ tasks.task.name }}</td>
+                        <td>{{ tasks.completion_date }}</td>
+                        <td>{{ tasks.task.credits}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2"></td>
+                    <td><strong>Sum</strong> {{ sum }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
 {% endblock content %}

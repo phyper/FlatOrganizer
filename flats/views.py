@@ -4,7 +4,7 @@ from django.contrib import auth
 from django.http import HttpResponse
 from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task, Assigned_Task
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -40,11 +40,10 @@ def index(request):
 
 # User Registration view/Template
 
-def flat(request):
+def flat(request, flatid=None):
     context = RequestContext(request)
-
-    flat = Flat.objects.filter(id = 1)
-    full_list = Task.objects.filter(flat =flat )
+    flat = Flat.objects.filter(id = flatid)
+    full_list = Task.objects.filter(flat = flat )
     task_list = []
     shopping_list = []
 
@@ -55,10 +54,17 @@ def flat(request):
             shopping_list.append(list_item)
 
     flat_members = Flat_Member.objects.filter(flat=flat)
-    print (flat[0].name)
-
-
-    return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members} , context)
+    u = User.objects.get(username=request.user)
+    access_right = False
+    #One can access this if the logged in user
+    #are member of the flat one wants to view
+    for member in flat_members:
+        if member.user == u:
+            access_right = True
+    if access_right:
+        return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members} , context)
+    else:
+        raise Http404
 
 def password_change(request):
     context = RequestContext(request)
@@ -134,6 +140,7 @@ def profile(request, flatid=None, username=None):
             view_flat = Flat.objects.get(id=flatid)
             view_user = User.objects.get(username=username)
             flat_members_in_view_flat = Flat_Member.objects.filter(flat=view_flat)
+            member_to_view = None
             for member in flat_members_in_view_flat:
                 #One can only view persons in own flat
                 if member.user == logged_in_user:
@@ -141,28 +148,42 @@ def profile(request, flatid=None, username=None):
                 #Person to look at need to belong to the selected flat
                 if member.user == view_user:
                     view_user_in_flat = True
+                    member_to_view = member
         except:
             #Happens when no valid flat number or username
             #Perhaps raise something else than a 404
             raise Http404
         if logged_in_user_in_flat and view_user_in_flat:
-            return render_to_response('profiles/user_profile.html', {'view_user':view_user}, context)
+            tasks_assigned = Assigned_Task.objects.filter(member = member_to_view)
+            #Sort the list later on by doing something like Assigned_Task.objects.order_by('')
+
+            #Consider moved to another place
+            sum_credits = 0
+            for tasks in tasks_assigned:
+                sum_credits = sum_credits + tasks.task.credits
+            return render_to_response('profiles/user_profile.html', {'member': member_to_view,
+                                                                     'flat': view_flat,
+                                                                     'tasks_assigned': tasks_assigned,
+                                                                     'sum': sum_credits}, context)
         else:
             #Happens when user do not live in selected flat
             #Perhaps raise something else than a 404
             raise Http404
     else:
         u_instance = request.user
+        saved = ""
         if request.method == 'POST':
             u_form = UserEditForm(request.POST, instance=u_instance)
             p_form = UserProfileForm(request.POST)
             if u_form.is_valid():
                 #p_form.save()
                 u_form.save()
+                saved = "Saved"
             else:
                 print (u_form.errors)
+                saved = "Error - not saved"
                 #print p_form.errors
         else:
             u_form = UserEditForm(instance=u_instance)
             p_form = UserProfileForm()
-        return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form}, context)
+        return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form, 'saved' : saved}, context)

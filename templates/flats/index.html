@@ -17,12 +17,12 @@
         </div>
         <div class="bottomaligned">
             <div class="span6">
-                <a href="#">
+                <a href="{{ flat.flat_id }}">
                     <p>{{flat.flat.name}}</p>
                 </a>
                 <p>
                         {% for member in flat.member_list %}
-                            <a href="#">{{member.user.first_name}}</a>
+                            <a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
                         {% endfor %}
                     </p>
                 <p><a href="#">Invite</a><p>

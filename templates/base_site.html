@@ -43,8 +43,9 @@
                 <ul class="nav-collapse collapse">
                     <p class="navbar-text pull-right">
                         {% if user.is_authenticated %}
-                        Welcome {{ user.first_name }} |
-                        <a href="/flats/logout/">Logout</a>
+                            Welcome <a href="/flats/profile">{{ user.first_name }}</a>  |
+                            <a href="/flats/">Your flats</a> |
+                            <a href="/flats/logout/">Logout</a>
                         {% else %}
                         <a href="/flats/register/">Register</a> |
                         <a href="/flats/login/">Login</a>
