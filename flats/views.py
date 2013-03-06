@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from crispy_forms.helper import FormHelper
 from django.http import Http404
+from django.core.exceptions import PermissionDenied
 
 # Index page
 
@@ -64,7 +65,7 @@ def flat(request, flatid=None):
     if access_right:
         return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members} , context)
     else:
-        raise Http404
+        raise PermissionDenied
 
 def password_change(request):
     context = RequestContext(request)
@@ -151,7 +152,6 @@ def profile(request, flatid=None, username=None):
                     member_to_view = member
         except:
             #Happens when no valid flat number or username
-            #Perhaps raise something else than a 404
             raise Http404
         if logged_in_user_in_flat and view_user_in_flat:
             tasks_assigned = Assigned_Task.objects.filter(member = member_to_view)
@@ -167,8 +167,7 @@ def profile(request, flatid=None, username=None):
                                                                      'sum': sum_credits}, context)
         else:
             #Happens when user do not live in selected flat
-            #Perhaps raise something else than a 404
-            raise Http404
+            raise PermissionDenied
     else:
         u_instance = request.user
         saved = ""
