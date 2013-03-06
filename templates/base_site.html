@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<HTML lang="en">
 
 <HEADER>
     <META http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -10,11 +8,14 @@
     <meta content="Keep your flat organized with your mates" name="description">
     <meta content="flat, apartment, organizer" name="keywords">
 
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    
     <!--[if lt IE 9]><script src="dist/html5shiv.js"></script> <![endif]-->
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}bootstrap/js/bootstrap.js" rel="stylesheet">
-
+    
+    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
+    
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -24,10 +25,10 @@
             padding: 9px 0;
         }
     </style>
+
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet"></link>
 </HEADER>
 <BODY>
-
 <div class="container">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
@@ -39,7 +40,26 @@
                 </a>
                 <a class="brand" href="/flats/">Flat Organizer</a>
                 <ul class="nav-collapse collapse">
+
+                <a href="#myModal" role="button" class="btn" data-toggle="modal">Create a flat</a>
+                
+                <!-- Modal -->
+                <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3 id="myModalLabel">Modal header</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body…</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                        
                     <p class="navbar-text pull-right">
+                
                         {% if user.is_authenticated %}
                             Welcome <a href="/flats/profile">{{ user.first_name }}</a>  |
                             <a href="/flats/">Your flats</a> |
@@ -74,6 +94,7 @@
         {% block footer %}
             <p>&copy; 2013 Flat Organizer</p>
         {% endblock %}
+        
     </footer>
 
     <DIV>
