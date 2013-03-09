@@ -59,13 +59,22 @@ def flat(request, flatid=None):
     access_right = False
     #One can access this if the logged in user
     #are member of the flat one wants to view
+    saved = ""
     for member in flat_members:
         if member.user == u:
             access_right = True
     if access_right:
-        return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members} , context)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'saved': saved} , context)
     else:
         raise PermissionDenied
+
+    print (response.content)
+    return response
+
+
+def update_task_in_flat_model(response):
+    print (response)
+
 
 def password_change(request):
     context = RequestContext(request)

@@ -6,14 +6,12 @@
     <title>Flat Organizer</title>
     <meta content="Keep your flat organized with your mates" name="description"/>
     <meta content="flat, apartment, organizer" name="keywords"/>
-
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     
     <!--[if lt IE 9]><script src="dist/html5shiv.js"></script> <![endif]-->
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
-
+    <!--Move this to boostrap folder-->
+    <!--<script src="{{STATIC_URL}}flats/flatScript.js"></script>-->
     
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet"/>
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet"/>
@@ -104,17 +102,5 @@
     </DIV>
 </div>
 </BODY>
-<script type="text/javascript">
-    $(document).ready(function() {
 
-        $("#btnSetTaskDone").click(function() {
-            alert("Button clicked");
-            var taskId = $(this).parent.attr("id").val;
-            alert(taskId);
-            //Use this ID to update this in DB.
-
-            $(".alert").alert();
-        });
-    });
-</script>
 </HTML>

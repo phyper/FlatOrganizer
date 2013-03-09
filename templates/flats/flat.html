@@ -33,7 +33,7 @@
         </div>
     </div>
 
-
+    <input type="Button" class="btn-primary"  id="btnCreateItem" value ="Create Item"/>
     <div id="flatLists" class = "row bord">
         <div id="flatTaskList" class ="span6">
             <h3>Task list</h3>
@@ -49,7 +49,9 @@
                         <td> {{ task.name }}</td>
                         <td> {{ task.category }} </td>
                         <td> {{ task.credits }}</td>
-                        <td> <input type="button" value ="Done" id="btnSetTaskDone" class ="btn-primary"/> </td>
+                        <!--<form action="" method="POST">-->
+                        <td> <input type="submit" value ="Done" id="btnSetTaskDone" class ="btn-primary"/></td>
+                        <!--</form>-->
                     </tr>
                 {% endfor %}
             </table>
@@ -63,25 +65,57 @@
                 <th>Points</th>
                 <th>Done</th>
                 {% for shopping_item in shopping_list %}
-                    <tr>
+                    <tr id="{{ shopping_item.id }}" >
                         <td> {{ shopping_item.name }} </td>
                         <td> {{ shopping_item.category }}</td>
                         <td> {{ shopping_item.credits }} </td>
                         <td> <input type="button" value ="Done" id="btnSetShoppingListDone" class ="btn-primary"/> </td>
                     </tr>
-
-
-
-
                 {% endfor %}
 
             </table>
+
 
             </br>
         </div>
     </div>
 
 
+<script type="text/javascript">
+    $(document).ready(function() {
 
+        $("#btnSetTaskDone").click(function() {
+            var taskId = $(this).parent().parent().attr("id");
+            //alert(taskId+10);
+            $("#" + taskId).remove();
+            //Use this ID to update this in DB.
+
+
+        });
+        $("#btnSetShoppingListDone").click(function() {
+            var taskId = $(this).parent().parent().attr("id");
+            //alert(taskId+10);
+            $("#" + taskId).remove();
+            //Use this ID to update this in DB.
+
+
+        });
+
+
+
+        $("#btnCreateItem").click(function() {
+            alert("Button clicked");
+            var taskId = $("flatTasksList").attr("id");
+            alert(taskId);
+            //Use this ID to update this in DB.
+
+
+        });
+
+    });
+
+
+
+</script>
 
 {% endblock content %}
