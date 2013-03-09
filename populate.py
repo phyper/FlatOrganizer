@@ -20,22 +20,30 @@ user3.save()
 flat1 = Flat(name='26 Winton Drive', description='----')
 flat1.save()
 
-##Flat_Member(user=user1, flat=flat1, join_date=datetime.datetime.now(), active=True).save()
-flatmember1 = Flat_Member(user=user2, flat=flat1, join_date=datetime.datetime.now(), active=True)
+flatmember1 = Flat_Member(user=user2, flat=flat1, join_date=datetime.datetime.now())
 flatmember1.save()
-flatmember2 = Flat_Member(user=user3, flat=flat1, join_date=datetime.datetime.now(), active=True)
+flatmember2 = Flat_Member(user=user3, flat=flat1, join_date=datetime.datetime.now())
 flatmember2.save()
+
+flatmember5 = Flat_Member(user=user1, flat=flat1, join_date=datetime.datetime.now(), active=False)
+flatmember5.save()
 
 flat2 = Flat(name='28 Winton Drive', description='----')
 flat2.save()
 
-flatmember3 = Flat_Member(user=user1, flat=flat2, join_date=datetime.datetime.now(), active=False)
+flatmember3 = Flat_Member(user=user1, flat=flat2, join_date=datetime.datetime.now())
 flatmember3.save()
 
 flat3 = Flat(name='30 Winton Drive', description='----')
 flat3.save()
 
-flatmember4 = Flat_Member(user=user2, flat=flat3, join_date=datetime.datetime.now(), active=False)
+flat4 = Flat(name='Deleted fast Flat', description='----', active=False)
+flat4.save()
+
+flatmember5 = Flat_Member(user=user2, flat=flat4, join_date=datetime.datetime.now())
+flatmember5.save()
+
+flatmember4 = Flat_Member(user=user2, flat=flat3, join_date=datetime.datetime.now())
 flatmember4.save()
 
 cat1 = Category(name = "Cleaning")
