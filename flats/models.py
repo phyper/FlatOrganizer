@@ -23,8 +23,12 @@ class UserProfile (models.Model):
 	#   return self.user.username
 
 class Flat_Manager(models.Manager):
-    def get_query_set(self):
-        return super(Flat_Manager, self).get_query_set().filter(active=True)
+	def get_query_set(self):
+		return super(Flat_Manager, self).get_query_set().filter(active=True)
+
+	def create_flat(self, name, description):
+		flat = self.create(name=name, description=description)
+		return flat
 
 class Flat(models.Model):
 	name = models.CharField(max_length=30)
@@ -41,6 +45,10 @@ class Flat(models.Model):
 		members = Flat_Member.objects.filter(flat = self)
 		for member in members:
 			member.delete()
+			
+	def __init__(self, name, description):
+		self.name = name
+		self.description = description
 
 class Flat_Member_Manager(models.Manager):
 	def get_query_set(self):
@@ -119,3 +127,7 @@ class NewFlatForm(forms.ModelForm):
 	class Meta:
 		model = Flat
 		fields = ["name", "description"]
+		widgets = {
+			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
+			'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
+		}

@@ -50,34 +50,30 @@
                         <button type="button" class="close" data-dismiss="modal">x</button>
                         <h3 id="myModalLabel">Create a new flat</h3>
                     </div>
-                    <div class="modal-body">
-                        
-                        <form method="POST" action="/flats/newFlat/"> {% csrf_token %}
-                             <div class="placeholing-input name">
+                    
+                    <form method="POST" action="/flats/newFlat/">
+                        <div class="modal-body"> {% csrf_token %}
+                            <div class="placeholing-input name">
                                 <input type="text" name="name" value="" id="name" tabindex="1" placeholder="Name" size="50" />
                             </div>
-                             <div class="placeholing-input description">
+                            <div class="placeholing-input description">
                                 <input type="text" name="description" value="" id="description" tabindex="2" placeholder="description" size="50" />
                             </div>
-                        <a id="modal-form-submit" type ="submit" class='btn btn-primary' href="#">Submit</a>
-                        <button class="btn" data-dismiss="modal">Close</button>
-                        </form>
-                    </div>
-                      <div class="modal-footer">
-                        
-                        
-                        
-                    </div>
- 
+                        </div>
+                        <div class="modal-footer">
+                            <a id="submit" type ="submit" name="submit" class='btn btn-primary' value="Create" />
+                            <a href="#" class="btn" data-dismiss="modal">Close</a>
+                        </div>
+                    </form>
                 </div>
                 
                 <script>
-                    $('#modal-form-submit').on('click', function(e){
+                    $('#modal-footer').on('click', function(e){
                     // We don't want this to act as a link so cancel the link action
                     e.preventDefault();
                     alert("FOO")
                     // Find form and submit it
-                    $('#modal-form').submit();
+                    $('submit').submit();
                     });
                 </script>
                 
