@@ -1,5 +1,5 @@
 from django.template import RequestContext, loader
-from django.contrib.auth.models import User, Flat
+from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -19,15 +19,17 @@ def index(request):
 	try: # This might need refactoring later as this is not the best way to check user's status
 		u = User.objects.get(username=request.user)
 		template = loader.get_template('flats/index.html')
+	
 		
 		flats_user = Flat_Member.objects.filter(user=u)
 	
 		for fu in flats_user:
-                    if fu.flat.active:
-                        flat_members = Flat_Member.objects.filter(flat=fu.flat)
-                        fu.member_list = flat_members
-                    else:
-                        fu.delete()
+			flat_members = Flat_Member.objects.filter(flat=fu.flat)
+			fu.member_list = flat_members
+			# For testing #
+			#print (fu.flat.name)
+			#print (fu.user)
+			#print (flat_members)
 		
 		context = RequestContext(request,{ 'flats' : flats_user})
 		return HttpResponse(template.render(context))
