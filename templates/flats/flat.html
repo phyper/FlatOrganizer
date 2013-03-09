@@ -147,4 +147,21 @@
 
 </script>
 
+    <br>
+    <div class="text-right">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
+            <button type="submit" class="btn-primary" name="deleteFlat" onclick="confirmDelete(event);" >Delete flat</button>
+        </form>
+        <script>
+            function confirmDelete(e) {
+                if (confirm("Are you sure you want to DELETE this flat?")) {
+                } else {
+                    e.preventDefault();
+                }
+            }
+        </script>
+    </div>
+
 {% endblock content %}

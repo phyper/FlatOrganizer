@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from crispy_forms.helper import FormHelper
 from django.http import Http404
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 
 # Index page
 
@@ -31,7 +31,12 @@ def index(request):
 			#print (fu.flat.name)
 			#print (fu.user)
 			#print (flat_members)
-		
+			if fu.flat.active:
+				flat_members = Flat_Member.objects.filter(flat=fu.flat)
+				fu.member_list = flat_members
+			else:
+				fu.delete()
+				
 		context = RequestContext(request,{ 'flats' : flats_user})
 		return HttpResponse(template.render(context))
 	except:
@@ -42,6 +47,13 @@ def index(request):
 
 def flat(request, flatid=None):
     context = RequestContext(request)
+
+    if "deleteFlat" in request.POST:
+        flat_id = request.POST.get('flat_id')
+        flat = Flat.objects.get(id = flat_id)
+        flat.delete()
+        return render_to_response('flats/index.html', {}, context)
+
     flat = Flat.objects.filter(id = flatid)
     full_list = Task.objects.filter(flat = flat )
     task_list = []
@@ -83,6 +95,20 @@ def flat(request, flatid=None):
 
     return response
 
+@login_required
+def newFlat(request):
+	if (request.method == 'POST'):
+		newFlatForm = NewFlatForm(request.POST)
+		#name = request.POST.get('name', '')
+		#description = request.POST.get('description', '')
+		#flat = Flat(name, description)
+		#flat.save()
+		#return HttpResponseRedirect('/')
+		flat = 	newFlatForm.save(commit=False)
+		flat.save()
+	else:
+		#Happens when no valid flat number or username
+		raise Http404
 
 def update_task_in_flat_model(response):
     print (response)
@@ -102,26 +128,6 @@ def resend_password(request):
 			return render_to_response('flats/login.html', {}, context)
 		
 	return render_to_response('flats/resend_password.html', {}, context)
-
-@login_required
-def newFlat(request):
-	context = RequestContext(request)
-	if (request.method == 'POST'):
-		#pform = NewFlatForm(data = reques.POST)
-		#if pform.is_valid():
-			#name = form.cleaned_data['name']
-			#description = form.cleaned_data['description']
-			#flat = Flat.objects.create_flat(name=name, description=description)
-			#pform.save()
-		name = request.POST.get('name', '')
-		description = request.POST.get('description', '')
-		f = Flat(name=name, description=description)
-		f.save()
-		return HttpResponseRedirect('/')
-			
-	else:
-		#Happens when no valid flat number or username
-		raise Http404
 	
 def register(request):
 	context = RequestContext(request)

@@ -26,8 +26,8 @@ class UserProfile (models.Model):
 	#   return self.user.username
 
 class Flat_Manager(models.Manager):
-    def get_query_set(self):
-        return super(Flat_Manager, self).get_query_set().filter(active=True)
+	def get_query_set(self):
+		return super(Flat_Manager, self).get_query_set().filter(active=True)
 
 class Flat(models.Model):
 	name = models.CharField(max_length=30)
@@ -124,3 +124,7 @@ class NewFlatForm(forms.ModelForm):
 	class Meta:
 		model = Flat
 		fields = ["name", "description"]
+		widgets = {
+			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
+			'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
+		}
