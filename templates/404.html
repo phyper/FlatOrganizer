@@ -1,12 +1,25 @@
-<!DOCTYPE html>
-<html>
-<!-- THIS PAGE WILL ONLY BE RENDERED IF DEBUG = False in settings -->
-<head>
-    <title>Page not found</title>
-</head>
-<body>
-Are you lost my child?
-
-This is our current 404 - Page not found:)
-</body>
-</html>
+{% extends "base_site.html" %}
+<!--
+ Node: To make this page run, debug in the settings file must be set to false.
+ Then, to be able to serve static files, when in debug false mode, run the python server
+ as: python mange.py runserver --insecure
+ -->
+{% block title %}We're lost!{% endblock %}
+{% block content %}
+    <div class="row">
+        <h2>Oh Man, What happened?<br>
+            <small>We can't seem to find the page you're looking for:/
+                <br>Forever lost<3 </small>
+        </h2>
+        <br>
+        <div class="span6">
+            <table class="table table-striped">
+                <tr><th>Try one of these links instead<br></th></tr>
+                <tr><td><a href="/flats">The Front Page</a></td></tr>
+                <tr><td><a href="/flats/profile">Your Profile</a></td></tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+{% endblock %}

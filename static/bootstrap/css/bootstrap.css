@@ -5173,7 +5173,7 @@ input[type="submit"].btn.btn-mini {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 1020;
   background-color: #000000;
 }
 
@@ -6133,8 +6133,20 @@ a.badge:focus {
   line-height: 30px;
 }
 
+.hero-unit p {
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 27px;
+}
+
 .pull-right {
   float: right;
+}
+
+footer {
+    border-top: 1px solid #EEEEEE;
+    margin-top: 17px;
+    padding-top: 17px;
 }
 
 .pull-left {

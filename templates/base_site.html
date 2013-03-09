@@ -6,16 +6,16 @@
     <title>Flat Organizer</title>
     <meta content="Keep your flat organized with your mates" name="description"/>
     <meta content="flat, apartment, organizer" name="keywords"/>
-    
-    <!--[if lt IE 9]><script src="dist/html5shiv.js"></script> <![endif]-->
+
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+    <!--[if lt IE 9]><script src="dist/html5shiv.js"></script> <![endif]-->
+    <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+
     <!--Move this to boostrap folder-->
     <!--<script src="{{STATIC_URL}}flats/flatScript.js"></script>-->
-    
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" rel="stylesheet"/>
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet"/>
-    <link href="{{STATIC_URL}}bootstrap/js/bootstrap.js" rel="stylesheet"/>
+    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
 
     <style type="text/css">
         body {
@@ -40,21 +40,21 @@
                     <span class="icon-bar"></span>
                 </a>
                 <a class="brand" href="/flats/">Flat Organizer</a>
-                <ul class="nav-collapse collapse">
+                <div class="nav-collapse collapse">
 
                 <a href="#myModal" role="button" class="btn" data-toggle="modal">Create a flat</a>
                 
                 <!-- Modal -->
-                <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog">
+                    <div class="modal-header ">
+                        <button type="button" class="close" data-dismiss="modal">x</button>
                         <h3 id="myModalLabel">Modal header</h3>
                     </div>
                     <div class="modal-body">
                         <p>One fine body…</p>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn" data-dismiss="modal">Close</button>
                         <button class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         {% endif %}
                     </p>
 
-                </ul>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
     </div>
