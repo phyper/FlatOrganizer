@@ -1,9 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Access restricted</title>
-</head>
-<body>
-    This is our current 403 - Page forbidden page:)
-</body>
-</html>
+{% extends "base_site.html" %}
+
+
+{% block title %}Access restricted{% endblock %}
+{% block content %}
+    <div class="row">
+        <h2>Oh Man, What'cha doing?<br>
+            <small>It doesen't seem like you have the correct access level to do this;)
+        <br>Forever forbidden<3</small>
+        </h2>
+        <br>
+        <div class="span6">
+            <table class="table table-striped">
+                <tr><th>Try one of these links instead<br></th></tr>
+                <tr><td><a href="/flats">The Front Page</a></td></tr>
+                <tr><td><a href="/flats/profile">Your Profile</a></td></tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+{% endblock %}
