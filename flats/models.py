@@ -6,7 +6,10 @@ import datetime
 from PIL import Image
 from django.forms import ModelForm
 
-
+CATEGORY_CHOICES = (('Shopping', 'Shopping'),
+                    ('Cleaning', 'Cleaning'),
+                    ('Other','Other'),
+    )
 
 class UserProfile (models.Model):
 	user = models.OneToOneField(User)
@@ -61,7 +64,7 @@ class Flat_Member(models.Model):
 		self.save()
 
 class Category(models.Model):
-	name = models.CharField(max_length=100)
+	name = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
 
 	def __unicode__(self):
 		return self.name		
@@ -108,11 +111,13 @@ class NewTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ["name", "description", "credits", "category"]
+
         widgets = {
             'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
             'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
             'credits' : forms.TextInput(attrs = {'placeholder': 'Credits'}),
-            'category' : forms.TextInput(attrs = {'placeholder': 'Category'}),
+
+            #'category' : forms.CharField(forms.Select(choices=CATEGORY_CHOICES)),
             }
 
 class NewFlatForm(forms.ModelForm):
