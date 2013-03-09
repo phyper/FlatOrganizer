@@ -33,7 +33,10 @@
         </div>
     </div>
 
-    <input type="Button" class="btn-primary"  id="btnCreateItem" value ="Create Item"/>
+
+
+    <a data-toggle="modal" href="#CreateItem" class="btn btn-primary btn-small">Create Item</a>
+
     <div id="flatLists" class = "row bord">
         <div id="flatTaskList" class ="span6">
             <h3>Task list</h3>
@@ -79,6 +82,32 @@
             </br>
         </div>
     </div>
+
+<div id="CreateItem" class="modal hide fade in" style="display: none; ">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal"></button>
+        <h3>New Item</h3>
+    </div>
+    <form action="" method="POST">
+        <div class="modal-body">
+
+                {% for field in task_form.visible_fields %}
+                {% csrf_token %}
+                <p>
+                    {{ field }}
+                    {{ field.help_text }}
+                    {{ field.errors }}
+                </p>
+                {% endfor %}
+
+
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <input id="submit" type="submit" name="submit" class="btn-primary" value="Create" />
+        </div>
+    </form>
+</div>
 
 
 <script type="text/javascript">

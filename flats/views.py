@@ -4,7 +4,7 @@ from django.contrib import auth
 from django.http import HttpResponse
 from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task, Assigned_Task
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewTaskForm, Task, Assigned_Task
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -59,16 +59,29 @@ def flat(request, flatid=None):
     access_right = False
     #One can access this if the logged in user
     #are member of the flat one wants to view
-    saved = ""
+
     for member in flat_members:
         if member.user == u:
             access_right = True
+
+    new_task_form = NewTaskForm()
     if access_right:
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'saved': saved} , context)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
     else:
         raise PermissionDenied
 
-    print (response.content)
+    if request.method == 'POST':
+        new_task_form = NewTaskForm(request.POST)
+
+        if new_task_form.is_valid():
+            #new_task_form.fields['Flat'] = flat
+            task = new_task_form.save(commit=False)
+            print (task)
+            task.flat = flat[0]
+            task.save()
+        else:
+            print (new_task_form.errors)
+
     return response
 
 

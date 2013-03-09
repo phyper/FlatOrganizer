@@ -88,3 +88,14 @@ class UserEditForm(forms.ModelForm):
             'last_name' : forms.TextInput(attrs = {'placeholder': 'Last name'}),
             'email' : forms.TextInput(attrs = {'placeholder': 'E-mail'}),
             }
+
+class NewTaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ["name", "description", "credits", "category"]
+        widgets = {
+            'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
+            'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
+            'credits' : forms.TextInput(attrs = {'placeholder': 'Credits'}),
+            'category' : forms.TextInput(attrs = {'placeholder': 'Category'}),
+            }
