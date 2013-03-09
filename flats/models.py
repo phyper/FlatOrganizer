@@ -85,6 +85,10 @@ class Assigned_Task(models.Model):
 	creation_date = models.DateTimeField(auto_now_add = True)
 	completion_date = models.DateTimeField(auto_now_add = True)
 
+class Invitation(models.Model):
+        flat = models.ForeignKey(Flat)
+        email = models.EmailField()
+
 class UserCreateForm(UserCreationForm):
 	email = forms.EmailField(required = True)
 	class Meta:

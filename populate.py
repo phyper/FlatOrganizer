@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from flats.models import UserProfile, Flat, Flat_Member, Category, Task, Assigned_Task
+from flats.models import UserProfile, Flat, Flat_Member, Category, Task, Assigned_Task, Invitation
 import datetime
 
 user1 = User.objects.create_user('gary', 'test@test.test', 'gary')
@@ -63,3 +63,6 @@ task4.save()
 
 assigned1 = Assigned_Task(task = task1, member = flatmember1, creation_date = datetime.datetime.now(), completion_date = datetime.datetime.now())
 assigned1.save()
+
+invite1 = Invitation(flat=flat1, email = "invited@cool.com")
+invite1.save()
