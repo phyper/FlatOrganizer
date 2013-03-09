@@ -30,35 +30,35 @@ class Flat(models.Model):
 	name = models.CharField(max_length=30)
 	description = models.CharField(max_length=100)
 	active = models.BooleanField(default=True, editable=False)
-        objects = Flat_Manager()
+	objects = Flat_Manager()
 
 	def __unicode__(self):
 		return self.name
-
-        def delete(self, *args, **kwargs):
-            self.active = False
-            self.save()
-            members = Flat_Member.objects.filter(flat = self)
-            for member in members:
-                member.delete()
+		
+	def delete(self, *args, **kwargs):
+		self.active = False
+		self.save()
+		members = Flat_Member.objects.filter(flat = self)
+		for member in members:
+			member.delete()
 
 class Flat_Member_Manager(models.Manager):
-    def get_query_set(self):
-        return super(Flat_Member_Manager, self).get_query_set().filter(active=True)
+	def get_query_set(self):
+		return super(Flat_Member_Manager, self).get_query_set().filter(active=True)
 
 class Flat_Member(models.Model):
 	user = models.ForeignKey(User)
 	flat = models.ForeignKey(Flat)
 	join_date = models.DateTimeField(auto_now_add = True)
 	active = models.BooleanField(default=True, editable=False)
-        objects = Flat_Member_Manager()
+	objects = Flat_Member_Manager()
 
-        def __unicode__(self):
-            return self.user.first_name + " " + self.flat.name
+	def __unicode__(self):
+		return self.user.first_name + " " + self.flat.name
 
-        def delete(self, *args, **kwargs):
-            self.active = False
-            self.save()
+	def delete(self, *args, **kwargs):
+		self.active = False
+		self.save()
 
 class Category(models.Model):
 	name = models.CharField(max_length=100)
@@ -102,3 +102,8 @@ class UserEditForm(forms.ModelForm):
             'last_name' : forms.TextInput(attrs = {'placeholder': 'Last name'}),
             'email' : forms.TextInput(attrs = {'placeholder': 'E-mail'}),
             }
+
+class NewFlatForm(forms.ModelForm):
+	class Meta:
+		model = Flat
+		fields = ["name", "description"]

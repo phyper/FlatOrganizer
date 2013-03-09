@@ -1,11 +1,9 @@
 from django.template import RequestContext, loader
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Flat
 from django.contrib import auth
 from django.http import HttpResponse
-from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404
 from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, Task, Assigned_Task
-from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -80,6 +78,26 @@ def resend_password(request):
 		
 	return render_to_response('flats/resend_password.html', {}, context)
 
+@login_required
+def newFlat(request):
+	context = RequestContext(request)
+	if (request.method == 'POST'):
+		#pform = NewFlatForm(data = reques.POST)
+		#if pform.is_valid():
+			#name = form.cleaned_data['name']
+			#description = form.cleaned_data['description']
+			#flat = Flat.objects.create_flat(name=name, description=description)
+			#pform.save()
+		name = request.POST.get('name', '')
+		description = request.POST.get('description', '')
+		f = Flat(name=name, description=description)
+		f.save()
+		return HttpResponseRedirect('/')
+			
+	else:
+		#Happens when no valid flat number or username
+		raise Http404
+	
 def register(request):
 	context = RequestContext(request)
 	registered = False
@@ -184,3 +202,5 @@ def profile(request, flatid=None, username=None):
             u_form = UserEditForm(instance=u_instance)
             p_form = UserProfileForm()
         return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form, 'saved' : saved}, context)
+
+	
