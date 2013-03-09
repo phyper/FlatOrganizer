@@ -47,6 +47,13 @@ def index(request):
 
 def flat(request, flatid=None):
     context = RequestContext(request)
+
+    if "deleteFlat" in request.POST:
+        flat_id = request.POST.get('flat_id')
+        flat = Flat.objects.get(id = flat_id)
+        flat.delete()
+        return render_to_response('flats/index.html', {}, context)
+
     flat = Flat.objects.filter(id = flatid)
     full_list = Task.objects.filter(flat = flat )
     task_list = []
