@@ -85,9 +85,15 @@ class Assigned_Task(models.Model):
 	creation_date = models.DateTimeField(auto_now_add = True)
 	completion_date = models.DateTimeField(auto_now_add = True)
 
+        def __unicode__(self):
+            return self.member + " - " + self.task
+
 class Invitation(models.Model):
         flat = models.ForeignKey(Flat)
         email = models.EmailField()
+
+        def __unicode__(self):
+            return self.email
 
 class UserCreateForm(UserCreationForm):
 	email = forms.EmailField(required = True)

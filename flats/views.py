@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewTaskForm, Task, Assigned_Task
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewTaskForm, Task, Assigned_Task, Invitation
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -20,24 +20,28 @@ def index(request):
 	try: # This might need refactoring later as this is not the best way to check user's status
 		u = User.objects.get(username=request.user)
 		template = loader.get_template('flats/index.html')
-	
 		
 		flats_user = Flat_Member.objects.filter(user=u)
 	
 		for fu in flats_user:
 			flat_members = Flat_Member.objects.filter(flat=fu.flat)
 			fu.member_list = flat_members
-			# For testing #
-			#print (fu.flat.name)
-			#print (fu.user)
-			#print (flat_members)
 			if fu.flat.active:
 				flat_members = Flat_Member.objects.filter(flat=fu.flat)
 				fu.member_list = flat_members
 			else:
 				fu.delete()
+
+                #Get all flats to check if on invite lists
+                invited_flats = []
+                flats = Flat.objects.all()
+                for flat in flats:
+                    invites = Invitation.objects.filter(flat = flat)
+                    for invite in invites:
+                        if invite.email == u.email:
+                            invited_flats.append(flat)
 				
-		context = RequestContext(request,{ 'flats' : flats_user})
+		context = RequestContext(request,{ 'flats' : flats_user, 'invited_flats' : invited_flats })
 		return HttpResponse(template.render(context))
 	except:
 		context = RequestContext(request)

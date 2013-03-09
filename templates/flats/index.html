@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="bottomaligned">
-            <div class="span6">
+            <div class="span4">
                 <a href="{{ flat.flat_id }}">
                     <p>{{flat.flat.name}}</p>
                 </a>
@@ -31,5 +31,21 @@
     </div>
             {% endfor %}
             {% endif %}
+    <div class="row">
+        <div class="span4">
+            <div>
+                <p>
+                    <h2>Pending invitations</h2>
+                </p>
+                <ul>
+                    {% for flat_to_accept in invited_flats %}
+                        <li>
+                            {{ flat_to_accept}}
+                            <a href="#"> Accept (not implemented)</a>
+                        </li>
+                    {% endfor %}
+                <ul>
+            </div>
+        </div>
     </div>
 {% endblock content %}
