@@ -1,90 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Register</title>
-		<meta content="Keep your flat organized with your mates." name="description">
-		<meta content="flat, apartment, organizer, register" name="keywords">
-		<!--[if lt IE 9]><script src="dist/html5shiv.js"></script>
-		<![endif]-->
-		<link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-        }
-        .form-signup {
-            max-width: 300px;
-            padding: 19px 29px 29px;
-            margin: 0 auto 20px;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            box-shadow: 0 1px 2px rgba(0,0,0,.05);
-        }
-        .form-signup .form-signup-heading,
-        .form-signup .checkbox {
-            margin-bottom: 10px;
-        }
-        .form-signup input[type="text"],
-        .form-signup input[type="password"] {
-            font-size: 16px;
-            height: auto;
-            margin-bottom: 15px;
-            padding: 7px 9px;
-        } 
-    </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-	</head>
-	
-	<body>
+{% extends "base_site.html" %}
+{% block title %}Flat Organizer{% endblock %}
+
+{% block content %}
+
 	<div class="container">
+		<div class="row">
+			<div class="span12">
 		
-		{% if registered %}
-		    <a href="/flats/">Flat Organizer</a> says: thank you for registering.
-		{% else %}
-			<big>Register here!</big>
-			<form id="login_form" method="post" action="/flats/register/" enctype="multipart/form-data"> {% csrf_token %}
-				{{ uform.as_p }}
-				{{ pform.as_p }}
-		        <input type="submit" name="submit" value="submit" />
-	                </form>
-		{% endif %}
+				{% if registered %}
+				    <a href="/flats/">Flat Organizer</a> says: thank you for registering.
+				{% else %}
+					
+					<legend>Registration</legend>
+					<form class="form-horizontal" id="registerHere" method="post" action="/flats/register/">
+						{% csrf_token %}
+						<fieldset>
+						<div class="control-group success error">
+						<label class="control-label">First name</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" id="first_name" name="first_name" rel="popover" data-content="Enter your first name." data-original-title="First Name">
+							</div>
+						</div>
+						
+						<div class="control-group success error">
+						<label class="control-label">Last name</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" id="last_name" name="last_name" rel="popover" data-content="Enter your last name." data-original-title="Last Name">
+							</div>
+						</div>
+									
+						<div class="control-group success error">
+						<label class="control-label">Email</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" id="email" name="email" rel="popover" data-content="What is your email address" data-original-title="Email">
+							</div>
+						</div>
+						
+						<div class="control-group success error">
+						<label class="control-label">Username</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" id="username" name="username" rel="popover" data-content="What is your username" data-original-title="Username">
+							</div>
+						</div>
+						
+						<div class="control-group success error">
+						<label class="control-label">Password</label>
+							<div class="controls">
+								<input type="password" class="input-xlarge" id="password1" name="password1" rel="popover" data-content="Type your password" data-original-title="Password">
+							</div>
+						</div>
+						
+						<div class="control-group success error">
+						<label class="control-label">Retype password</label>
+							<div class="controls">
+								<input type="password" class="input-xlarge" id="password2" name="password2" rel="popover" data-content="Retype your password" data-original-title="Password">
+							</div>
+						</div>
+						
+						<div class="control-group">
+						<label class="control-label">User picture</label>
+							<div class="controls">
+								{{ pform.picture }}
+							</div>
+						</div>
+						
+						<div class="control-group">
+						<label class="control-label"></label>
+							<div class="controls">
+								<button type="submit" class="btn btn-success" >Create My Account</button>
+							</div>
+						</div>
+						
+						
+						
+						<fieldset>
+						
+					</form>
+					
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	
+	<!-- Include Bootstrap Asserts JavaScript Files. -->
+	<script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function()
+	{
+	// Popover 
+	$('#registerHere').hover(
+	function(){
+	$(this).popover('show')
+	},
+	function(){
+	$(this).popover('hide') 
+	}
+	);
+	
+	// Validation
+	$("#registerHere").validate({
+	rules:{
+	first_name:"required",
+	last_name:"required",
+	email:{required:true,email: true},
+	username:"required",
+	password1:{required:true,minlength: 6},
+	password2:{required:true,equalTo: "#password1"}
+	},
+	
+	messages:{
+	first_name:"Enter your first name",
+	last_name:"Enter your last name",
+	email:{
+		required:"Enter your email address",
+		email:"Enter valid email address"},
+	username:"Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.",
+	password1:{
+		required:"Enter your password",
+		minlength:"Password must be minimum 6 characters"},
+	password2:{
+		required:"Enter confirm password",
+		equalTo:"Password and Confirm Password must match"},
+	},
+	
+	errorClass: "help-inline",
+	errorElement: "span",
+	highlight:function(element, errorClass, validClass)
+	{
+	$(element).parents('.control-group').addClass('error');
+	},
+	unhighlight: function(element, errorClass, validClass)
+	{
+	$(element).parents('.control-group').removeClass('error');
+	$(element).parents('.control-group').addClass('success');
+	}
+	});
+	});
+	</script>
 
-	</div>	
-	</body>
-</html>
-
-<!--
-			<form id="form-signup" method="post" action="/flats/register/"> {% csrf_token %}
-			<h2 class="form-signup-heading">Register here!</h2>
-			
-			<div class="input-block-level">
-			<input type="text" name="first_name" value="" id="first_name" placeholder="First name" size="50" />
-			</div>
-			<div class="input-block-level">
-			<input type="text" name="last_name" value="" id="last_name" placeholder="Last name" size="50" />
-			</div>
-			<div class="input-block-level">
-			<input type="text" name="email" value="" id="email" placeholder="email" size="50" />
-			</div>
-			<div class="input-block-level">
-			<input type="text" name="username" value="" id="username" placeholder="Username" size="50" />
-			</div>
-			<div class="input-block-level">
-			<input type="password" name="password" value="" id="password" placeholder="Password" size="50" />
-			</div>
-			<div class="input-block-level">
-			<input type="password" name="password" value="" id="password" placeholder="Password" size="50" />
-			</div>
-		        <button  class="btn btn-large btn-primary" type="submit" name="submit" value="submit"> Sign up</button>
-		        </form>
--->
+{% endblock content %}
