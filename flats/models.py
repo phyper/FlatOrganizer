@@ -93,7 +93,7 @@ class Invitation(models.Model):
         email = models.EmailField()
 
         def __unicode__(self):
-            return self.email
+            return  self.email
 
 class UserCreateForm(UserCreationForm):
 	email = forms.EmailField(required = True)
