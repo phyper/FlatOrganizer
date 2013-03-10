@@ -4,14 +4,22 @@
 {% block content %}
 
 <h2 xmlns="http://www.w3.org/1999/html">Welcome to {{ flat_info.name }}!</h2>
-
-    <div id="flatDescription" class ="row">
+{% if success %}
+    <div class="alert alert-success">
+        <a class="close" data-dismiss="alert">×</a>
+        <strong>Success!</strong> Task set as completed registered!
+    </div>
+{% endif %}
+<div style="display: none;" class="alert alert-error">
+    <a class="close" data-dismiss="alert">×</a>
+    <strong>Error!</strong> Oh snap, something went wrong here..
+</div>
+<div id="flatDescription" class ="row">
         <div class="span2" id="pictureContainer">
             </br>
-            [Such a cool picture here]
+            <img src="" alt="Such a cool picture">
         </div>
         <div class = "span8" id="flatInfo">
-
             <h5>Flat description <small>
                 {{ flat_info.description }}
             </small>
@@ -21,10 +29,7 @@
             <div id="memberList" >
                 <h5>Members in flat<small>
                 {% for member in flat_members %}
-                {{ member.user.first_name }},
-                <!--{{ member.name }}-->
-                <!--{{ member.id }}-->
-
+                    <a href="{{ member.user.username }}">{{member.user.first_name}},</a>
                 {% endfor %}
                 </small>
                 </h5>
@@ -130,6 +135,7 @@
     //$(document).ready(function() {
 
 //        function removeShoppingItem(form) {
+//            $(".alert").alert()
 //            var taskId = form.task_id.value;
 //           // alert(taskId);
 //            $("#" + taskId).remove();

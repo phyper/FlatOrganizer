@@ -14,6 +14,7 @@ from crispy_forms.helper import FormHelper
 from django.http import Http404
 from django.core.exceptions import PermissionDenied, ValidationError
 from tasklist.settings import MEDIA_ROOT
+from django.core.files import File
 
 # Index page
 
@@ -97,7 +98,6 @@ def index(request):
                 response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
                 return response
 
-
 	except:
 		context = RequestContext(request)
 		return render_to_response('flats/login.html', {}, context)
@@ -137,6 +137,10 @@ def flat(request, flatid=None):
             userFlatMember = member
 
     new_task_form = NewTaskForm()
+    if access_right:
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+    else:
+        raise PermissionDenied
 
     #Do one common processing here..
     if "setTaskDone" in request.POST:
@@ -146,7 +150,8 @@ def flat(request, flatid=None):
         assigned_task.task = task
         assigned_task.member = userFlatMember
         assigned_task.save()
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+        success = True
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success': success} , context)
 
     if "setShoppingItemDone" in request.POST:
         task_id = request.POST.get('task_id')
@@ -155,6 +160,7 @@ def flat(request, flatid=None):
         assigned_task.task = task
         assigned_task.member = userFlatMember
         assigned_task.save()
+        success = True
         task.delete()
 
         #Need to get the new list. This is ugly and needs refactoring
@@ -164,14 +170,11 @@ def flat(request, flatid=None):
         for list_item in full_list:
             if list_item.category.name == "Shopping":
                 shopping_list.append(list_item)
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success} , context)
 
 
 
-    if access_right:
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
-    else:
-        raise PermissionDenied
+
 
     if request.method == 'POST':
         new_task_form = NewTaskForm(request.POST)
@@ -181,6 +184,7 @@ def flat(request, flatid=None):
             task = new_task_form.save(commit=False)
             task.flat = flat[0]
             task.save()
+            success = True
 
             #Ugly as shit, but works for now
             full_list = Task.objects.filter(flat = flat )
@@ -193,27 +197,12 @@ def flat(request, flatid=None):
                 else:
                     shopping_list.append(list_item)
 
-            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success} , context)
         else:
             print (new_task_form.errors)
 
 
     return response
-
-@login_required
-def newFlat(request):
-    if (request.method == 'POST'):
-        newFlatForm = NewFlatForm(request.POST)
-        #name = request.POST.get('name', '')
-        #description = request.POST.get('description', '')
-        #flat = Flat(name, description)
-        #flat.save()
-        #return HttpResponseRedirect('/')
-        flat = 	newFlatForm.save(commit=False)
-        flat.save()
-    else:
-        #Happens when no valid flat number or username
-        raise Http404
 
 def update_task_in_flat_model(response):
     print (response)
@@ -235,47 +224,57 @@ def resend_password(request):
     return render_to_response('flats/resend_password.html', {}, context)
 
 def register(request):
-    context = RequestContext(request)
-    registered = False
-    if request.method =='POST':
-        uform = UserCreateForm(data = request.POST)
-        pform = UserProfileForm(data = request.POST)
-        if uform.is_valid() and pform.is_valid():
-            user = uform.save()
-            profile = pform.save(commit = False)
-            profile.user = user
-            picture = save_file(request.FILES['picture'])
-            profile.picture = picture
-            profile.save()
-            registered = True
-        else:
-            print (uform.errors, pform.errors)
-    else:
-        uform = UserCreateForm()
-        pform = UserProfileForm()
-    return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+
+	context = RequestContext(request)
+	registered = False
+	if request.method =='POST':
+		uform = UserCreateForm(data = request.POST)
+		pform = UserProfileForm(data = request.POST)
+		
+		if uform.is_valid() and pform.is_valid():
+			user = uform.save()
+			user.save()
+			profile = pform.save(commit = False)
+			profile.user = user
+			
+			# If the user has selected profile picture, select it, otherwise use standard picture
+			if request.FILES:
+				picture = save_file(request.FILES['picture'])
+				profile.picture = picture
+			else:
+				profile.picture = File(open('%s/%s' % (MEDIA_ROOT, "standard.gif")))
+			profile.save()
+			registered = True
+			return render_to_response('flats/login.html', {}, context)
+		else:
+			print uform.errors, pform.errors
+			return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+	else:
+		uform = UserCreateForm()
+		pform = UserProfileForm()
+		return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 
 def user_login(request):
-    context = RequestContext(request)
-    if request.method == 'POST':
-          username = request.POST.get('username', '')
-          password = request.POST.get('password', '')
-          user = auth.authenticate(username=username, password=password)
-          if user is not None:
-              if user.is_active:
-                  auth.login(request, user)
-                  # Redirect to index page.
-                  return HttpResponseRedirect("/flats/")
-              else:
-                  # Return a 'disabled account' error message
-                  return HttpResponse("You're account is disabled.")
-          else:
-              # Return an 'invalid login' error message.
-              print  ("invalid login details " + username + " " + password)
-              return render_to_response('flats/login.html', {}, context)
-    else:
-        # the login is a  GET request, so just show the user the login form.
-        return render_to_response('flats/login.html', {}, context)
+	context = RequestContext(request)
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = auth.authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_active:
+			    auth.login(request, user)
+			    # Redirect to index page.
+			    return HttpResponseRedirect("/flats/")
+			else:
+			    # Return a 'disabled account' error message
+			    return HttpResponse("Your account is disabled.")
+		else:
+			# Return an 'invalid login' error message.
+			print  ("invalid login details " + username + " " + password)
+			return render_to_response('flats/login.html', {}, context)
+	else:
+		# the login is a  GET request, so just show the user the login form.
+		return render_to_response('flats/login.html', {}, context)
 
 @login_required
 def user_logout(request):
