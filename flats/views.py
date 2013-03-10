@@ -207,13 +207,14 @@ def register(request):
 			profile.picture = picture
 			profile.save()
 			registered = True
+			return render_to_response('flats/login.html', {}, context)
 		else:
 			print uform.errors, pform.errors
+			return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 	else:
 		uform = UserCreateForm()
 		pform = UserProfileForm()
-	
-	return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+		return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 
 def user_login(request):
 	context = RequestContext(request)
