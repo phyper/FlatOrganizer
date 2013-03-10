@@ -14,6 +14,7 @@ from crispy_forms.helper import FormHelper
 from django.http import Http404
 from django.core.exceptions import PermissionDenied, ValidationError
 from tasklist.settings import MEDIA_ROOT
+from django.core.files import File
 
 # Index page
 
@@ -203,8 +204,13 @@ def register(request):
 			user.save()
 			profile = pform.save(commit = False)
 			profile.user = user
-			picture = save_file(request.FILES['picture'])
-			profile.picture = picture
+			
+			# If the user has selected profile picture, select it, otherwise use standard picture
+			if request.FILES:
+				picture = save_file(request.FILES['picture'])
+				profile.picture = picture
+			else:
+				profile.picture = File(open('%s/%s' % (MEDIA_ROOT, "standard.gif")))
 			profile.save()
 			registered = True
 			return render_to_response('flats/login.html', {}, context)
