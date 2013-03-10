@@ -47,7 +47,6 @@ def index(request):
 
 		new_flat_form = NewFlatForm()
 
-		#context = RequestContext(request,{ 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats })
 		response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats}, context)
 
 		if request.method == 'POST':
@@ -65,7 +64,6 @@ def index(request):
 			print ("Problems occured while creating NewFlatForm")
 
 		return response
-		#return HttpResponse(template.render(context))
 
 	except:
 		context = RequestContext(request)
@@ -173,21 +171,6 @@ def flat(request, flatid=None):
 
     return response
 
-@login_required
-def newFlat(request):
-    if (request.method == 'POST'):
-        newFlatForm = NewFlatForm(request.POST)
-        #name = request.POST.get('name', '')
-        #description = request.POST.get('description', '')
-        #flat = Flat(name, description)
-        #flat.save()
-        #return HttpResponseRedirect('/')
-        flat = 	newFlatForm.save(commit=False)
-        flat.save()
-    else:
-        #Happens when no valid flat number or username
-        raise Http404
-
 def update_task_in_flat_model(response):
     print (response)
 
@@ -217,11 +200,6 @@ def register(request):
 		
 		if uform.is_valid() and pform.is_valid():
 			user = uform.save()
-			# form brings back a plain text string, not an encrypted password
-			pw = user.password
-			print (pw)
-			# thus we need to use set password to encrypt the password string
-			#user.set_password(pw)
 			user.save()
 			profile = pform.save(commit = False)
 			profile.user = user
