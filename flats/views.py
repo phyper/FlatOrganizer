@@ -245,7 +245,14 @@ def register(request):
 				profile.picture = File(open('%s/%s' % (MEDIA_ROOT, "standard.gif")))
 			profile.save()
 			registered = True
-			return render_to_response('flats/login.html', {}, context)
+			
+			# Redirect user to the home page after succesfull registration
+			try:
+				user = auth.authenticate(username=uform['username'].value(), password=uform['password1'].value())
+				auth.login(request, user)
+				return HttpResponseRedirect("/flats/")
+			except:
+				raise Http404
 		else:
 			print uform.errors, pform.errors
 			return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
