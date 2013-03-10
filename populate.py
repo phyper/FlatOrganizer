@@ -64,7 +64,7 @@ task3.save()
 task4 = Task(name ="Vaccum cleaner bags", description = "Size 30x25", credits = 5, flat = flat1, category = cat2)
 task4.save()
 
-assigned1 = Assigned_Task(task = task1, member = flatmember1, creation_date = datetime.datetime.now(), completion_date = datetime.datetime.now())
+assigned1 = Assigned_Task(task = task1, member = flatmember1)
 assigned1.save()
 
 invite1 = Invitation(flat=flat1, email = "invited@cool.com")
