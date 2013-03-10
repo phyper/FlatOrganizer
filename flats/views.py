@@ -19,6 +19,7 @@ from tasklist.settings import MEDIA_ROOT
 
 def index(request):
 	context = RequestContext(request)
+        done = None
 
 	try: # This might need refactoring later as this is not the best way to check user's status
 		u = User.objects.get(username=request.user)
@@ -47,25 +48,55 @@ def index(request):
 
 		new_flat_form = NewFlatForm()
 
-		#context = RequestContext(request,{ 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats })
-		response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats}, context)
 
-		if request.method == 'POST':
+		if "createNewFlat" in request.POST :
 
 			# Create a new flat
 			new_flat_form = NewFlatForm(request.POST)
 			flat = new_flat_form.save(commit=False)
 			flat.save()
+                        done = True
 
 			# Link a created flat to current user
 			flat_member = Flat_Member.objects.create_flat_member(u, flat)
 			flat_member.save()
 
-		else:
-			print ("Problems occured while creating NewFlatForm")
+                if "acceptInvite" in request.POST :
+                    flat_id = request.POST.get('flat_id')
+                    flat = Flat.objects.get(id = flat_id)
+                    already_member = False
+                    for m in Flat_Member.objects.filter(flat = flat):
+                        if m.user == u:
+                            already_member = True
+                    if not already_member:
+                        member = Flat_Member.objects.create_flat_member(u, flat)
+                        member.save()
+                        done = True
+                    invites = Invitation.objects.filter(flat = flat)
+                    for invite in invites:
+                        if invite.email == u.email:
+                            invite.delete()
+                            invited_flats.remove(flat)
 
-		return response
-		#return HttpResponse(template.render(context))
+                if "sendInvite" in request.POST :
+                    flat_id = request.POST.get('flat_id')
+                    email = request.POST.get('email')
+                    flat = Flat.objects.get(id = flat_id)
+                    already_member = False
+                    for m in Flat_Member.objects.filter(flat = flat):
+                        if m.user.email == email:
+                            already_member = True
+                    if not already_member:
+                        newInvite = Invitation()
+                        newInvite.flat = flat
+                        newInvite.email = email
+                        newInvite.save()
+                        done = True
+
+                #context = RequestContext(request,{ 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats })
+                response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
+                return response
+
 
 	except:
 		context = RequestContext(request)
@@ -303,7 +334,6 @@ def profile(request, flatid=None, username=None):
             raise PermissionDenied
     else:
         user = request.user
-        profile_user = UserProfile.objects.get(user=user)
         saved = ""
         if request.method == 'POST':
             u_form = UserEditForm(request.POST, instance=user)
@@ -318,9 +348,12 @@ def profile(request, flatid=None, username=None):
 
 
         profile_picture = "/flats/imgs/standard.gif"
-        if(profile_user.picture):
-            profile_picture = profile_user.picture.url
-
+        try:
+            profile_user = UserProfile.objects.get(user=user)
+            if(profile_user and profile_user.picture):
+                profile_picture = profile_user.picture.url
+        except:
+            print ("No user profile")
         return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'saved' : saved, 'profile_picture' : profile_picture}, context)
 
 
