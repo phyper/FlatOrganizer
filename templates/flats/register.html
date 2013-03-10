@@ -12,7 +12,7 @@
 				{% else %}
 					
 					<legend>Registration</legend>
-					<form class="form-horizontal" id="registerHere" method="post" action="/flats/register/">
+					<form class="form-horizontal" enctype="multipart/form-data" id="registerHere" method="post" action="/flats/register/">
 						{% csrf_token %}
 						<fieldset>
 						<div class="control-group success error">
