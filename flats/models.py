@@ -73,16 +73,25 @@ class Category(models.Model):
 	def __unicode__(self):
 		return self.name		
 
+class Task_Manager(models.Manager):
+    def get_query_set(self):
+        return super(Task_Manager, self).get_query_set().filter(active=True)
+
 class Task(models.Model):
-	name = models.CharField(max_length=50)
-	description = models.CharField(max_length=100)
-	credits = models.IntegerField()
-	flat = models.ForeignKey(Flat)
-	category = models.ForeignKey(Category)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=100)
+    credits = models.IntegerField()
+    flat = models.ForeignKey(Flat)
+    category = models.ForeignKey(Category)
+    active = models.BooleanField(default=True, editable=False)
+    objects = Task_Manager()
 
-	def __unicode__(self):
-		return self.name
+    def __unicode__(self):
+        return self.name
 
+    def delete(self, *args, **kwargs):
+        self.active = False
+        self.save()
 
 class Assigned_Task(models.Model):
     task = models.ForeignKey(Task)
@@ -92,9 +101,6 @@ class Assigned_Task(models.Model):
     def __unicode__(self):
         return self.member + " - " + self.task
 
-    def __init__(self, Task, Member):
-        self.task = Task
-        self.member = Member
 
 class Invitation(models.Model):
         flat = models.ForeignKey(Flat)

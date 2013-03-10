@@ -72,7 +72,7 @@ def index(request):
 		return render_to_response('flats/login.html', {}, context)
 
 # User Registration view/Template
-
+@login_required
 def flat(request, flatid=None):
     context = RequestContext(request)
     u = User.objects.get(username=request.user)
@@ -99,28 +99,33 @@ def flat(request, flatid=None):
     access_right = False
     #One can access this if the logged in user
     #are member of the flat one wants to view
-
+    userFlatMember = u
     for member in flat_members:
         if member.user == u:
             access_right = True
+            userFlatMember = member
 
     new_task_form = NewTaskForm()
 
-
+    #Do one common processing here..
     if "setTaskDone" in request.POST:
         task_id = request.POST.get('task_id')
         task = Task.objects.get(id = task_id)
-        assigned_task = Assigned_Task
-        assigned_task.task = Task
-        assigned_task.member = u
+        assigned_task = Assigned_Task()
+        assigned_task.task = task
+        assigned_task.member = userFlatMember
+        assigned_task.save()
         response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
 
     if "setShoppingItemDone" in request.POST:
         task_id = request.POST.get('task_id')
-        flat_id = request.POST.get('flat_id')
-        print (task_id)
         task = Task.objects.get(id = task_id)
+        assigned_task = Assigned_Task()
+        assigned_task.task = task
+        assigned_task.member = userFlatMember
+        assigned_task.save()
         task.delete()
+
         #Need to get the new list. This is ugly and needs refactoring
         full_list = Task.objects.filter(flat = flat )
         shopping_list = []
