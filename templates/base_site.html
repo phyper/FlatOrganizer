@@ -41,31 +41,6 @@
                 </a>
                 <a class="brand" href="/flats/">Flat Organizer</a>
                 <div class="nav-collapse collapse ">
-            
-                <a href="#myModal" class="btn btn-primary btn-small" data-toggle="modal">Create a flat</a>
-                
-                <!-- Modal -->
-                <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog">
-                    <div class="modal-header ">
-                        <button type="button" class="close" data-dismiss="modal">x</button>
-                        <h3 id="myModalLabel">Create a new flat</h3>
-                    </div>
-                    
-                    <form method="POST" action="/flats/newFlat/">
-                        <div class="modal-body"> {% csrf_token %}
-                            <div class="placeholing-input name">
-                                <input type="text" name="name" value="" id="name" tabindex="1" placeholder="Name" size="50" />
-                            </div>
-                            <div class="placeholing-input description">
-                                <input type="text" name="description" value="" id="description" tabindex="2" placeholder="description" size="50" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a id="submit" type ="submit" name="submit" class='btn btn-primary' value="Create" />
-                            <a href="#" class="btn" data-dismiss="modal">Close</a>
-                        </div>
-                    </form>
-                </div>
                 
                 <script>
                     $('#modal-footer').on('click', function(e){

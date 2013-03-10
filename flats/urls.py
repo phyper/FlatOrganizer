@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import login, logout
-
+from tasklist.settings import DEBUG, MEDIA_ROOT
 from flats import views
 
 urlpatterns = patterns('',
@@ -15,3 +15,9 @@ urlpatterns = patterns('',
     url(r'^resend_password/', views.resend_password, name='resend_password'),
     url(r'^newFlat/$', views.newFlat, name='new_flat'),
 )
+
+if DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^imgs/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': MEDIA_ROOT}))

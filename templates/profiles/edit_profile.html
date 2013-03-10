@@ -10,22 +10,14 @@
 </div>
 <br>
 <br>
-<form action="" method="POST">
+<form action="" method="POST" enctype="multipart/form-data">
     <div class="row" id="profile_edit">
         <div class="span2">
-            [Picture here]
+            <p>
+                <img border="0" alt="Profile Picture" src="{{ profile_picture }}">
+            </p>
         </div>
         <div class="span8">
-           <!--  {% for field in pform.visible_fields %}
-                {% csrf_token %}
-                <p>
-                    {{ field }}
-                    {{ field.help_text }}
-                    {{ field.errors }}
-                </p>
-            {% endfor %}
-            -->
-
             {% for field in uform.visible_fields %}
                 {% csrf_token %}
                 <p>

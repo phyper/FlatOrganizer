@@ -52,7 +52,7 @@
 		    <a href="/flats/">Flat Organizer</a> says: thank you for registering.
 		{% else %}
 			<big>Register here!</big>
-			<form id="login_form" method="post" action="/flats/register/"> {% csrf_token %}
+			<form id="login_form" method="post" action="/flats/register/" enctype="multipart/form-data"> {% csrf_token %}
 				{{ uform.as_p }}
 				{{ pform.as_p }}
 		        <input type="submit" name="submit" value="submit" />

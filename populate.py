@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from flats.models import UserProfile, Flat, Flat_Member, Category, Task, Assigned_Task, Invitation
+from flats.models import UserProfile, Flat, Flat_Member, Category, Task, Assigned_Task, Invitation, UserProfile
 import datetime
 
 user1 = User.objects.create_user('gary', 'test@test.test', 'gary')
@@ -11,6 +11,9 @@ user2 = User.objects.create_user('madonna', 'test@test.test', 'madonna')
 user2.first_name = 'Madonna'
 user2.last_name = 'Uknown'
 user2.save()
+
+profileM = UserProfile(user=user2)
+profileM.save()
 
 user3 = User.objects.create_user('rihanna', 'test@test.test', 'rihanna')
 user3.first_name = 'Rihanna'

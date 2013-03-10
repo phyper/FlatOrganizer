@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewTaskForm, Task, Assigned_Task, Invitation
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewFlatForm, NewTaskForm, Task, Assigned_Task, Invitation
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -13,39 +13,63 @@ from django.core.context_processors import csrf
 from crispy_forms.helper import FormHelper
 from django.http import Http404
 from django.core.exceptions import PermissionDenied, ValidationError
+from tasklist.settings import MEDIA_ROOT
 
 # Index page
 
 def index(request):
-    try: # This might need refactoring later as this is not the best way to check user's status
-        u = User.objects.get(username=request.user)
-        template = loader.get_template('flats/index.html')
+	context = RequestContext(request)
 
-        flats_user = Flat_Member.objects.filter(user=u)
+	try: # This might need refactoring later as this is not the best way to check user's status
+		u = User.objects.get(username=request.user)
+		template = loader.get_template('flats/index.html')
 
-        for fu in flats_user:
-            flat_members = Flat_Member.objects.filter(flat=fu.flat)
-            fu.member_list = flat_members
-            if fu.flat.active:
-                flat_members = Flat_Member.objects.filter(flat=fu.flat)
-                fu.member_list = flat_members
-            else:
-                fu.delete()
+		flats_user = Flat_Member.objects.filter(user=u)
 
-        #Get all flats to check if on invite lists
-        invited_flats = []
-        flats = Flat.objects.all()
-        for flat in flats:
-            invites = Invitation.objects.filter(flat = flat)
-            for invite in invites:
-                if invite.email == u.email:
-                    invited_flats.append(flat)
+		for fu in flats_user:
+			flat_members = Flat_Member.objects.filter(flat=fu.flat)
+			fu.member_list = flat_members
 
-        context = RequestContext(request,{ 'flats' : flats_user, 'invited_flats' : invited_flats })
-        return HttpResponse(template.render(context))
-    except:
-        context = RequestContext(request)
-        return render_to_response('flats/login.html', {}, context)
+			if fu.flat.active:
+				flat_members = Flat_Member.objects.filter(flat=fu.flat)
+				fu.member_list = flat_members
+			else:
+				fu.delete()
+
+		#Get all flats to check if on invite lists
+		invited_flats = []
+		flats = Flat.objects.all()
+		for flat in flats:
+			invites = Invitation.objects.filter(flat = flat)
+			for invite in invites:
+				if invite.email == u.email:
+					invited_flats.append(flat)
+
+		new_flat_form = NewFlatForm()
+
+		#context = RequestContext(request,{ 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats })
+		response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats}, context)
+
+		if request.method == 'POST':
+
+			# Create a new flat
+			new_flat_form = NewFlatForm(request.POST)
+			flat = new_flat_form.save(commit=False)
+			flat.save()
+
+			# Link a created flat to current user
+			flat_member = Flat_Member.objects.create_flat_member(u, flat)
+			flat_member.save()
+
+		else:
+			print ("Problems occured while creating NewFlatForm")
+
+		return response
+		#return HttpResponse(template.render(context))
+
+	except:
+		context = RequestContext(request)
+		return render_to_response('flats/login.html', {}, context)
 
 # User Registration view/Template
 
@@ -184,6 +208,8 @@ def register(request):
             user = uform.save()
             profile = pform.save(commit = False)
             profile.user = user
+            picture = save_file(request.FILES['picture'])
+            profile.picture = picture
             profile.save()
             registered = True
         else:
@@ -226,6 +252,7 @@ def user_logout(request):
 def profile(request, flatid=None, username=None):
     context = RequestContext(request)
     if flatid and username:
+        profile_user = None
         logged_in_user = User.objects.get(username=request.user)
         logged_in_user_in_flat = False
         view_user_in_flat = False
@@ -242,6 +269,7 @@ def profile(request, flatid=None, username=None):
                 if member.user == view_user:
                     view_user_in_flat = True
                     member_to_view = member
+
         except:
             #Happens when no valid flat number or username
             raise Http404
@@ -253,30 +281,49 @@ def profile(request, flatid=None, username=None):
             sum_credits = 0
             for tasks in tasks_assigned:
                 sum_credits = sum_credits + tasks.task.credits
+
+            profile_picture = "/flats/imgs/standard.gif"
+            try:
+                if(view_user.get_profile() and view_user.get_profile().picture):
+                    profile_picture = view_user.get_profile().picture.url
+            except:
+                print ("No user profile")
             return render_to_response('profiles/user_profile.html', {'member': member_to_view,
                                                                      'flat': view_flat,
                                                                      'tasks_assigned': tasks_assigned,
-                                                                     'sum': sum_credits}, context)
+                                                                     'sum': sum_credits,
+                                                                     'profile_picture': profile_picture },context)
         else:
             #Happens when user do not live in selected flat
             raise PermissionDenied
     else:
-        u_instance = request.user
+        user = request.user
+        profile_user = UserProfile.objects.get(user=user)
         saved = ""
         if request.method == 'POST':
-            u_form = UserEditForm(request.POST, instance=u_instance)
-            p_form = UserProfileForm(request.POST)
+            u_form = UserEditForm(request.POST, instance=user)
             if u_form.is_valid():
-                #p_form.save()
                 u_form.save()
                 saved = "Saved"
             else:
                 print (u_form.errors)
                 saved = "Error - not saved"
-                #print p_form.errors
         else:
-            u_form = UserEditForm(instance=u_instance)
-            p_form = UserProfileForm()
-        return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form, 'saved' : saved}, context)
+            u_form = UserEditForm(instance=user)
 
 
+        profile_picture = "/flats/imgs/standard.gif"
+        if(profile_user.picture):
+            profile_picture = profile_user.picture.url
+
+        return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'saved' : saved, 'profile_picture' : profile_picture}, context)
+
+
+
+def save_file(file, path=''):
+    filename = file._get_name()
+    fd = open('%s/%s' % (MEDIA_ROOT, str(path) + str(filename)), 'wb' )
+    for chunk in file.chunks():
+        fd.write(chunk)
+    fd.close()
+    return filename

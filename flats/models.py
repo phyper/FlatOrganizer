@@ -48,6 +48,10 @@ class Flat(models.Model):
 class Flat_Member_Manager(models.Manager):
 	def get_query_set(self):
 		return super(Flat_Member_Manager, self).get_query_set().filter(active=True)
+	
+	def create_flat_member(self, user, flat):
+	        flat_member = self.create(user=user, flat=flat)
+	        return flat_member
 
 class Flat_Member(models.Model):
 	user = models.ForeignKey(User)
@@ -97,7 +101,7 @@ class Invitation(models.Model):
         email = models.EmailField()
 
         def __unicode__(self):
-            return self.email
+            return  self.email
 
 class UserCreateForm(UserCreationForm):
 	email = forms.EmailField(required = True)
@@ -138,5 +142,5 @@ class NewFlatForm(forms.ModelForm):
 		fields = ["name", "description"]
 		widgets = {
 			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
-			'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
+			'description' : forms.Textarea(attrs = {'placeholder': 'Description'}),
 		}
