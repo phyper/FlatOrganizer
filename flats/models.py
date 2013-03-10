@@ -48,6 +48,10 @@ class Flat(models.Model):
 class Flat_Member_Manager(models.Manager):
 	def get_query_set(self):
 		return super(Flat_Member_Manager, self).get_query_set().filter(active=True)
+	
+	def create_flat_member(self, user, flat):
+	        flat_member = self.create(user=user, flat=flat)
+	        return flat_member
 
 class Flat_Member(models.Model):
 	user = models.ForeignKey(User)
@@ -84,9 +88,9 @@ class Assigned_Task(models.Model):
 	member = models.ForeignKey(Flat_Member)
 	creation_date = models.DateTimeField(auto_now_add = True)
 	completion_date = models.DateTimeField(auto_now_add = True)
-
-        def __unicode__(self):
-            return self.member + " - " + self.task
+	
+	def __unicode__(self):
+		return self.member + " - " + self.task
 
 class Invitation(models.Model):
         flat = models.ForeignKey(Flat)
@@ -136,5 +140,5 @@ class NewFlatForm(forms.ModelForm):
 		fields = ["name", "description"]
 		widgets = {
 			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
-			'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
+			'description' : forms.Textarea(attrs = {'placeholder': 'Description'}),
 		}

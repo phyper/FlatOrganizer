@@ -3,49 +3,82 @@
 
 {% block content %}
 
-    <div class="content">
-        <div class="page-header">
-        <h1 class="text-center">Please select your flat</h1>
-    </div>
-    {% if flats %}
-    {% for flat in flats %}
-    <div class="row hero-unit" style="margin-left: 0px;">
-        <div class="span4">
-            <a href="#">
-                <img src="http://lorempixum.com/210/150/city/6" alt="house" class="img-rounded">
-            </a>
-        </div>
-        <div class="bottomaligned">
-            <div class="span4">
-                <a href="{{ flat.flat_id }}">
-                    <p>{{flat.flat.name}}</p>
-                </a>
-                <p>
-                        {% for member in flat.member_list %}
-                            <a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
-                        {% endfor %}
-                    </p>
-                <p><a href="#">Invite</a><p>
-            </div>
-        </div><!-- /span -->
-    </div>
-            {% endfor %}
-            {% endif %}
-    <div class="row">
-        <div class="span4">
-            <div>
-                <p>
-                    <h2>Pending invitations</h2>
-                </p>
-                <ul>
-                    {% for flat_to_accept in invited_flats %}
-                        <li>
-                            {{ flat_to_accept}}
-                            <a href="#"> Accept (not implemented)</a>
-                        </li>
-                    {% endfor %}
-                <ul>
-            </div>
-        </div>
-    </div>
+	<div class="content">
+	    <div class="page-header">
+		    <h1 class="text-center">Please select your flat</h1>
+	    </div>
+	    
+	{% if flats %}
+	{% for flat in flats %}
+	<div class="row hero-unit" style="margin-left: 0px;">
+	    <div class="span4">
+		<a href="#">
+		    <img src="http://lorempixum.com/210/150/city/6" alt="house" class="img-rounded">
+		</a>
+	    </div>
+	    <div class="bottomaligned">
+		<div class="span4">
+		    <a href="{{ flat.flat_id }}">
+			<p>{{flat.flat.name}}</p>
+		    </a>
+		    <p>
+			    {% for member in flat.member_list %}
+				<a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
+			    {% endfor %}
+			</p>
+		    <p><a href="#">Invite</a><p>
+		</div>
+	    </div><!-- /span -->
+	</div>
+		{% endfor %}
+		{% endif %}
+	
+	<a href="#CreateFlat" class="btn btn-primary btn-small" data-toggle="modal">New flat</a>
+	
+	<!-- Modal -->
+	<div id="CreateFlat" class="modal hide fade in" style="display: none; ">
+	    <div class="modal-header">
+		<button class="close" data-dismiss="modal"></button>
+		<h3>New Flat</h3>
+	    </div>
+	    <form action="" method="POST">
+		<div class="modal-body">
+			<div class="modal-form">
+	
+				{% for field in flat_form.visible_fields %}
+				{% csrf_token %}
+				<p>
+				    {{ field }}
+				    {{ field.help_text }}
+				    {{ field.errors }}
+				</p>
+				{% endfor %}
+	
+			</div>
+		</div>
+		<div class="modal-footer">
+		    <a href="#" class="btn" data-dismiss="modal">Close</a>
+		    <input id="submit" type="submit" name="submit" class="btn btn-primary" value="Create" />
+		</div>
+	    </form>
+	</div>
+	
+	<div class="row">
+	    <div class="span4">
+		<div>
+		    <p>
+			<h2>Pending invitations</h2>
+		    </p>
+		    <ul>
+			{% for flat_to_accept in invited_flats %}
+			    <li>
+				{{ flat_to_accept}}
+				<a href="#"> Accept (not implemented)</a>
+			    </li>
+			{% endfor %}
+		    <ul>
+		</div>
+	    </div>
+	</div>
+
 {% endblock content %}
