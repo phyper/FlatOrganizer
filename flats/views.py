@@ -215,8 +215,9 @@ def register(request):
 			user = uform.save()
 			# form brings back a plain text string, not an encrypted password
 			pw = user.password
+			print (pw)
 			# thus we need to use set password to encrypt the password string
-			user.set_password(pw)
+			#user.set_password(pw)
 			user.save()
 			profile = pform.save(commit = False)
 			profile.user = user
@@ -233,26 +234,26 @@ def register(request):
 	return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 
 def user_login(request):
-    context = RequestContext(request)
-    if request.method == 'POST':
-          username = request.POST.get('username', '')
-          password = request.POST.get('password', '')
-          user = auth.authenticate(username=username, password=password)
-          if user is not None:
-              if user.is_active:
-                  auth.login(request, user)
-                  # Redirect to index page.
-                  return HttpResponseRedirect("/flats/")
-              else:
-                  # Return a 'disabled account' error message
-                  return HttpResponse("Your account is disabled.")
-          else:
-              # Return an 'invalid login' error message.
-              print  ("invalid login details " + username + " " + password)
-              return render_to_response('flats/login.html', {}, context)
-    else:
-        # the login is a  GET request, so just show the user the login form.
-        return render_to_response('flats/login.html', {}, context)
+	context = RequestContext(request)
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = auth.authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_active:
+			    auth.login(request, user)
+			    # Redirect to index page.
+			    return HttpResponseRedirect("/flats/")
+			else:
+			    # Return a 'disabled account' error message
+			    return HttpResponse("Your account is disabled.")
+		else:
+			# Return an 'invalid login' error message.
+			print  ("invalid login details " + username + " " + password)
+			return render_to_response('flats/login.html', {}, context)
+	else:
+		# the login is a  GET request, so just show the user the login form.
+		return render_to_response('flats/login.html', {}, context)
 
 @login_required
 def user_logout(request):

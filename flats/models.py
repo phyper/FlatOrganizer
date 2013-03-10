@@ -5,6 +5,7 @@ from django import forms
 import datetime
 from PIL import Image
 from django.forms import ModelForm
+from django.forms import CharField, Form, PasswordInput
 
 CATEGORY_CHOICES = (('Shopping', 'Shopping'),
                     ('Cleaning', 'Cleaning'),
@@ -111,6 +112,9 @@ class Invitation(models.Model):
 
 class UserCreateForm(UserCreationForm):
 	email = forms.EmailField(required = True)
+	password1 = CharField(widget=PasswordInput())
+	password2 = CharField(widget=PasswordInput())
+	
 	class Meta:
 		model = User
 		fields = ["first_name", "last_name", "email", "username", "password1", "password2"]
@@ -119,7 +123,7 @@ class UserProfileForm(forms.ModelForm):
 	class Meta:	        
 		model = UserProfile
 		fields = ['picture']
-
+	
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
@@ -129,7 +133,6 @@ class UserEditForm(forms.ModelForm):
             'last_name' : forms.TextInput(attrs = {'placeholder': 'Last name'}),
             'email' : forms.TextInput(attrs = {'placeholder': 'E-mail'}),
             }
-
 
 class NewTaskForm(forms.ModelForm):
     class Meta:

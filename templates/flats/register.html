@@ -18,28 +18,28 @@
 						<div class="control-group success error">
 						<label class="control-label">First name</label>
 							<div class="controls">
-								<input type="text" class="input-xlarge" id="first_name" name="first_name" rel="popover" data-content="Enter your first name." data-original-title="First Name">
+								<input type="text" class="input-xlarge" id="first_name" name="first_name" rel="popover" data-content="Enter your first name" data-original-title="First Name">
 							</div>
 						</div>
 						
 						<div class="control-group success error">
 						<label class="control-label">Last name</label>
 							<div class="controls">
-								<input type="text" class="input-xlarge" id="last_name" name="last_name" rel="popover" data-content="Enter your last name." data-original-title="Last Name">
+								<input type="text" class="input-xlarge" id="last_name" name="last_name" rel="popover" data-content="Enter your last name" data-original-title="Last Name">
 							</div>
 						</div>
 									
 						<div class="control-group success error">
 						<label class="control-label">Email</label>
 							<div class="controls">
-								<input type="text" class="input-xlarge" id="email" name="email" rel="popover" data-content="What is your email address" data-original-title="Email">
+								<input type="text" class="input-xlarge" id="email" name="email" rel="popover" data-content="Enter your email address" data-original-title="Email">
 							</div>
 						</div>
 						
 						<div class="control-group success error">
 						<label class="control-label">Username</label>
 							<div class="controls">
-								<input type="text" class="input-xlarge" id="username" name="username" rel="popover" data-content="What is your username" data-original-title="Username">
+								<input type="text" class="input-xlarge" id="username" name="username" rel="popover" data-content="Enter your username" data-original-title="Username">
 							</div>
 						</div>
 						
@@ -57,10 +57,10 @@
 							</div>
 						</div>
 						
-						<div class="control-group">
+						<div class="control-group success error">
 						<label class="control-label">User picture</label>
 							<div class="controls">
-								{{ pform.picture }}
+								<input type="file" class="input-xlarge" id="picture" name="picture" rel="popover" data-content="Select your profile picture" data-original-title="Picture">
 							</div>
 						</div>
 						
@@ -81,61 +81,62 @@
 			</div>
 		</div>
 	</div>
-	
+			
 	<!-- Include Bootstrap Asserts JavaScript Files. -->
-	<script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/jquery.validate.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function()
-	{
-	// Popover 
-	$('#registerHere').hover(
-	function(){
-	$(this).popover('show')
-	},
-	function(){
-	$(this).popover('hide') 
-	}
-	);
-	
-	// Validation
-	$("#registerHere").validate({
-	rules:{
-	first_name:"required",
-	last_name:"required",
-	email:{required:true,email: true},
-	username:"required",
-	password1:{required:true,minlength: 6},
-	password2:{required:true,equalTo: "#password1"}
-	},
-	
-	messages:{
-	first_name:"Enter your first name",
-	last_name:"Enter your last name",
-	email:{
-		required:"Enter your email address",
-		email:"Enter valid email address"},
-	username:"Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.",
-	password1:{
-		required:"Enter your password",
-		minlength:"Password must be minimum 6 characters"},
-	password2:{
-		required:"Enter confirm password",
-		equalTo:"Password and Confirm Password must match"},
-	},
-	
-	errorClass: "help-inline",
-	errorElement: "span",
-	highlight:function(element, errorClass, validClass)
-	{
-	$(element).parents('.control-group').addClass('error');
-	},
-	unhighlight: function(element, errorClass, validClass)
-	{
-	$(element).parents('.control-group').removeClass('error');
-	$(element).parents('.control-group').addClass('success');
-	}
-	});
-	});
+		$(document).ready(function()
+		{
+		// Popover 
+		$('#registerHere input').hover(
+		  function(){
+		    $(this).popover('show')
+		  },
+		  function(){
+		    $(this).popover('hide') 
+		   }
+		);
+		
+		// Validation
+		$("#registerHere").validate({
+		  rules:{
+		  first_name: "required",
+		  last_name: "required",
+		  username:"required",
+		  email:{required:true,email: true},
+		  password1:{required:true,minlength: 6},
+		  password2:{required:true,equalTo: "#password1"},
+		  picture: "required",
+		},
+		
+		messages:{
+		  first_name: "Enter your first name",
+		  last_name: "Enter your last name",
+		  username:"Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.",
+		  email:{
+		    required:"Enter your email address",
+		    email:"Enter valid email address"},
+		  password1:{
+		    required:"Enter your password",
+		    minlength:"Password must be minimum 6 characters"},
+		  password2:{
+		    required:"Enter confirm password",
+		    equalTo:"Password and Confirm Password must match"}
+		},
+		
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass)
+		{
+		  $(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass)
+		{
+		  $(element).parents('.control-group').removeClass('error');
+		  $(element).parents('.control-group').addClass('success');
+		}
+		});
+		});
 	</script>
-
+	
 {% endblock content %}
