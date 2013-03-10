@@ -79,14 +79,18 @@ class Task(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class Assigned_Task(models.Model):
-	task = models.ForeignKey(Task)
-	member = models.ForeignKey(Flat_Member)
-	creation_date = models.DateTimeField(auto_now_add = True)
-	completion_date = models.DateTimeField(auto_now_add = True)
 
-        def __unicode__(self):
-            return self.member + " - " + self.task
+class Assigned_Task(models.Model):
+    task = models.ForeignKey(Task)
+    member = models.ForeignKey(Flat_Member)
+    creation_date = models.DateTimeField(auto_now_add = True)
+    completion_date = models.DateTimeField(auto_now_add = True)
+    def __unicode__(self):
+        return self.member + " - " + self.task
+
+    def __init__(self, Task, Member):
+        self.task = Task
+        self.member = Member
 
 class Invitation(models.Model):
         flat = models.ForeignKey(Flat)
@@ -126,8 +130,6 @@ class NewTaskForm(forms.ModelForm):
             'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
             'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
             'credits' : forms.TextInput(attrs = {'placeholder': 'Credits'}),
-
-            #'category' : forms.CharField(forms.Select(choices=CATEGORY_CHOICES)),
             }
 
 class NewFlatForm(forms.ModelForm):

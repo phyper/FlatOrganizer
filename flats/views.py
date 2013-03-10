@@ -17,40 +17,41 @@ from django.core.exceptions import PermissionDenied, ValidationError
 # Index page
 
 def index(request):
-	try: # This might need refactoring later as this is not the best way to check user's status
-		u = User.objects.get(username=request.user)
-		template = loader.get_template('flats/index.html')
-		
-		flats_user = Flat_Member.objects.filter(user=u)
-	
-		for fu in flats_user:
-			flat_members = Flat_Member.objects.filter(flat=fu.flat)
-			fu.member_list = flat_members
-			if fu.flat.active:
-				flat_members = Flat_Member.objects.filter(flat=fu.flat)
-				fu.member_list = flat_members
-			else:
-				fu.delete()
+    try: # This might need refactoring later as this is not the best way to check user's status
+        u = User.objects.get(username=request.user)
+        template = loader.get_template('flats/index.html')
 
-                #Get all flats to check if on invite lists
-                invited_flats = []
-                flats = Flat.objects.all()
-                for flat in flats:
-                    invites = Invitation.objects.filter(flat = flat)
-                    for invite in invites:
-                        if invite.email == u.email:
-                            invited_flats.append(flat)
-				
-		context = RequestContext(request,{ 'flats' : flats_user, 'invited_flats' : invited_flats })
-		return HttpResponse(template.render(context))
-	except:
-		context = RequestContext(request)
-		return render_to_response('flats/login.html', {}, context)
+        flats_user = Flat_Member.objects.filter(user=u)
+
+        for fu in flats_user:
+            flat_members = Flat_Member.objects.filter(flat=fu.flat)
+            fu.member_list = flat_members
+            if fu.flat.active:
+                flat_members = Flat_Member.objects.filter(flat=fu.flat)
+                fu.member_list = flat_members
+            else:
+                fu.delete()
+
+        #Get all flats to check if on invite lists
+        invited_flats = []
+        flats = Flat.objects.all()
+        for flat in flats:
+            invites = Invitation.objects.filter(flat = flat)
+            for invite in invites:
+                if invite.email == u.email:
+                    invited_flats.append(flat)
+
+        context = RequestContext(request,{ 'flats' : flats_user, 'invited_flats' : invited_flats })
+        return HttpResponse(template.render(context))
+    except:
+        context = RequestContext(request)
+        return render_to_response('flats/login.html', {}, context)
 
 # User Registration view/Template
 
 def flat(request, flatid=None):
     context = RequestContext(request)
+    u = User.objects.get(username=request.user)
 
     if "deleteFlat" in request.POST:
         flat_id = request.POST.get('flat_id')
@@ -70,7 +71,7 @@ def flat(request, flatid=None):
             shopping_list.append(list_item)
 
     flat_members = Flat_Member.objects.filter(flat=flat)
-    u = User.objects.get(username=request.user)
+
     access_right = False
     #One can access this if the logged in user
     #are member of the flat one wants to view
@@ -80,6 +81,33 @@ def flat(request, flatid=None):
             access_right = True
 
     new_task_form = NewTaskForm()
+
+
+    if "setTaskDone" in request.POST:
+        task_id = request.POST.get('task_id')
+        task = Task.objects.get(id = task_id)
+        assigned_task = Assigned_Task
+        assigned_task.task = Task
+        assigned_task.member = u
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+
+    if "setShoppingItemDone" in request.POST:
+        task_id = request.POST.get('task_id')
+        flat_id = request.POST.get('flat_id')
+        print (task_id)
+        task = Task.objects.get(id = task_id)
+        task.delete()
+        #Need to get the new list. This is ugly and needs refactoring
+        full_list = Task.objects.filter(flat = flat )
+        shopping_list = []
+
+        for list_item in full_list:
+            if list_item.category.name == "Shopping":
+                shopping_list.append(list_item)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+
+
+
     if access_right:
         response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
     else:
@@ -91,28 +119,41 @@ def flat(request, flatid=None):
         if new_task_form.is_valid():
             #new_task_form.fields['Flat'] = flat
             task = new_task_form.save(commit=False)
-            print (task)
             task.flat = flat[0]
             task.save()
+
+            #Ugly as shit, but works for now
+            full_list = Task.objects.filter(flat = flat )
+            task_list = []
+            shopping_list = []
+
+            for list_item in full_list:
+                if list_item.category.name != "Shopping":
+                    task_list.append(list_item)
+                else:
+                    shopping_list.append(list_item)
+
+            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
         else:
             print (new_task_form.errors)
+
 
     return response
 
 @login_required
 def newFlat(request):
-	if (request.method == 'POST'):
-		newFlatForm = NewFlatForm(request.POST)
-		#name = request.POST.get('name', '')
-		#description = request.POST.get('description', '')
-		#flat = Flat(name, description)
-		#flat.save()
-		#return HttpResponseRedirect('/')
-		flat = 	newFlatForm.save(commit=False)
-		flat.save()
-	else:
-		#Happens when no valid flat number or username
-		raise Http404
+    if (request.method == 'POST'):
+        newFlatForm = NewFlatForm(request.POST)
+        #name = request.POST.get('name', '')
+        #description = request.POST.get('description', '')
+        #flat = Flat(name, description)
+        #flat.save()
+        #return HttpResponseRedirect('/')
+        flat = 	newFlatForm.save(commit=False)
+        flat.save()
+    else:
+        #Happens when no valid flat number or username
+        raise Http404
 
 def update_task_in_flat_model(response):
     print (response)
@@ -124,34 +165,34 @@ def password_change(request):
 
 def resend_password(request):
 
-	context = RequestContext(request)
-	if request.method =='POST':
-		passwdform = PasswordResetForm(data = request.POST)
-		if passwdform.is_valid():
-			passwdform.save()
-			return render_to_response('flats/login.html', {}, context)
-		
-	return render_to_response('flats/resend_password.html', {}, context)
-	
+    context = RequestContext(request)
+    if request.method =='POST':
+        passwdform = PasswordResetForm(data = request.POST)
+        if passwdform.is_valid():
+            passwdform.save()
+            return render_to_response('flats/login.html', {}, context)
+
+    return render_to_response('flats/resend_password.html', {}, context)
+
 def register(request):
-	context = RequestContext(request)
-	registered = False
-	if request.method =='POST':
-		uform = UserCreateForm(data = request.POST)
-		pform = UserProfileForm(data = request.POST)
-		if uform.is_valid() and pform.is_valid():
-			user = uform.save()
-			profile = pform.save(commit = False)
-			profile.user = user
-			profile.save()
-			registered = True
-		else:
-			print (uform.errors, pform.errors)
-	else:
-		uform = UserCreateForm()
-		pform = UserProfileForm()
-	return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
-	
+    context = RequestContext(request)
+    registered = False
+    if request.method =='POST':
+        uform = UserCreateForm(data = request.POST)
+        pform = UserProfileForm(data = request.POST)
+        if uform.is_valid() and pform.is_valid():
+            user = uform.save()
+            profile = pform.save(commit = False)
+            profile.user = user
+            profile.save()
+            registered = True
+        else:
+            print (uform.errors, pform.errors)
+    else:
+        uform = UserCreateForm()
+        pform = UserProfileForm()
+    return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+
 def user_login(request):
     context = RequestContext(request)
     if request.method == 'POST':
@@ -238,4 +279,4 @@ def profile(request, flatid=None, username=None):
             p_form = UserProfileForm()
         return render_to_response('profiles/edit_profile.html', {'uform': u_form, 'pform' : p_form, 'saved' : saved}, context)
 
-	
+

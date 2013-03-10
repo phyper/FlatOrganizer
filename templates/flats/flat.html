@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <h2>Welcome to {{ flat_info.name }}!</h2>
+<h2 xmlns="http://www.w3.org/1999/html">Welcome to {{ flat_info.name }}!</h2>
 
     <div id="flatDescription" class ="row">
         <div class="span2" id="pictureContainer">
@@ -53,7 +53,13 @@
                         <td> {{ task.category }} </td>
                         <td> {{ task.credits }}</td>
                         <!--<form action="" method="POST">-->
-                        <td> <input type="submit" value ="Done" id="btnSetTaskDone" class ="btn btn-primary btn-small"/></td>
+                        <td>
+                            <form method="POST" action ="">
+                                {% csrf_token %}
+                                <input type="hidden" name="task_id" value="{{ task.id }}">
+                                <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
+                            </form>
+                        </td>
                         <!--</form>-->
                     </tr>
                 {% endfor %}
@@ -62,19 +68,29 @@
 
         <div id="flatShoppingList" class ="span5 offset1">
             <h3>Shopping list</h3>
-            <table class = "table table-striped">
+            <table id="tableShoppingList" class = "table table-striped">
                 <th>Name </th>
                 <th>Category</th>
                 <th>Points</th>
                 <th>Done</th>
-                {% for shopping_item in shopping_list %}
+                <div id="shoppingItems">
+                    {% for shopping_item in shopping_list %}
+
                     <tr id="{{ shopping_item.id }}" >
                         <td> {{ shopping_item.name }} </td>
                         <td> {{ shopping_item.category }}</td>
                         <td> {{ shopping_item.credits }} </td>
-                        <td> <input type="button" value ="Done" id="btnSetShoppingListDone" class ="btn btn-primary"/> </td>
+                        <td>
+                            <form method="POST" action ="">
+                                {% csrf_token %}
+                                <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
+                                <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
+                                <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
+                            </form>
+                        </td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
+                </div>
 
             </table>
 
@@ -104,25 +120,40 @@
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <input id="submit" type="submit" name="submit" class="btn-primary" value="Create" />
+            <input id="btnCreateItem" type="submit" name="submit" class="btn btn-primary" value="Create" />
         </div>
     </form>
 </div>
 
 
-<script type="text/javascript">
-    $(document).ready(function() {
+<script>
+    //$(document).ready(function() {
 
-        $("#btnSetTaskDone").click(function() {
-            var taskId = $(this).parent().parent().attr("id");
-            //alert(taskId+10);
-            $("#" + taskId).remove();
-            //Use this ID to update this in DB.
+//        function removeShoppingItem(form) {
+//            var taskId = form.task_id.value;
+//           // alert(taskId);
+//            $("#" + taskId).remove();
+//        }
+
+//        $(".done").click(function() {
+//            var taskId = $(this).parent().parent().parent().attr("id");
+//            //alert(taskId+10);
+//            $("#" + taskId).remove();
+//            //Use this ID to update this in DB.
+//
+//        });
 
 
-        });
+//        $(".shopping-item").click(function() {
+//            var taskId = $(this).parent().parent().parent().attr("id");
+//            //alert(taskId+10);
+//            $("#" + taskId).remove();
+//            //Use this ID to update this in DB.
+
+
+
         $("#btnSetShoppingListDone").click(function() {
-            var taskId = $(this).parent().parent().attr("id");
+            var taskId = $(this).parent().parent().parent().attr("id");
             //alert(taskId+10);
             $("#" + taskId).remove();
             //Use this ID to update this in DB.
@@ -133,15 +164,21 @@
 
 
         $("#btnCreateItem").click(function() {
-            alert("Button clicked");
-            var taskId = $("flatTasksList").attr("id");
-            alert(taskId);
+            alert($("#modal-body").attr())
+            $.ajax({
+                url: $(location).attr('href'),
+                success: function (){
+                    alert("Whooho");
+                    $("#tableShoppingList").append("Test");
+                }
+
+            });
             //Use this ID to update this in DB.
 
 
         });
 
-    });
+  //  });
 
 
 
