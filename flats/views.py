@@ -18,6 +18,8 @@ from tasklist.settings import MEDIA_ROOT
 # Index page
 
 def index(request):
+	context = RequestContext(request)
+	
 	try: # This might need refactoring later as this is not the best way to check user's status
 		u = User.objects.get(username=request.user)
 		template = loader.get_template('flats/index.html')
@@ -27,23 +29,44 @@ def index(request):
 		for fu in flats_user:
 			flat_members = Flat_Member.objects.filter(flat=fu.flat)
 			fu.member_list = flat_members
+			
 			if fu.flat.active:
 				flat_members = Flat_Member.objects.filter(flat=fu.flat)
 				fu.member_list = flat_members
 			else:
 				fu.delete()
 
-                #Get all flats to check if on invite lists
-                invited_flats = []
-                flats = Flat.objects.all()
-                for flat in flats:
-                    invites = Invitation.objects.filter(flat = flat)
-                    for invite in invites:
-                        if invite.email == u.email:
-                            invited_flats.append(flat)
-				
-		context = RequestContext(request,{ 'flats' : flats_user, 'invited_flats' : invited_flats })
-		return HttpResponse(template.render(context))
+		#Get all flats to check if on invite lists
+		invited_flats = []
+		flats = Flat.objects.all()
+		for flat in flats:
+			invites = Invitation.objects.filter(flat = flat)
+			for invite in invites:
+				if invite.email == u.email:
+					invited_flats.append(flat)
+
+		new_flat_form = NewFlatForm()
+		
+		#context = RequestContext(request,{ 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats })
+		response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats}, context)
+		
+		if request.method == 'POST':
+			
+			# Create a new flat
+			new_flat_form = NewFlatForm(request.POST)
+			flat = new_flat_form.save(commit=False)
+			flat.save()
+			
+			# Link a created flat to current user
+			flat_member = Flat_Member.objects.create_flat_member(u, flat)
+			flat_member.save()
+			
+		else:
+			print ("Problems occured while creating NewFlatForm")
+		
+		return response
+		#return HttpResponse(template.render(context))
+
 	except:
 		context = RequestContext(request)
 		return render_to_response('flats/login.html', {}, context)
@@ -99,21 +122,6 @@ def flat(request, flatid=None):
             print (new_task_form.errors)
 
     return response
-
-@login_required
-def newFlat(request):
-	if (request.method == 'POST'):
-		newFlatForm = NewFlatForm(request.POST)
-		#name = request.POST.get('name', '')
-		#description = request.POST.get('description', '')
-		#flat = Flat(name, description)
-		#flat.save()
-		#return HttpResponseRedirect('/')
-		flat = 	newFlatForm.save(commit=False)
-		flat.save()
-	else:
-		#Happens when no valid flat number or username
-		raise Http404
 
 def update_task_in_flat_model(response):
     print (response)
