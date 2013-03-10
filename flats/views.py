@@ -106,6 +106,10 @@ def flat(request, flatid=None):
             userFlatMember = member
 
     new_task_form = NewTaskForm()
+    if access_right:
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+    else:
+        raise PermissionDenied
 
     #Do one common processing here..
     if "setTaskDone" in request.POST:
@@ -115,7 +119,8 @@ def flat(request, flatid=None):
         assigned_task.task = task
         assigned_task.member = userFlatMember
         assigned_task.save()
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+        success = True
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success': success} , context)
 
     if "setShoppingItemDone" in request.POST:
         task_id = request.POST.get('task_id')
@@ -124,6 +129,7 @@ def flat(request, flatid=None):
         assigned_task.task = task
         assigned_task.member = userFlatMember
         assigned_task.save()
+        success = True
         task.delete()
 
         #Need to get the new list. This is ugly and needs refactoring
@@ -133,14 +139,11 @@ def flat(request, flatid=None):
         for list_item in full_list:
             if list_item.category.name == "Shopping":
                 shopping_list.append(list_item)
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success} , context)
 
 
 
-    if access_right:
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
-    else:
-        raise PermissionDenied
+
 
     if request.method == 'POST':
         new_task_form = NewTaskForm(request.POST)
@@ -150,6 +153,7 @@ def flat(request, flatid=None):
             task = new_task_form.save(commit=False)
             task.flat = flat[0]
             task.save()
+            success = True
 
             #Ugly as shit, but works for now
             full_list = Task.objects.filter(flat = flat )
@@ -162,7 +166,7 @@ def flat(request, flatid=None):
                 else:
                     shopping_list.append(list_item)
 
-            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success} , context)
         else:
             print (new_task_form.errors)
 
