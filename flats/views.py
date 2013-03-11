@@ -20,7 +20,7 @@ from django.core.files import File
 
 def index(request):
 	context = RequestContext(request)
-        done = None
+	done = None
 
 	try: # This might need refactoring later as this is not the best way to check user's status
 		u = User.objects.get(username=request.user)
@@ -47,21 +47,12 @@ def index(request):
 				if invite.email == u.email:
 					invited_flats.append(flat)
 
+
+		# Create a new flat form
 		new_flat_form = NewFlatForm()
-
-
-		if "createNewFlat" in request.POST :
-
-			# Create a new flat
-			new_flat_form = NewFlatForm(request.POST)
-			flat = new_flat_form.save(commit=False)
-			flat.save()
-                        done = True
-
-			# Link a created flat to current user
-			flat_member = Flat_Member.objects.create_flat_member(u, flat)
-			flat_member.save()
-
+		
+		# Accept a new invite to join a flat
+		
                 if "acceptInvite" in request.POST :
                     flat_id = request.POST.get('flat_id')
                     flat = Flat.objects.get(id = flat_id)
@@ -79,6 +70,8 @@ def index(request):
                             invite.delete()
                             invited_flats.remove(flat)
 
+		# Ask people to join your flat
+		
                 if "sendInvite" in request.POST :
                     flat_id = request.POST.get('flat_id')
                     email = request.POST.get('email')
@@ -93,8 +86,30 @@ def index(request):
                         newInvite.email = email
                         newInvite.save()
                         done = True
+		
+		if "createNewFlat" in request.POST:
+			# Create a new flat
+			new_flat_form = NewFlatForm(request.POST)
+			if new_flat_form.is_valid():
+				flat = new_flat_form.save(commit=False)
+				flat.save()
+				done = True
 
-                #context = RequestContext(request,{ 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats })
+				# Link a created flat to current user
+				flat_member = Flat_Member.objects.create_flat_member(u, flat)
+				flat_member.save()
+			else:
+				print (new_flat_form.errors)
+
+		# Remove a flat
+		
+		#if "removeFlat" in request.POST :
+		#	print ("remove")
+		#	flat_id = request.POST.get('flat_id')
+		#	flat = Flat_Member.objects.get(flat = flat_id, user = u)
+		#	print (flat)
+		#	flat.delete()
+
                 response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
                 return response
 
