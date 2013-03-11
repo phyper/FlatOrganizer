@@ -87,8 +87,9 @@ def index(request):
                         newInvite.save()
                         done = True
 		
+		# Create a new flat
+		
 		if "createNewFlat" in request.POST:
-			# Create a new flat
 			new_flat_form = NewFlatForm(request.POST)
 			if new_flat_form.is_valid():
 				flat = new_flat_form.save(commit=False)
@@ -269,7 +270,7 @@ def register(request):
 			except:
 				raise Http404
 		else:
-			print uform.errors, pform.errors
+			print (uform.errors, pform.errors)
 			return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 	else:
 		uform = UserCreateForm()
