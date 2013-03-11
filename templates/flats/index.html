@@ -140,6 +140,7 @@
         <div>
             {% for flat_to_accept in invited_flats %}
             <div class="span3 offset1">
+                {% if flat_to_accept.name %}
                 <table class="table table-striped ">
                     <tr>
                         <th>Flat name</th>
@@ -152,8 +153,9 @@
                             <td>{{ flat_to_accept.name}}</td>
                             <td><button type="submit list-space" class="btn-primary btn" name="acceptInvite">Join</button></td>
                         </tr>
-                </form>
+                    </form>
                 </table>
+                {% endif %}
             </div>
             <br>
             {% endfor %}
