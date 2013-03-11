@@ -4,7 +4,7 @@
 {% block content %}
     <link href="{{STATIC_URL}}CSS/login.css" rel="stylesheet"/>
                  
-      <form class="form-signin" method="post" action="/flats/login/"> {% csrf_token %}
+      <form class="form-signin wrapper" method="post" action="/flats/login/"> {% csrf_token %}
             <h2 class="form-signin-heading wrapper">Please sign in</h2>
             <input type="text" class="input-block-level" name="username" value="" id="username" tabindex="1" placeholder="User name">
             <input type="password" class="input-block-level" name="password" value="" id="password" tabindex="2" placeholder="Password">
@@ -13,7 +13,7 @@
                  <!--<span class="separator"> - </span>-->
                 <!--<a class="forgot" href="/flats/resend_password/">Forgot password?</a>
             </label>-->
-            <button class="submit btn btn-medium btn-primary wrapper" tabindex="3" type="submit">Sign in</button>
+            <button class="submit btn btn-medium btn-primary" tabindex="3" type="submit">Sign in</button>
       </form>
       <div class="form-register wrapper">
         <h3 class="form-register-heading">Don't have an account?</h3>
