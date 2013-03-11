@@ -11,6 +11,7 @@
 	{% if flats %}
 	{% for flat in flats %}
 	<div class="row hero-unit" style="margin-left: 0px;">
+		
 	    <div class="span4">
 		<a href="#">
 		    <img src="http://lorempixum.com/210/150/city/6" alt="house" class="img-rounded">
@@ -27,22 +28,56 @@
 			    {% endfor %}
 			</p>
 		    <p>
-            <div id="inviteBox{{  flat.flat_id }}" class="inviteBox">Invite</div>
-            <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
-                <form action="" method="POST">
+                  <div id="inviteBox{{  flat.flat_id }}" class="inviteBox">Invite</div>
+                  <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
+                    <form action="" method="POST">
                     {% csrf_token %}
-                <fieldset><br>
-                    <label for="email">Email</label>
-                    <input id="email" name="email" type="text">
-                    <input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
-                    <button name="sendInvite" class="btn btn-primary" type="submit" name="submit">Invite</button>
-                </fieldset>
-                </form>
-		    </div>
-            <p>
-        </div>
-        </div><!-- /span -->
+                      <fieldset><br>
+			<label for="email">Email</label>
+			<input id="email" name="email" type="text">
+			<input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
+			<button name="sendInvite" class="btn btn-primary" type="submit" name="submit">Invite</button>
+                      </fieldset>
+                    </form>
+		  </div>
+		</div>
+	    </div><!-- /span -->
+	    <div class="text-right">
+		<div class="dropdown btn-group " id="accountmenu">
+			<figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
+			<ul class="dropdown-menu">
+				<li>
+					<a href="#removeFlat" class="" data-toggle="modal">Leave flat</a>
+				</li>
+				<li class="divider"></li>
+				<li>
+					<a href="#">Edit flat information</a>
+				</li> 
+			</ul>
+
+		</div>
+		<script type="text/javascript">  
+			$(document).ready(function () {  
+			    $('.dropdown-toggle').dropdown();  
+			});  
+		</script>  
+	    </div>
 	</div>
+		<!-- Modal -->
+	<div id="removeFlat" class="modal hide fade in" style="display: none; ">
+		<form action="" method="POST">{% csrf_token %}
+		<div class="modal-header">
+		    <button class="close" data-dismiss="modal"></button>
+		    <h3>Are you sure you want to leave this flat?</h3>
+		</div>
+		<div class="modal-footer">
+		    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+		    <input type="hidden" name="flat_id" value="{{ flat.id }}">
+		    <input id="submit" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
+		</div>
+	    </form>
+	</div>
+	<!-- End Modal -->
 		{% endfor %}
 		{% endif %}
 	
@@ -75,7 +110,8 @@
 		</div>
 	    </form>
 	</div>
-
+	<!-- End Modal -->
+	
 
     <h2 class="text-center">Pending invitations</h2>
     <div>
@@ -107,6 +143,7 @@
             });
         });
     </script>
+
 
     {{ done }}
 

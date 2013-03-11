@@ -103,12 +103,12 @@ def index(request):
 
 		# Remove a flat
 		
-		#if "removeFlat" in request.POST :
-		#	print ("remove")
-		#	flat_id = request.POST.get('flat_id')
-		#	flat = Flat_Member.objects.get(flat = flat_id, user = u)
-		#	print (flat)
-		#	flat.delete()
+		if "deleteFlat" in request.POST :
+			flat_member_id = request.POST.get('flat_id')
+			print (flat_member_id)
+			flat_member = Flat_Member.objects.get(id=flat_member_id)
+			flat_member.delete()
+			return render_to_response('flats/index.html', {}, context)
 
                 response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
                 return response
