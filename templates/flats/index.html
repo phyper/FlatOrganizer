@@ -2,149 +2,163 @@
 {% block title %}Flat Organizer{% endblock %}
 
 {% block content %}
+    <div class ="row">
+        <div class="span8">
+            <div class="content">
+                <div class="page-header">
+                    <h1 class="text-center">Please select your flat</h1>
+                </div>
 
-    <div class="content">
-	    <div class="page-header">
-		    <h1 class="text-center">Please select your flat</h1>
-	    </div>
-	    
-	{% if flats %}
-	{% for flat in flats %}
-	<div class="row hero-unit" style="margin-left: 0px;">
-		
-	    <div class="span4">
-		<a href="#">
-		    <img src="http://lorempixum.com/210/150/city/6" alt="house" class="img-rounded">
-		</a>
-	    </div>
-	    <div class="bottomaligned">
-		<div class="span4">
-		    <a href="{{ flat.flat_id }}">
-			<p>{{flat.flat.name}}</p>
-		    </a>
-		    <p>
-			    {% for member in flat.member_list %}
-				<a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
-			    {% endfor %}
-			</p>
-		    <p>
-                  <div id="inviteBox{{  flat.flat_id }}" class="inviteBox">Invite</div>
-                  <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
-                    <form action="" method="POST">
-                    {% csrf_token %}
-                      <fieldset><br>
-			<label for="email">Email</label>
-			<input id="email" name="email" type="text">
-			<input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
-			<button name="sendInvite" class="btn btn-primary" type="submit" name="submit">Invite</button>
-                      </fieldset>
+                {% if flats %}
+                {% for flat in flats %}
+                <div class="row hero-unit" style="margin-left: 0px;">
+
+                    <div class="span2">
+                        <a href="#">
+                            <img src="http://lorempixum.com/210/150/city/6" alt="house" class="img-rounded">
+                        </a>
+                    </div>
+                    <div class="bottomaligned">
+                        <div class="span4">
+                            <a href="{{ flat.flat_id }}">
+                                <p>{{flat.flat.name}}</p>
+                            </a>
+                            <p>
+                                {% for member in flat.member_list %}
+                                <a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
+                                {% endfor %}
+                            </p>
+                            <p>
+
+                            <div id="inviteBox{{  flat.flat_id }}" class="inviteBox btn-link">Invite</div>
+                            <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <fieldset><br>
+                                        <input id="email" name="email" type="text" placeholder="Email address">
+                                        <input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
+                                        <button name="sendInvite" class="btn btn-primary" type="submit" name="submit">Invite</button>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- /span -->
+                    <div class="text-right">
+                        <div class="dropdown btn-group " id="accountmenu">
+                            <figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#removeFlat" class="" data-toggle="modal">Leave flat</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">Edit flat information</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('.dropdown-toggle').dropdown();
+                            });
+                        </script>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div id="removeFlat" class="modal hide fade in" style="display: none; ">
+                    <form action="" method="POST">{% csrf_token %}
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal"></button>
+                            <h3>Are you sure you want to leave this flat?</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                            <input type="hidden" name="flat_id" value="{{ flat.id }}">
+                            <input id="submit" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
+                        </div>
                     </form>
-		  </div>
-		</div>
-	    </div><!-- /span -->
-	    <div class="text-right">
-		<div class="dropdown btn-group " id="accountmenu">
-			<figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
-			<ul class="dropdown-menu">
-				<li>
-					<a href="#removeFlat" class="" data-toggle="modal">Leave flat</a>
-				</li>
-				<li class="divider"></li>
-				<li>
-					<a href="#">Edit flat information</a>
-				</li> 
-			</ul>
+                </div>
+                <!-- End Modal -->
+                {% endfor %}
+                {% endif %}
 
-		</div>
-		<script type="text/javascript">  
-			$(document).ready(function () {  
-			    $('.dropdown-toggle').dropdown();  
-			});  
-		</script>  
-	    </div>
-	</div>
-		<!-- Modal -->
-	<div id="removeFlat" class="modal hide fade in" style="display: none; ">
-		<form action="" method="POST">{% csrf_token %}
-		<div class="modal-header">
-		    <button class="close" data-dismiss="modal"></button>
-		    <h3>Are you sure you want to leave this flat?</h3>
-		</div>
-		<div class="modal-footer">
-		    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-		    <input type="hidden" name="flat_id" value="{{ flat.id }}">
-		    <input id="submit" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
-		</div>
-	    </form>
-	</div>
-	<!-- End Modal -->
-		{% endfor %}
-		{% endif %}
-	
-	<a href="#CreateFlat" class="btn btn-primary btn-small" data-toggle="modal">New flat</a>
-	
-	<!-- Modal -->
-	<div id="CreateFlat" class="modal hide fade in" style="display: none; ">
-	    <div class="modal-header">
-		<button class="close" data-dismiss="modal"></button>
-		<h3>New Flat</h3>
-	    </div>
-	    <form action="" method="POST">
-		<div class="modal-body">
-			<div class="modal-form">
-	
-				{% for field in flat_form.visible_fields %}
-				{% csrf_token %}
-				<p>
-				    {{ field }}
-				    {{ field.help_text }}
-				    {{ field.errors }}
-				</p>
-				{% endfor %}
-	
-			</div>
-		</div>
-		<div class="modal-footer">
-		    <a href="#" class="btn" data-dismiss="modal">Close</a>
-		    <input id="submit" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
-		</div>
-	    </form>
-	</div>
-	<!-- End Modal -->
-	
+                <a href="#CreateFlat" class="btn btn-primary btn-small" data-toggle="modal">New flat</a>
 
-    <h2 class="text-center">Pending invitations</h2>
-    <div>
-        {% for flat_to_accept in invited_flats %}
-            <div class="text-center">
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <input type="hidden" name="flat_id" value="{{ flat_to_accept.id }}"/>
-                    {{ flat_to_accept.name}}
-                    <button type="submit" class="btn-primary btn" name="acceptInvite">Join</button>
+                <!-- Modal -->
+                <div id="CreateFlat" class="modal hide fade in" style="display: none; ">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"></button>
+                        <h3>New Flat</h3>
+                    </div>
+                    <form action="" method="POST">
+                        <div class="modal-body">
+                            <div class="modal-form">
+
+                                {% for field in flat_form.visible_fields %}
+                                {% csrf_token %}
+                                <p>
+                                    {{ field }}
+                                    {{ field.help_text }}
+                                    {{ field.errors }}
+                                </p>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal">Close</a>
+                            <input id="submit" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
+                        </div>
+                    </form>
+                </div>
+                <!-- End Modal -->
+            </div>
+
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $(function() {
+                        $(document).on('click', '.inviteBox', function(e) {
+                            var $this = $(this);
+                            if ($this.next().is(":hidden")) {
+                                $this.next().slideDown("slow");
+                            } else {
+                                $this.next().slideUp("slow");
+                            }
+                        });
+                    });
+                });
+            </script>
+
+
+
+        </div>
+
+        <div class="page-header">
+            <h2 class="text-center">Pending invitations</h2>
+        </div>
+
+        <div>
+            {% for flat_to_accept in invited_flats %}
+            <div class="span3 offset1">
+                <table class="table table-striped ">
+                    <tr>
+                        <th>Flat name</th>
+                        <th>Accept</th>
+                    </tr>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <tr>
+                            <input type="hidden" name="flat_id" value="{{ flat_to_accept.id }}"/>
+                            <td>{{ flat_to_accept.name}}</td>
+                            <td><button type="submit list-space" class="btn-primary btn" name="acceptInvite">Join</button></td>
+                        </tr>
                 </form>
+                </table>
             </div>
             <br>
-        {% endfor %}
-	</div>
+            {% endfor %}
+        </div>
     </div>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(function() {
-                $(document).on('click', '.inviteBox', function(e) {
-                    var $this = $(this);
-                        if ($this.next().is(":hidden")) {
-                            $this.next().slideDown("slow");
-                        } else {
-                            $this.next().slideUp("slow");
-                        }
-                });
-            });
-        });
-    </script>
-
-
-    {{ done }}
 
 {% endblock content %}
