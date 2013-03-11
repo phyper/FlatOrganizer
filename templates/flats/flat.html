@@ -15,9 +15,10 @@
     <strong>Error!</strong> Oh snap, something went wrong here..
 </div>
 <div id="flatDescription" class ="row">
+        <br>
         <div class="span2" id="pictureContainer">
-            </br>
-            <img src="" alt="Such a cool picture">
+            <img src="{{ MEDIA_URL }}house_standard.jpg" alt="Flat Picture">
+            <br>
         </div>
         <div class = "span8" id="flatInfo">
             <h5>Flat description <small>
@@ -38,13 +39,13 @@
         </div>
     </div>
 
+    <br>
 
-
-    <a data-toggle="modal" href="#CreateItem" class="btn btn-primary btn-small">Create Item</a>
 
     <div id="flatLists" class = "row bord">
         <div id="flatTaskList" class ="span6">
-            <h3>Task list</h3>
+            <h3>Task list <a data-toggle="modal" href="#CreateItem" class="btn btn-success btn-small offset3">Create Item</a></h3>
+
             <table class="table table-striped">
                 <tr>
                     <th>Taskname </th>
@@ -54,7 +55,7 @@
                 </tr>
                 {% for task in task_list %}
                     <tr id="{{task.id}}">
-                        <td> {{ task.name }}</td>
+                        <td> {{ task.name }} <em><small> <br/>{{ task.description }}</small></em></td>
                         <td> {{ task.category }} </td>
                         <td> {{ task.credits }}</td>
                         <!--<form action="" method="POST">-->
@@ -82,7 +83,7 @@
                     {% for shopping_item in shopping_list %}
 
                     <tr id="{{ shopping_item.id }}" >
-                        <td> {{ shopping_item.name }} </td>
+                        <td> {{ shopping_item.name }} <em><small> <br/>{{ shopping_item.description }}</small></em> </td>
                         <td> {{ shopping_item.category }}</td>
                         <td> {{ shopping_item.credits }} </td>
                         <td>
@@ -155,7 +156,6 @@
 //            //alert(taskId+10);
 //            $("#" + taskId).remove();
 //            //Use this ID to update this in DB.
-
 
 
         $("#btnSetShoppingListDone").click(function() {
