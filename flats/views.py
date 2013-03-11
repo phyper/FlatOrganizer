@@ -48,13 +48,25 @@ def index(request):
         if "createNewFlat" in request.POST :
             # Create a new flat
             new_flat_form = NewFlatForm(request.POST)
-            flat = new_flat_form.save(commit=False)
-            flat.save()
-            done = True
+            if new_flat_form.is_valid():
+                flat = new_flat_form.save(commit=False)
+                flat.save()
+                done = True
 
-            # Link a created flat to current user
-            flat_member = Flat_Member.objects.create_flat_member(u, flat)
-            flat_member.save()
+                # Link a created flat to current user
+                flat_member = Flat_Member.objects.create_flat_member(u, flat)
+                flat_member.save()
+            else:
+                print (new_flat_form.errors)
+
+            # Remove a flat
+
+            #if "removeFlat" in request.POST :
+            #	print ("remove")
+            #	flat_id = request.POST.get('flat_id')
+            #	flat = Flat_Member.objects.get(flat = flat_id, user = u)
+            #	print (flat)
+            #	flat.delete()
 
         if "acceptInvite" in request.POST :
             flat_id = request.POST.get('flat_id')
@@ -67,11 +79,11 @@ def index(request):
                 member = Flat_Member.objects.create_flat_member(u, flat)
                 member.save()
                 done = True
-                invites = Invitation.objects.filter(flat = flat)
-                for invite in invites:
-                    if invite.email == u.email:
-                        invite.delete()
-                        invited_flats.remove(flat)
+            invites = Invitation.objects.filter(flat = flat)
+            for invite in invites:
+                if invite.email == u.email:
+                    invite.delete()
+                    invited_flats.remove(flat)
 
         if "sendInvite" in request.POST :
             flat_id = request.POST.get('flat_id')
@@ -88,7 +100,6 @@ def index(request):
                 newInvite.save()
                 done = True
 
-        #context = RequestContext(request,{ 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats })
         response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
         return response
     except:
