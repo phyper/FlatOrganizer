@@ -54,7 +54,7 @@
                 </tr>
                 {% for task in task_list %}
                     <tr id="{{task.id}}">
-                        <td> {{ task.name }}</td>
+                        <td> {{ task.name }} <em><small> <br/>{{ task.description }}</small></em></td>
                         <td> {{ task.category }} </td>
                         <td> {{ task.credits }}</td>
                         <!--<form action="" method="POST">-->
@@ -82,7 +82,7 @@
                     {% for shopping_item in shopping_list %}
 
                     <tr id="{{ shopping_item.id }}" >
-                        <td> {{ shopping_item.name }} </td>
+                        <td> {{ shopping_item.name }} <em><small> <br/>{{ shopping_item.description }}</small></em> </td>
                         <td> {{ shopping_item.category }}</td>
                         <td> {{ shopping_item.credits }} </td>
                         <td>
@@ -155,7 +155,6 @@
 //            //alert(taskId+10);
 //            $("#" + taskId).remove();
 //            //Use this ID to update this in DB.
-
 
 
         $("#btnSetShoppingListDone").click(function() {
