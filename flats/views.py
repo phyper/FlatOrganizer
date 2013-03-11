@@ -19,104 +19,99 @@ from django.core.files import File
 # Index page
 
 def index(request):
-	context = RequestContext(request)
-	done = None
+    context = RequestContext(request)
+    done = None
 
-	try: # This might need refactoring later as this is not the best way to check user's status
-		u = User.objects.get(username=request.user)
-		template = loader.get_template('flats/index.html')
+    try: # This might need refactoring later as this is not the best way to check user's status
+        u = User.objects.get(username=request.user)
+        template = loader.get_template('flats/index.html')
+        flats_user = Flat_Member.objects.filter(user=u)
 
-		flats_user = Flat_Member.objects.filter(user=u)
+        for fu in flats_user:
+            flat_members = Flat_Member.objects.filter(flat=fu.flat)
+            fu.member_list = flat_members
 
-		for fu in flats_user:
-			flat_members = Flat_Member.objects.filter(flat=fu.flat)
-			fu.member_list = flat_members
+            if fu.flat.active:
+                flat_members = Flat_Member.objects.filter(flat=fu.flat)
+                fu.member_list = flat_members
+            else:
+                fu.delete()
 
-			if fu.flat.active:
-				flat_members = Flat_Member.objects.filter(flat=fu.flat)
-				fu.member_list = flat_members
-			else:
-				fu.delete()
+        #Get all flats to check if on invite lists
+        invited_flats = []
+        flats = Flat.objects.all()
+        for flat in flats:
+            invites = Invitation.objects.filter(flat = flat)
+            for invite in invites:
+                if invite.email == u.email:
+                    invited_flats.append(flat)
 
-		#Get all flats to check if on invite lists
-		invited_flats = []
-		flats = Flat.objects.all()
-		for flat in flats:
-			invites = Invitation.objects.filter(flat = flat)
-			for invite in invites:
-				if invite.email == u.email:
-					invited_flats.append(flat)
+        # Create a new flat form
+        new_flat_form = NewFlatForm()
 
+        # Accept a new invite to join a flat
+        if "acceptInvite" in request.POST :
+            flat_id = request.POST.get('flat_id')
+            flat = Flat.objects.get(id = flat_id)
+            already_member = False
+            for m in Flat_Member.objects.filter(flat = flat):
+                if m.user == u:
+                    already_member = True
+            if not already_member:
+                member = Flat_Member.objects.create_flat_member(u, flat)
+                member.save()
+                done = True
 
-		# Create a new flat form
-		new_flat_form = NewFlatForm()
-		
-		# Accept a new invite to join a flat
-		
-                if "acceptInvite" in request.POST :
-                    flat_id = request.POST.get('flat_id')
-                    flat = Flat.objects.get(id = flat_id)
-                    already_member = False
-                    for m in Flat_Member.objects.filter(flat = flat):
-                        if m.user == u:
-                            already_member = True
-                    if not already_member:
-                        member = Flat_Member.objects.create_flat_member(u, flat)
-                        member.save()
-                        done = True
-                    invites = Invitation.objects.filter(flat = flat)
-                    for invite in invites:
-                        if invite.email == u.email:
-                            invite.delete()
-                            invited_flats.remove(flat)
+            invites = Invitation.objects.filter(flat = flat)
+            for invite in invites:
+                if invite.email == u.email:
+                    invite.delete()
+                    invited_flats.remove(flat)
 
-		# Ask people to join your flat
-		
-                if "sendInvite" in request.POST :
-                    flat_id = request.POST.get('flat_id')
-                    email = request.POST.get('email')
-                    flat = Flat.objects.get(id = flat_id)
-                    already_member = False
-                    for m in Flat_Member.objects.filter(flat = flat):
-                        if m.user.email == email:
-                            already_member = True
-                    if not already_member:
-                        newInvite = Invitation()
-                        newInvite.flat = flat
-                        newInvite.email = email
-                        newInvite.save()
-                        done = True
-		
-		# Create a new flat
-		
-		if "createNewFlat" in request.POST:
-			new_flat_form = NewFlatForm(request.POST)
-			if new_flat_form.is_valid():
-				flat = new_flat_form.save(commit=False)
-				flat.save()
-				done = True
+        # Ask people to join your flat
+        if "sendInvite" in request.POST :
+            flat_id = request.POST.get('flat_id')
+            email = request.POST.get('email')
+            flat = Flat.objects.get(id = flat_id)
+            already_member = False
+            for m in Flat_Member.objects.filter(flat = flat):
+                if m.user.email == email:
+                    already_member = True
+            if not already_member:
+                newInvite = Invitation()
+                newInvite.flat = flat
+                newInvite.email = email
+                newInvite.save()
+                done = True
 
-				# Link a created flat to current user
-				flat_member = Flat_Member.objects.create_flat_member(u, flat)
-				flat_member.save()
-			else:
-				print (new_flat_form.errors)
+        # Create a new flat
+        if "createNewFlat" in request.POST:
+            new_flat_form = NewFlatForm(request.POST)
+            if new_flat_form.is_valid():
+                flat = new_flat_form.save(commit=False)
+                flat.save()
+                done = True
 
-		# Remove a flat
-		
-		if "deleteFlat" in request.POST :
-			flat_member_id = request.POST.get('flat_id')
-			print (flat_member_id)
-			flat_member = Flat_Member.objects.get(id=flat_member_id)
-			flat_member.delete()
-			return render_to_response('flats/index.html', {}, context)
+                # Link a created flat to current user
+                flat_member = Flat_Member.objects.create_flat_member(u, flat)
+                flat_member.save()
+            else:
+                print (new_flat_form.errors)
 
-                response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
-                return response
+        # Remove a flat
+        if "deleteFlat" in request.POST :
+            flat_member_id = request.POST.get('flat_id')
+            print (flat_member_id)
+            flat_member = Flat_Member.objects.get(id=flat_member_id)
+            flat_member.delete()
+            return render_to_response('flats/index.html', {}, context)
 
-	except:
-		context = RequestContext(request)
-		return render_to_response('flats/login.html', {}, context)
+        response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
+        return response
+
+    except:
+        context = RequestContext(request)
+        return render_to_response('flats/login.html', {}, context)
 
 # User Registration view/Template
 @login_required
