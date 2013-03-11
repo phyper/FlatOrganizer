@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewFlatForm, NewTaskForm, Task, Assigned_Task, Invitation
+from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewFlatForm, NewTaskForm, EditFlatInfoForm, Task, Assigned_Task, Invitation
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -95,18 +95,38 @@ def index(request):
                 # Link a created flat to current user
                 flat_member = Flat_Member.objects.create_flat_member(u, flat)
                 flat_member.save()
+                return HttpResponseRedirect("/flats")
             else:
                 print (new_flat_form.errors)
 
         # Remove a flat
+        
         if "deleteFlat" in request.POST :
             flat_member_id = request.POST.get('flat_id')
-            print (flat_member_id)
+            print(flat_member_id)
             flat_member = Flat_Member.objects.get(id=flat_member_id)
             flat_member.delete()
-            return render_to_response('flats/index.html', {}, context)
+            return HttpResponseRedirect("/flats")
 
-        response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
+        edit_flat_form = EditFlatInfoForm()
+
+        if "editFlatInfo" in request.POST:
+            edit_flat_form = EditFlatInfoForm(request.POST)
+            if edit_flat_form.is_valid():	
+                flat_id = request.POST.get('flat_flat_id')
+                print (flat_id)
+                flat = Flat.objects.get(id = flat_id)
+                name = edit_flat_form.cleaned_data['name']
+                description = edit_flat_form.cleaned_data['description']
+                flat.name = name
+                flat.description = description
+                flat.save()
+                done = True
+                return HttpResponseRedirect("/flats")
+            else:
+                print (edit_flat_form.errors)
+
+        response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'edit_form' : edit_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
         return response
 
     except:
@@ -236,63 +256,63 @@ def resend_password(request):
 
 def register(request):
 
-	context = RequestContext(request)
-	registered = False
-	if request.method =='POST':
-		uform = UserCreateForm(data = request.POST)
-		pform = UserProfileForm(data = request.POST)
-		
-		if uform.is_valid() and pform.is_valid():
-			user = uform.save()
-			user.save()
-			profile = pform.save(commit = False)
-			profile.user = user
-			
-			# If the user has selected profile picture, select it, otherwise use standard picture
-			if request.FILES:
-				picture = save_file(request.FILES['picture'])
-				profile.picture = picture
-			else:
-				profile.picture = File(open('%s/%s' % (MEDIA_ROOT, "standard.gif")))
-			profile.save()
-			registered = True
-			
-			# Redirect user to the home page after succesfull registration
-			try:
-				user = auth.authenticate(username=uform['username'].value(), password=uform['password1'].value())
-				auth.login(request, user)
-				return HttpResponseRedirect("/flats/")
-			except:
-				raise Http404
-		else:
-			print (uform.errors, pform.errors)
-			return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
-	else:
-		uform = UserCreateForm()
-		pform = UserProfileForm()
-		return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+    context = RequestContext(request)
+    registered = False
+    if request.method =='POST':
+        uform = UserCreateForm(data = request.POST)
+        pform = UserProfileForm(data = request.POST)
+        
+        if uform.is_valid() and pform.is_valid():
+            user = uform.save()
+            user.save()
+            profile = pform.save(commit = False)
+            profile.user = user
+            
+            # If the user has selected profile picture, select it, otherwise use standard picture
+            if request.FILES:
+                picture = save_file(request.FILES['picture'])
+                profile.picture = picture
+            else:
+                profile.picture = File(open('%s/%s' % (MEDIA_ROOT, "standard.gif")))
+            profile.save()
+            registered = True
+            
+            # Redirect user to the home page after succesfull registration
+            try:
+                user = auth.authenticate(username=uform['username'].value(), password=uform['password1'].value())
+                auth.login(request, user)
+                return HttpResponseRedirect("/flats/")
+            except:
+                raise Http404
+        else:
+            print (uform.errors, pform.errors)
+            return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+    else:
+        uform = UserCreateForm()
+        pform = UserProfileForm()
+        return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
 
 def user_login(request):
-	context = RequestContext(request)
-	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
-		user = auth.authenticate(username=username, password=password)
-		if user is not None:
-			if user.is_active:
-			    auth.login(request, user)
-			    # Redirect to index page.
-			    return HttpResponseRedirect("/flats/")
-			else:
-			    # Return a 'disabled account' error message
-			    return HttpResponse("Your account is disabled.")
-		else:
-			# Return an 'invalid login' error message.
-			print  ("invalid login details " + username + " " + password)
-			return render_to_response('flats/login.html', {}, context)
-	else:
-		# the login is a  GET request, so just show the user the login form.
-		return render_to_response('flats/login.html', {}, context)
+    context = RequestContext(request)
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                auth.login(request, user)
+                # Redirect to index page.
+                return HttpResponseRedirect("/flats/")
+            else:
+                # Return a 'disabled account' error message
+                return HttpResponse("Your account is disabled.")
+        else:
+            # Return an 'invalid login' error message.
+            print  ("invalid login details " + username + " " + password)
+            return render_to_response('flats/login.html', {}, context) 
+    else:
+        # the login is a  GET request, so just show the user the login form.
+        return render_to_response('flats/login.html', {}, context)
 
 @login_required
 def user_logout(request):

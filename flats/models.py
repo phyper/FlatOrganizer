@@ -153,3 +153,12 @@ class NewFlatForm(forms.ModelForm):
 			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
 			'description' : forms.Textarea(attrs = {'placeholder': 'Description'}),
 		}
+		
+class EditFlatInfoForm(forms.ModelForm):
+	class Meta:
+		model = Flat
+		fields = ["name", "description"]
+		widgets = {
+			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
+			'description' : forms.Textarea(attrs = {'placeholder': 'Description'}),
+		}
