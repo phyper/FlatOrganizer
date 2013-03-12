@@ -272,6 +272,7 @@ $.extend($.validator, {
 		date: "Please enter a valid date.",
 		dateISO: "Please enter a valid date (ISO).",
 		number: "Please enter a valid number.",
+  whole: "Please enter a positive whole number.",
 		digits: "Please enter only digits.",
 		creditcard: "Please enter a valid credit card number.",
 		equalTo: "Please enter the same value again.",
@@ -321,7 +322,7 @@ $.extend($.validator, {
 			}
 			$(this.currentForm)
 				.validateDelegate(":text, [type='password'], [type='file'], select, textarea, " +
-					"[type='number'], [type='search'] ,[type='tel'], [type='url'], " +
+					"[type='number'], [type='whole'], [type='search'] ,[type='tel'], [type='url'], " +
 					"[type='email'], [type='datetime'], [type='date'], [type='month'], " +
 					"[type='week'], [type='time'], [type='datetime-local'], " +
 					"[type='range'], [type='color'] ",
@@ -798,6 +799,7 @@ $.extend($.validator, {
 		date: {date: true},
 		dateISO: {dateISO: true},
 		number: {number: true},
+  whole: {whole: true},
 		digits: {digits: true},
 		creditcard: {creditcard: true}
 	},
@@ -1099,6 +1101,11 @@ $.extend($.validator, {
 		number: function( value, element ) {
 			return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(value);
 		},
+  
+  // Own whole number validator
+  whole: function( value, element ) {
+    return this.optional(element) || /^\+?[1-9]\d*$/.test(value);
+  },
 
 		// http://docs.jquery.com/Plugins/Validation/Methods/digits
 		digits: function( value, element ) {
