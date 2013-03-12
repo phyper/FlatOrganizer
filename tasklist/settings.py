@@ -170,3 +170,9 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'flats.UserProfile' #Accessing a users profile is done by calling user.get_profile(), but in order to use this function, Django needs to know where to look for the profile object.
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = None #'yourMail@gmail.com'
+EMAIL_HOST_PASSWORD = None #'yourPassword'
+EMAIL_PORT = 587

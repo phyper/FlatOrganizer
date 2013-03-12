@@ -15,6 +15,8 @@ from django.http import Http404
 from django.core.exceptions import PermissionDenied, ValidationError
 from tasklist.settings import MEDIA_ROOT
 from django.core.files import File
+from django.core.mail import EmailMessage
+from tasklist.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 
 # Index page
 
@@ -89,6 +91,10 @@ def index(request):
                 newInvite.flat = flat
                 newInvite.email = email
                 newInvite.save()
+                #If email and password is set in the settings
+                #then send an email
+                if EMAIL_HOST_PASSWORD and EMAIL_HOST_USER:
+                    send_email(email)
                 success = True
             return HttpResponseRedirect("/flats")
 
@@ -423,3 +429,13 @@ def livesInFlat(user, flat):
 
 def livesTogetherWithUser(logged_in_user, user_to_view, flat):
     return livesInFlat(logged_in_user, flat) and livesInFlat(user_to_view, flat)
+
+def send_email(email_address):
+    msg = EmailMessage('FlatOrganizer: Flat Invitation',
+        'You got an invite! ' +
+        'To accept this invitation, login or register for the FlatOrganizer with your ('+email_address+').'
+        , to=[email_address])
+    try:
+        return msg.send()
+    except:
+        print "Failed to send email to " + email_address
