@@ -31,8 +31,8 @@ class Flat_Manager(models.Manager):
 		return super(Flat_Manager, self).get_query_set().filter(active=True)
 
 class Flat(models.Model):
-	name = models.CharField(max_length=30)
-	description = models.CharField(max_length=100)
+	name = models.CharField(max_length=100)
+	description = models.CharField(max_length=200)
 	active = models.BooleanField(default=True, editable=False)
 	objects = Flat_Manager()
 
