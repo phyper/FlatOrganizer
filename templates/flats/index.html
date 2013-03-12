@@ -2,6 +2,12 @@
 {% block title %}Flat Organizer{% endblock %}
 
 {% block content %}
+    {% if success %}
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">×</a>
+            <strong>Invite sent</strong>
+        </div>
+    {% endif %}
     <div class ="row">
         <div class="span8">
             <div class="content">
@@ -44,72 +50,72 @@
                         </div>
                     </div> <!-- /bottomaligned -->
                         												
-																				<div class="dropdown btn-group span1" id="accountmenu">
-																								<figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
-																								<ul class="dropdown-menu">
-																												<li>
-																																<a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
-																												</li>
-																												<li class="divider"></li>
-																												<li>
-																																<a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
-																												</li> 
-																								</ul>
-																				</div> <!-- /dropdown -->
-								
-																				<script type="text/javascript">
-																								$(document).ready(function () {
-																												$('.dropdown-toggle').dropdown();
-																								});
-																				</script>
-                </div> <!-- /row -->
-																
-																<!-- Remove Flat Modal -->
-																<div id="removeFlat" class="modal hide fade in" style="display: none; ">
-																				<form action="" method="POST"> {% csrf_token %}
-																								<div class="modal-header">
-																												<button class="close" data-dismiss="modal"></button>
-																												<h3>Are you sure you want to leave this flat?</h3>
-																								</div>
-																								<div class="modal-footer">
-																												<a href="#" class="btn" data-dismiss="modal">Cancel</a>
-																												<input type="hidden" name="flat_id" value="" id="leaveFlat">
-																												<input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
-																								</div>
-																				</form>
-																</div>
-																<!-- End Remove Flat Modal -->
-																
-																<!-- Edit Flat Info Modal -->
-																<div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
-																				<form action="" method="POST"> {% csrf_token %}
-																								<div class="modal-header">
-																												<button class="close" data-dismiss="modal"></button>
-																												<h3>Edit flat information</h3>
-																								</div>
-																								<div class="modal-body">
-																												<div class="modal-form">
-												
-																																{% for field in edit_form.visible_fields %}
-															
-																																<p>
-																																				{{ field }}
-																																				{{ field.help_text }}
-																																				{{ field.errors }}
-																																</p>
-																																
-																																{% endfor %}
-												
-																												</div>
-																								</div>
-																								<div class="modal-footer">
-																												<a href="#" class="btn" data-dismiss="modal">Close</a>
-																												<input type="hidden" name="flat_flat_id" value="" id="editFlat">
-																												<input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
-																								</div>
-																				</form>
-																</div>
-																<!-- End Edit Flat Info Modal -->
+                    <div class="dropdown btn-group span1" id="accountmenu">
+                                    <figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
+                                    <ul class="dropdown-menu">
+                                                    <li>
+                                                                    <a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                                    <a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
+                                                    </li>
+                                    </ul>
+                    </div> <!-- /dropdown -->
+
+                    <script type="text/javascript">
+                                    $(document).ready(function () {
+                                                    $('.dropdown-toggle').dropdown();
+                                    });
+                    </script>
+                    </div> <!-- /row -->
+
+                    <!-- Remove Flat Modal -->
+                    <div id="removeFlat" class="modal hide fade in" style="display: none; ">
+                        <form action="" method="POST"> {% csrf_token %}
+                                    <div class="modal-header">
+                                                    <button class="close" data-dismiss="modal"></button>
+                                                    <h3>Are you sure you want to leave this flat?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                                                    <input type="hidden" name="flat_id" value="" id="leaveFlat">
+                                                    <input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
+                                    </div>
+                        </form>
+                    </div>
+    <!-- End Remove Flat Modal -->
+
+    <!-- Edit Flat Info Modal -->
+    <div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
+                    <form action="" method="POST"> {% csrf_token %}
+                                    <div class="modal-header">
+                                                    <button class="close" data-dismiss="modal"></button>
+                                                    <h3>Edit flat information</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                                    <div class="modal-form">
+
+                                                                    {% for field in edit_form.visible_fields %}
+
+                                                                    <p>
+                                                                                    {{ field }}
+                                                                                    {{ field.help_text }}
+                                                                                    {{ field.errors }}
+                                                                    </p>
+
+                                                                    {% endfor %}
+
+                                                    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                                    <a href="#" class="btn" data-dismiss="modal">Close</a>
+                                                    <input type="hidden" name="flat_flat_id" value="" id="editFlat">
+                                                    <input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
+                                    </div>
+                    </form>
+    </div>
+    <!-- End Edit Flat Info Modal -->
 																
                 {% endfor %}
                 {% endif %}
@@ -161,37 +167,37 @@
                 });
             </script>
 				
-												<!-- Script to get the id of Flat_member of a row-->												
-												<script type="text/javascript">
-																function getFlatMemberId(para){
-																document.getElementById('leaveFlat').value = para;
-																}
-																$(document).ready(function(){
-																				$(function() {
-																								$(document).on('click', '.removeFlatButton', function(e) {
-																												var para = this.dataset['para'];
-																																getFlatMemberId(para);
-																								});
-																				});
-																});
-												</script>
-												
-												<!-- Script to get the id of Flat of a row-->
-												<script type="text/javascript">
-																function getFlatId(para){
-																								document.getElementById('editFlat').value = para;
-																}
-																$(document).ready(function(){
-																				$(function() {
-																								$(document).on('click', '.editFlatInfoButton', function(e) {
-																												var para = this.dataset['para'];
-																																getFlatId(para);
-																								});
-																				});
-																});
-												</script>
+            <!-- Script to get the id of Flat_member of a row-->
+            <script type="text/javascript">
+                            function getFlatMemberId(para){
+                            document.getElementById('leaveFlat').value = para;
+                            }
+                            $(document).ready(function(){
+                                            $(function() {
+                                                            $(document).on('click', '.removeFlatButton', function(e) {
+                                                                            var para = this.dataset['para'];
+                                                                                            getFlatMemberId(para);
+                                                            });
+                                            });
+                            });
+            </script>
 
-								</div> <!-- /span8 -->
+            <!-- Script to get the id of Flat of a row-->
+            <script type="text/javascript">
+                            function getFlatId(para){
+                                                            document.getElementById('editFlat').value = para;
+                            }
+                            $(document).ready(function(){
+                                            $(function() {
+                                                            $(document).on('click', '.editFlatInfoButton', function(e) {
+                                                                            var para = this.dataset['para'];
+                                                                                            getFlatId(para);
+                                                            });
+                                            });
+                            });
+            </script>
+
+        </div> <!-- /span8 -->
 
         <div class="page-header">
             <h2 class="text-center">Pending invitations</h2>

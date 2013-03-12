@@ -20,7 +20,7 @@ from django.core.files import File
 
 def index(request):
     context = RequestContext(request)
-    done = None
+    success = None
 
     try: # This might need refactoring later as this is not the best way to check user's status
         u = User.objects.get(username=request.user)
@@ -60,7 +60,7 @@ def index(request):
             if not already_member:
                 member = Flat_Member.objects.create_flat_member(u, flat)
                 member.save()
-                done = True
+                success = True
 
             invites = Invitation.objects.filter(flat = flat)
             for invite in invites:
@@ -75,15 +75,22 @@ def index(request):
             email = request.POST.get('email')
             flat = Flat.objects.get(id = flat_id)
             already_member = False
-            for m in Flat_Member.objects.filter(flat = flat):
-                if m.user.email == email:
+            already_invited = False
+            members = Flat_Member.objects.filter(flat = flat)
+            for member in members:
+                if member.user.email == email:
                     already_member = True
-            if not already_member:
+            invites = Invitation.objects.filter(flat = flat)
+            for invite in invites:
+                if invite.email == email:
+                    already_invited = True
+
+            if not already_member and not already_invited:
                 newInvite = Invitation()
                 newInvite.flat = flat
                 newInvite.email = email
                 newInvite.save()
-                done = True
+                success = True
 
         # Create a new flat
         if "createNewFlat" in request.POST:
@@ -91,7 +98,7 @@ def index(request):
             if new_flat_form.is_valid():
                 flat = new_flat_form.save(commit=False)
                 flat.save()
-                done = True
+                success = True
 
                 # Link a created flat to current user
                 flat_member = Flat_Member.objects.create_flat_member(u, flat)
@@ -121,12 +128,12 @@ def index(request):
                 flat.name = name
                 flat.description = description
                 flat.save()
-                done = True
+                success = True
                 return HttpResponseRedirect("/flats")
             else:
                 print (edit_flat_form.errors)
 
-        response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'edit_form' : edit_flat_form, 'invited_flats' : invited_flats, 'done': done}, context)
+        response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'edit_form' : edit_flat_form, 'invited_flats' : invited_flats, 'success': success}, context)
         return response
 
     except:
