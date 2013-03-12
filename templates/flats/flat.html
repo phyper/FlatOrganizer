@@ -49,7 +49,7 @@
 
     <div id="flatLists" class = "row bord">
         <div id="flatTaskList" class ="span6">
-            <h3>Continous chores</h3>
+            <h3>Continuous Chores</h3>
             <table class="table table-striped">
                 <tr>
                     <th>Taskname </th>
@@ -77,7 +77,7 @@
         </div>
 
         <div id="flatShoppingList" class ="span5 offset1">
-            <h3>Shopping list</h3>
+            <h3>Shopping List</h3>
             <table id="tableShoppingList" class = "table table-striped">
                 <th>Name </th>
                 <th>Category</th>
@@ -103,11 +103,27 @@
                 </div>
 
             </table>
-
-
-            </br>
         </div>
+
+    <div id="summaryList" class ="row span8">
+        <h3>Short Summary</h3>
+        <table id="summaryTable" class = "table table-striped">
+            <th>User</th>
+            <th>Last Task (category)</th>
+            <th>Last Task Completed</th>
+            <th>Total Score</th>
+            <div id="allItems">
+                {% for row in summaryList %}
+                <tr>
+                    <td> {{ row.0 }} </td>
+                    <td> {{ row.1 }} </td>
+                    <td> {{ row.2 }} </td>
+                    <td> {{ row.3 }} </td>
+                {% endfor %}
+            </div>
+        </table>
     </div>
+
 
 <div id="CreateItem" class="modal hide fade in" style="display: none; ">
     <div class="modal-header">
@@ -130,69 +146,10 @@
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <input id="btnCreateItem" type="submit" name="submit" class="btn btn-primary" value="Create" />
+            <input id="btnCreateItem" type="submit" name="createNewItem" class="btn btn-primary" value="Create" />
         </div>
     </form>
 </div>
-
-
-<script>
-    //$(document).ready(function() {
-
-//        function removeShoppingItem(form) {
-//            $(".alert").alert()
-//            var taskId = form.task_id.value;
-//           // alert(taskId);
-//            $("#" + taskId).remove();
-//        }
-
-//        $(".done").click(function() {
-//            var taskId = $(this).parent().parent().parent().attr("id");
-//            //alert(taskId+10);
-//            $("#" + taskId).remove();
-//            //Use this ID to update this in DB.
-//
-//        });
-
-
-//        $(".shopping-item").click(function() {
-//            var taskId = $(this).parent().parent().parent().attr("id");
-//            //alert(taskId+10);
-//            $("#" + taskId).remove();
-//            //Use this ID to update this in DB.
-
-
-        $("#btnSetShoppingListDone").click(function() {
-            var taskId = $(this).parent().parent().parent().attr("id");
-            //alert(taskId+10);
-            $("#" + taskId).remove();
-            //Use this ID to update this in DB.
-
-
-        });
-
-
-
-        $("#btnCreateItem").click(function() {
-            alert($("#modal-body").attr())
-            $.ajax({
-                url: $(location).attr('href'),
-                success: function (){
-                    alert("Whooho");
-                    $("#tableShoppingList").append("Test");
-                }
-
-            });
-            //Use this ID to update this in DB.
-
-
-        });
-
-  //  });
-
-
-
-</script>
 
     <br>
     <div class="text-right">

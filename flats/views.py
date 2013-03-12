@@ -156,6 +156,31 @@ def flat(request, flatid=None):
     full_list = Task.objects.filter(flat = flat )
     task_list = []
     shopping_list = []
+    summaryList = []
+    members_in_flat = Flat_Member.objects.filter(flat = flat)
+    for member in members_in_flat:
+        #Member
+        row = []
+        row.append(member.user.first_name)
+        #Last task completed and date completed
+        try:
+            last_task = Assigned_Task.objects.filter(member = member).latest()
+            last_task_name = last_task.task.name
+            last_task_date = last_task.completion_date
+        except:
+            last_task_name = "N/A"
+            last_task_date = "N/A"
+
+        row.append(last_task_name)
+        row.append(last_task_date)
+
+        #total score
+        total_score = 0
+        for a_task in Assigned_Task.objects.filter(member = member):
+            total_score = total_score + a_task.task.credits
+        row.append(total_score)
+
+        summaryList.append(row)
 
     for list_item in full_list:
         if list_item.category.name != "Shopping":
@@ -176,7 +201,7 @@ def flat(request, flatid=None):
 
     new_task_form = NewTaskForm()
     if access_right:
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form} , context)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'summaryList':summaryList} , context)
     else:
         raise PermissionDenied
 
@@ -189,7 +214,7 @@ def flat(request, flatid=None):
         assigned_task.member = userFlatMember
         assigned_task.save()
         success = True
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success': success} , context)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success': success, 'summaryList':summaryList} , context)
 
     if "setShoppingItemDone" in request.POST:
         task_id = request.POST.get('task_id')
@@ -208,13 +233,9 @@ def flat(request, flatid=None):
         for list_item in full_list:
             if list_item.category.name == "Shopping":
                 shopping_list.append(list_item)
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success} , context)
+        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success, 'summaryList':summaryList} , context)
 
-
-
-
-
-    if request.method == 'POST':
+    if "createNewItem" in request.POST:
         new_task_form = NewTaskForm(request.POST)
 
         if new_task_form.is_valid():
@@ -235,7 +256,7 @@ def flat(request, flatid=None):
                 else:
                     shopping_list.append(list_item)
 
-            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success} , context)
+            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success, 'summaryList':summaryList} , context)
         else:
             print (new_task_form.errors)
 
