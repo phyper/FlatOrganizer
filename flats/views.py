@@ -75,10 +75,17 @@ def index(request):
             email = request.POST.get('email')
             flat = Flat.objects.get(id = flat_id)
             already_member = False
-            for m in Flat_Member.objects.filter(flat = flat):
-                if m.user.email == email:
+            already_invited = False
+            members = Flat_Member.objects.filter(flat = flat)
+            for member in members:
+                if member.user.email == email:
                     already_member = True
-            if not already_member:
+            invites = Invitation.objects.filter(flat = flat)
+            for invite in invites:
+                if invite.email == email:
+                    already_invited = True
+
+            if not already_member and not already_invited:
                 newInvite = Invitation()
                 newInvite.flat = flat
                 newInvite.email = email
