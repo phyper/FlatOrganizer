@@ -20,7 +20,7 @@
             <img src="{{ MEDIA_URL }}house_standard.jpg" alt="Flat Picture">
             <br>
         </div>
-        <div class = "span8" id="flatInfo">
+        <div class = "span4" id="flatInfo">
             <h5>Flat description <small>
                 {{ flat_info.description }}
             </small>
@@ -36,16 +36,20 @@
                 </h5>
             </div>
 
+
         </div>
+        <div class="span2 create-button">
+            <a data-toggle="modal" href="#CreateItem" class="btn btn-success btn-small">Create Item</a>
+        </div>
+
     </div>
 
     <br>
 
 
     <div id="flatLists" class = "row bord">
-        <div id="flatTaskList" class ="span6">
-            <h3>Continuous chores <a data-toggle="modal" href="#CreateItem" class="btn btn-success btn-small offset2">Create Item</a></h3>
-
+        <div id="flatTaskList" class ="span5">
+            <h3>Continous chores</h3>
             <table class="table table-striped">
                 <tr>
                     <th>Taskname </th>
@@ -72,7 +76,7 @@
             </table>
         </div>
 
-        <div id="flatShoppingList" class ="span5 offset1">
+        <div id="flatShoppingList" class ="span5">
             <h3>Shopping list</h3>
             <table id="tableShoppingList" class = "table table-striped">
                 <th>Name </th>
