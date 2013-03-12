@@ -280,7 +280,7 @@ def register(request):
                 picture = save_file(request.FILES['picture'])
                 profile.picture = picture
             else:
-                profile.picture = File(open('%s/%s' % (MEDIA_ROOT, "standard.gif")))
+                profile.picture = "standard.gif"
             profile.save()
             registered = True
             
