@@ -229,17 +229,22 @@ def flat(request, flatid=None):
                 shopping_list.append(list_item)
         return HttpResponseRedirect(link)
 
+    if "deleteTaskItem" in request.POST and user_lives_in_flat:
+        task_id = request.POST.get('task_id')
+        task = Task.objects.get(id = task_id)
+        task.delete()
+        success = True
+        return HttpResponseRedirect(link)
+
     if "createNewItem" in request.POST and user_lives_in_flat:
         new_task_form = NewTaskForm(request.POST)
 
         if new_task_form.is_valid():
-            #new_task_form.fields['Flat'] = flat
             task = new_task_form.save(commit=False)
             task.flat = flat[0]
             task.save()
             success = True
 
-            #Ugly as shit, but works for now
             full_list = Task.objects.filter(flat = flat )
             task_list = []
             shopping_list = []
@@ -277,7 +282,7 @@ def resend_password(request):
 def register(request):
 
     context = RequestContext(request)
-    registered = False
+    success = False
     if request.method =='POST':
         uform = UserCreateForm(data = request.POST)
         pform = UserProfileForm(data = request.POST)
@@ -295,9 +300,9 @@ def register(request):
             else:
                 profile.picture = "standard.gif"
             profile.save()
-            registered = True
+            success = True
             
-            # Redirect user to the home page after succesfull registration
+            #Redirect user to the home page after successful registration
             try:
                 user = auth.authenticate(username=uform['username'].value(), password=uform['password1'].value())
                 auth.login(request, user)
@@ -305,11 +310,11 @@ def register(request):
             except:
                 raise Http404
         else:
-            return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+            return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': success }, context)
     else:
         uform = UserCreateForm()
         pform = UserProfileForm()
-        return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+        return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': success }, context)
 
 def user_login(request):
     context = RequestContext(request)
