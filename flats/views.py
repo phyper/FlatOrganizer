@@ -24,7 +24,6 @@ def index(request):
 
     try: # This might need refactoring later as this is not the best way to check user's status
         u = User.objects.get(username=request.user)
-        template = loader.get_template('flats/index.html')
         flats_user = Flat_Member.objects.filter(user=u)
 
         for fu in flats_user:
@@ -91,6 +90,7 @@ def index(request):
                 newInvite.email = email
                 newInvite.save()
                 success = True
+            return HttpResponseRedirect("/flats")
 
         # Create a new flat
         if "createNewFlat" in request.POST:
@@ -133,8 +133,7 @@ def index(request):
             else:
                 print (edit_flat_form.errors)
 
-        response = render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'edit_form' : edit_flat_form, 'invited_flats' : invited_flats, 'success': success}, context)
-        return response
+        return render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'edit_form' : edit_flat_form, 'invited_flats' : invited_flats, 'success': success}, context)
 
     except:
         context = RequestContext(request)
@@ -145,16 +144,23 @@ def index(request):
 def flat(request, flatid=None):
     context = RequestContext(request)
     u = User.objects.get(username=request.user)
+    flat = Flat.objects.filter(id = flatid)
+    full_list = Task.objects.filter(flat = flat)
+    try:
+        userFlatMember = Flat_Member.objects.get(user=u, flat=flat)
+    except:
+        #If user do not belong to flat
+        raise PermissionDenied
     link = "/flats/" + flatid
-    success = False
-    if "deleteFlat" in request.POST:
+    success = None
+    user_lives_in_flat = livesInFlat(u, flat)
+
+    if "deleteFlat" in request.POST and user_lives_in_flat:
         flat_id = request.POST.get('flat_id')
         flat = Flat.objects.get(id = flat_id)
         flat.delete()
         return HttpResponseRedirect("/flats")
 
-    flat = Flat.objects.filter(id = flatid)
-    full_list = Task.objects.filter(flat = flat )
     task_list = []
     shopping_list = []
     summaryList = []
@@ -191,20 +197,10 @@ def flat(request, flatid=None):
 
     flat_members = Flat_Member.objects.filter(flat=flat)
 
-    access_right = False
-    #One can access this if the logged in user
-    #are member of the flat one wants to view
-    userFlatMember = u
-    for member in flat_members:
-        if member.user == u:
-            access_right = True
-            userFlatMember = member
-
     new_task_form = NewTaskForm()
-    
 
     #Do one common processing here..
-    if "setTaskDone" in request.POST:
+    if "setTaskDone" in request.POST and user_lives_in_flat:
         task_id = request.POST.get('task_id')
         task = Task.objects.get(id = task_id)
         assigned_task = Assigned_Task()
@@ -214,7 +210,7 @@ def flat(request, flatid=None):
         success = True
         return HttpResponseRedirect(link)
 
-    if "setShoppingItemDone" in request.POST:
+    if "setShoppingItemDone" in request.POST and user_lives_in_flat:
         task_id = request.POST.get('task_id')
         task = Task.objects.get(id = task_id)
         assigned_task = Assigned_Task()
@@ -233,17 +229,22 @@ def flat(request, flatid=None):
                 shopping_list.append(list_item)
         return HttpResponseRedirect(link)
 
-    if "createNewItem" in request.POST:
+    if "deleteTaskItem" in request.POST and user_lives_in_flat:
+        task_id = request.POST.get('task_id')
+        task = Task.objects.get(id = task_id)
+        task.delete()
+        success = True
+        return HttpResponseRedirect(link)
+
+    if "createNewItem" in request.POST and user_lives_in_flat:
         new_task_form = NewTaskForm(request.POST)
 
         if new_task_form.is_valid():
-            #new_task_form.fields['Flat'] = flat
             task = new_task_form.save(commit=False)
             task.flat = flat[0]
             task.save()
             success = True
 
-            #Ugly as shit, but works for now
             full_list = Task.objects.filter(flat = flat )
             task_list = []
             shopping_list = []
@@ -258,15 +259,10 @@ def flat(request, flatid=None):
         else:
             print (new_task_form.errors)
 
-    if access_right:
+    if user_lives_in_flat:
         return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success, 'summaryList':summaryList} , context)        
     else:
         raise PermissionDenied
-    
-
-def update_task_in_flat_model(response):
-    print (response)
-
 
 def password_change(request):
     context = RequestContext(request)
@@ -286,7 +282,7 @@ def resend_password(request):
 def register(request):
 
     context = RequestContext(request)
-    registered = False
+    success = False
     if request.method =='POST':
         uform = UserCreateForm(data = request.POST)
         pform = UserProfileForm(data = request.POST)
@@ -304,9 +300,9 @@ def register(request):
             else:
                 profile.picture = "standard.gif"
             profile.save()
-            registered = True
+            success = True
             
-            # Redirect user to the home page after succesfull registration
+            #Redirect user to the home page after successful registration
             try:
                 user = auth.authenticate(username=uform['username'].value(), password=uform['password1'].value())
                 auth.login(request, user)
@@ -314,11 +310,11 @@ def register(request):
             except:
                 raise Http404
         else:
-            return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+            return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': success }, context)
     else:
         uform = UserCreateForm()
         pform = UserProfileForm()
-        return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
+        return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': success }, context)
 
 def user_login(request):
     context = RequestContext(request)
@@ -352,31 +348,16 @@ def user_logout(request):
 def profile(request, flatid=None, username=None):
     context = RequestContext(request)
     if flatid and username:
-        profile_user = None
         logged_in_user = User.objects.get(username=request.user)
-        logged_in_user_in_flat = False
-        view_user_in_flat = False
-        try:
-            view_flat = Flat.objects.get(id=flatid)
-            view_user = User.objects.get(username=username)
-            flat_members_in_view_flat = Flat_Member.objects.filter(flat=view_flat)
-            member_to_view = None
-            for member in flat_members_in_view_flat:
-                #One can only view persons in own flat
-                if member.user == logged_in_user:
-                    logged_in_user_in_flat = True
-                #Person to look at need to belong to the selected flat
-                if member.user == view_user:
-                    view_user_in_flat = True
-                    member_to_view = member
+        view_user = User.objects.get(username=username)
+        flat = Flat.objects.get(id=flatid)
+        #access is defined as both the user and the user to view lives in the
+        #chosen flat
+        access = livesTogetherWithUser(logged_in_user, view_user, flat)
+        if access:
+            view_member = Flat_Member.objects.get(user = view_user, flat=flat)
+            tasks_assigned = Assigned_Task.objects.filter(member = view_member).order_by('-completion_date')
 
-        except:
-            #Happens when no valid flat number or username
-            raise Http404
-        if logged_in_user_in_flat and view_user_in_flat:
-            tasks_assigned = Assigned_Task.objects.filter(member = member_to_view).order_by('-completion_date')
-
-            #Consider moved to another place
             sum_credits = 0
             for tasks in tasks_assigned:
                 sum_credits = sum_credits + tasks.task.credits
@@ -387,15 +368,18 @@ def profile(request, flatid=None, username=None):
                     profile_picture = view_user.get_profile().picture.url
             except:
                 print ("No user profile")
-            return render_to_response('profiles/user_profile.html', {'member': member_to_view,
-                                                                     'flat': view_flat,
+            return render_to_response('profiles/user_profile.html', {'member': view_member,
+                                                                     'flat': flat,
                                                                      'tasks_assigned': tasks_assigned,
                                                                      'sum': sum_credits,
                                                                      'profile_picture': profile_picture },context)
         else:
-            #Happens when user do not live in selected flat
+            #Happens when user do not live in selected flat with the selected user
             raise PermissionDenied
     else:
+        #if no user and flat is selected
+        #you will be directed to own user profile
+        #indepentend from flats
         user = request.user
         saved = ""
         if request.method == 'POST':
@@ -409,7 +393,7 @@ def profile(request, flatid=None, username=None):
         else:
             u_form = UserEditForm(instance=user)
 
-
+        profile_user = None
         profile_picture = "/flats/imgs/standard.gif"
         try:
             profile_user = UserProfile.objects.get(user=user)
@@ -428,3 +412,13 @@ def save_file(file, path=''):
         fd.write(chunk)
     fd.close()
     return filename
+
+def livesInFlat(user, flat):
+    flat_members = Flat_Member.objects.filter(flat = flat)
+    for member in flat_members:
+        if member.user == user:
+            return True
+    return False
+
+def livesTogetherWithUser(logged_in_user, user_to_view, flat):
+    return livesInFlat(logged_in_user, flat) and livesInFlat(user_to_view, flat)

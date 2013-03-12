@@ -5,107 +5,112 @@
 
 <h2 xmlns="http://www.w3.org/1999/html">Welcome to {{ flat_info.name }}!</h2>
 {% if success %}
-    <div class="alert alert-success">
-        <a class="close" data-dismiss="alert">×</a>
-        <strong>Success!</strong> Task registered!
-    </div>
+<div class="alert alert-success">
+    <a class="close" data-dismiss="alert">×</a>
+    <strong>Success!</strong> Task registered!
+</div>
 {% endif %}
 <div style="display: none;" class="alert alert-error">
     <a class="close" data-dismiss="alert">×</a>
     <strong>Error!</strong> Oh snap, something went wrong here..
 </div>
 <div id="flatDescription" class ="row">
+    <br>
+    <div class="span2" id="pictureContainer">
+        <img src="{{ MEDIA_URL }}house_standard.jpg" alt="Flat Picture">
         <br>
-        <div class="span2" id="pictureContainer">
-            <img src="{{ MEDIA_URL }}house_standard.jpg" alt="Flat Picture">
-            <br>
-        </div>
-        <div class = "span4" id="flatInfo">
-            <h5>Flat description <small>
-                {{ flat_info.description }}
+    </div>
+    <div class = "span4" id="flatInfo">
+        <h5>Flat description <small>
+            {{ flat_info.description }}
+        </small>
+        </h5>
+
+
+        <div id="memberList" >
+            <h5>Members in flat<small>
+                {% for member in flat_members %}
+                <a href="{{ member.user.username }}">{{member.user.first_name}},</a>
+                {% endfor %}
             </small>
             </h5>
-
-
-            <div id="memberList" >
-                <h5>Members in flat<small>
-                {% for member in flat_members %}
-                    <a href="{{ member.user.username }}">{{member.user.first_name}},</a>
-                {% endfor %}
-                </small>
-                </h5>
-            </div>
-
-
         </div>
-        <div class="span2 create-button">
-            <a data-toggle="modal" href="#CreateItem" class="btn btn-success btn-small">Create Item</a>
-        </div>
+
 
     </div>
+    <div class="span2 create-button">
+        <a data-toggle="modal" href="#CreateItem" class="btn btn-success btn-small">Create Item</a>
+    </div>
 
-    <br>
+</div>
+
+<br>
 
 
-    <div id="flatLists" class = "row bord">
-        <div id="flatTaskList" class ="span6">
-            <h3>Continuous Chores</h3>
-            <table class="table table-striped">
-                <tr>
-                    <th>Taskname </th>
-                    <th>Category</th>
-                    <th>Points</th>
-                    <th>Done</th>
-                </tr>
-                {% for task in task_list %}
-                    <tr id="{{task.id}}">
-                        <td> {{ task.name }} <em><small> <br/>{{ task.description }}</small></em></td>
-                        <td> {{ task.category }} </td>
-                        <td> {{ task.credits }}</td>
-                        <!--<form action="" method="POST">-->
-                        <td>
-                            <form method="POST" action ="">
-                                {% csrf_token %}
-                                <input type="hidden" name="task_id" value="{{ task.id }}">
-                                <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
-                            </form>
-                        </td>
-                        <!--</form>-->
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-        <div id="flatShoppingList" class ="span5 offset1">
-            <h3>Shopping List</h3>
-            <table id="tableShoppingList" class = "table table-striped">
-                <th>Name </th>
+<div id="flatLists" class = "row bord">
+    <div id="flatTaskList" class ="span6">
+        <h3>Continuous Chores</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>Taskname </th>
                 <th>Category</th>
                 <th>Points</th>
                 <th>Done</th>
-                <div id="shoppingItems">
-                    {% for shopping_item in shopping_list %}
+            </tr>
+            {% for task in task_list %}
+            <tr id="{{task.id}}">
+                <td> {{ task.name }} <em><small> <br/>{{ task.description }}</small></em></td>
+                <td> {{ task.category }} </td>
+                <td> {{ task.credits }}</td>
+                <!--<form action="" method="POST">-->
+                <td>
+                    <form method="POST" action ="">
+                        {% csrf_token %}
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                        <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
+                    </form>
+                </td>
+                <!--</form>-->
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
-                    <tr id="{{ shopping_item.id }}" >
-                        <td> {{ shopping_item.name }} <em><small> <br/>{{ shopping_item.description }}</small></em> </td>
-                        <td> {{ shopping_item.category }}</td>
-                        <td> {{ shopping_item.credits }} </td>
-                        <td>
-                            <form method="POST" action ="">
-                                {% csrf_token %}
-                                <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
-                                <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
-                                <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </div>
+    <div id="flatShoppingList" class ="span5 offset1">
+        <h3>Shopping List</h3>
+        <table id="tableShoppingList" class = "table table-striped">
+            <th>Name </th>
+            <th>Category</th>
+            <th>Points</th>
+            <th>Done</th>
+            <div id="shoppingItems">
+                {% for shopping_item in shopping_list %}
 
-            </table>
-        </div>
+                <tr id="{{ shopping_item.id }}" >
+                    <td> {{ shopping_item.name }} <em><small> <br/>{{ shopping_item.description }}</small></em> </td>
+                    <td> {{ shopping_item.category }}</td>
+                    <td> {{ shopping_item.credits }} </td>
+                    <td>
+                        <form method="POST" action ="">
+                            {% csrf_token %}
+                            <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
+                            <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
+                            <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </div>
 
-    <div id="summaryList" class ="row span8">
+        </table>
+    </div>
+
+    <div class="span12">
+
+    </div>
+
+
+    <div id="summaryList" class ="row span6">
         <h3>Short Summary</h3>
         <table id="summaryTable" class = "table table-striped">
             <th>User</th>
@@ -119,58 +124,61 @@
                     <td> {{ row.1 }} </td>
                     <td> {{ row.2 }} </td>
                     <td> {{ row.3 }} </td>
-                {% endfor %}
+                    {% endfor %}
             </div>
         </table>
     </div>
-
-
-<div id="CreateItem" class="modal hide fade in" style="display: none; ">
-    <form class="form-horizontal" enctype="multipart/form-data" id="createItemForm" method="post" action=""> {% csrf_token %}
-    <div class="modal-header">
-        <button class="close" data-dismiss="modal"></button>
-        <h3>New Item</h3>
+    <div class="span12 offset11">
+        <a href="#deleteFlat" class="btn btn-primary btn-small center" data-toggle="modal">Delete flat</a>
     </div>
-        <div class="modal-body">
 
-            <fieldset>
-                <div class="control-group success error">
-                <label class="control-label">Name</label>
-                 <div class="controls">
-                  <input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
-                 </div>
-                </div>
-                
-                <div class="control-group success error">
-                <label class="control-label">Description</label>
-                 <div class="controls">
-                  <textarea type="text" class="input-xlarge" rows="3" id="description" name="description" rel="popover" tabindex="2"></textarea>
-                 </div>
-                </div>
-                <div class="control-group success error">
-                <label class="control-label">Credits</label>
-                 <div class="controls">
-                  <input type="text" class="input-xlarge" id="credits" name="credits" rel="popover" tabindex="3">
-                 </div>
-                 </div>
-                <div class="control-group success error">
-                <label class="control-label">Category</label>
-                 <div class="controls">
-                  <input type="hidden" class="input-xlarge" id="category" name="category" rel="popover" tabindex="4">
-                    {{task_form.category}}
-                 </div>
-                 </div>
-            </fieldset>
 
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <input id="btnCreateItem" type="submit" name="createNewItem" class="btn btn-primary" value="Create" />
-        </div>
-    </form>
-</div>
+    <div id="CreateItem" class="modal hide fade in" style="display: none; ">
+        <form class="form-horizontal" enctype="multipart/form-data" id="createItemForm" method="post" action=""> {% csrf_token %}
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"></button>
+                <h3>New Item</h3>
+            </div>
+            <div class="modal-body">
+
+                <fieldset>
+                    <div class="control-group success error">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
+                        </div>
+                    </div>
+
+                    <div class="control-group success error">
+                        <label class="control-label">Description</label>
+                        <div class="controls">
+                            <textarea type="text" class="input-xlarge" rows="3" id="description" name="description" rel="popover" tabindex="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group success error">
+                        <label class="control-label">Credits</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="credits" name="credits" rel="popover" tabindex="3">
+                        </div>
+                    </div>
+                    <div class="control-group success error">
+                        <label class="control-label">Category</label>
+                        <div class="controls">
+                            <input type="hidden" class="input-xlarge" id="category" name="category" rel="popover" tabindex="4">
+                            {{task_form.category}}
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+                <input id="btnCreateItem" type="submit" name="createNewItem" class="btn btn-primary" value="Create" />
+            </div>
+        </form>
+    </div>
     <br>
-    <a href="#deleteFlat" class="btn btn-primary btn-small center" data-toggle="modal">Delete flat</a>
+
     <!-- Remove Flat Modal -->
     <div id="deleteFlat" class="modal hide fade in" style="display: none; ">
         <form action="" method="POST"> {% csrf_token %}
@@ -186,11 +194,12 @@
         </form>
     </div>
     <!-- End Remove Flat Modal -->
-    
-    
+
+
     <!-- Scripts -->
-    
+
     <!-- Validate the form content - create new item-->
+
 								<script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
 								<script type="text/javascript">
 													$(document).ready(function()
