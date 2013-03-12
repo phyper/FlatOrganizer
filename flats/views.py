@@ -292,7 +292,6 @@ def register(request):
             except:
                 raise Http404
         else:
-            print (uform.errors, pform.errors)
             return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
     else:
         uform = UserCreateForm()
