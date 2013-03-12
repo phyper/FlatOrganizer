@@ -48,224 +48,224 @@
 
 
 <div id="flatLists" class = "row bord">
-    <div id="flatTaskList" class ="span6">
-        <h3>Continuous Chores</h3>
-        <table class="table table-striped">
-            <tr>
-                <th>Taskname </th>
-                <th>Category</th>
-                <th>Points</th>
-                <th>Done</th>
-            </tr>
-            {% for task in task_list %}
-            <tr id="{{task.id}}">
-                <td> {{ task.name }} <em><small> <br/>{{ task.description }}</small></em></td>
-                <td> {{ task.category }} </td>
-                <td> {{ task.credits }}</td>
-                <!--<form action="" method="POST">-->
-                <td>
-                    <form method="POST" action ="">
-                        {% csrf_token %}
-                        <input type="hidden" name="task_id" value="{{ task.id }}">
-                        <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
-                    </form>
-                    <div>
-                        <figure class="icon-remove " id="deleteTaskIcon" data-para="{{ task.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
-                    </div>
-
-                </td>
-                <!--</form>-->
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <div id="flatShoppingList" class ="span5 offset1">
-        <h3>Shopping List</h3>
-        <table id="tableShoppingList" class = "table table-striped">
-            <th>Name </th>
+<div id="flatTaskList" class ="span6">
+    <h3>Continuous Chores</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Taskname </th>
             <th>Category</th>
             <th>Points</th>
             <th>Done</th>
-            <div id="shoppingItems">
-                {% for shopping_item in shopping_list %}
-
-                <tr id="{{ shopping_item.id }}" >
-                    <td> {{ shopping_item.name }} <em><small> <br/>{{ shopping_item.description }}</small></em> </td>
-                    <td> {{ shopping_item.category }}</td>
-                    <td> {{ shopping_item.credits }} </td>
-                    <td>
-                        <form method="POST" action ="">
-                            {% csrf_token %}
-                            <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
-                            <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
-                            <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
-                        </form>
-                        <div>
-                            <figure class="icon-remove " id="deleteTaskIcon2" data-para="{{ shopping_item.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </div>
-
-        </table>
-    </div>
-
-    <div class="span12">
-
-    </div>
-
-
-    <div id="summaryList" class ="row span6">
-        <h3>Short Summary</h3>
-        <table id="summaryTable" class = "table table-striped">
-            <th>User</th>
-            <th>Last Task (category)</th>
-            <th>Last Task Completed</th>
-            <th>Total Score</th>
-            <div id="allItems">
-                {% for row in summaryList %}
-                <tr>
-                    <td> {{ row.0 }} </td>
-                    <td> {{ row.1 }} </td>
-                    <td> {{ row.2 }} </td>
-                    <td> {{ row.3 }} </td>
-                    {% endfor %}
-            </div>
-        </table>
-    </div>
-    <div class="span12 offset11">
-        <a href="#deleteFlat" class="btn btn-primary btn-small center" data-toggle="modal">Delete flat</a>
-    </div>
-
-
-    <div id="CreateItem" class="modal hide fade in" style="display: none; ">
-        <form class="form-horizontal" enctype="multipart/form-data" id="createItemForm" method="post" action=""> {% csrf_token %}
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal"></button>
-                <h3>New Item</h3>
-            </div>
-            <div class="modal-body">
-
-                <fieldset>
-                    <div class="control-group success error">
-                        <label class="control-label">Name</label>
-                        <div class="controls">
-                            <input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
-                        </div>
-                    </div>
-
-                    <div class="control-group success error">
-                        <label class="control-label">Description</label>
-                        <div class="controls">
-                            <textarea type="text" class="input-xlarge" rows="3" id="description" name="description" rel="popover" tabindex="2"></textarea>
-                        </div>
-                    </div>
-                    <div class="control-group success error">
-                        <label class="control-label">Credits</label>
-                        <div class="controls">
-                            <input type="text" class="input-xlarge" id="credits" name="credits" rel="popover" tabindex="3">
-                        </div>
-                    </div>
-                    <div class="control-group success error">
-                        <label class="control-label">Category</label>
-                        <div class="controls">
-                            <input type="hidden" class="input-xlarge" id="category" name="category" rel="popover" tabindex="4">
-                            {{task_form.category}}
-                        </div>
-                    </div>
-                </fieldset>
-
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Close</a>
-                <input id="btnCreateItem" type="submit" name="createNewItem" class="btn btn-primary" value="Create" />
-            </div>
-        </form>
-    </div>
-    <br>
-
-    <!-- Remove Flat Modal -->
-    <div id="deleteFlat" class="modal hide fade in" style="display: none; ">
-        <form action="" method="POST"> {% csrf_token %}
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal"></button>
-                <h3>Are you sure you want to leave this flat?</h3>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
-                <input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
-            </div>
-        </form>
-    </div>
-    <!-- End Remove Flat Modal -->
-
-    <div id="deleteTaskModal" class="modal hide fade in" style="display: none; ">
-        <form class="form-horizontal" id="deleteTaskModalForm" method="post" action=""> {% csrf_token %}
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal"></button>
-                <h3>Are you sure you want to permanently remove this task from the task list?</h3>
-            </div>
-            <div class="modal-body">
-                <div class="modal-form">
+        </tr>
+        {% for task in task_list %}
+        <tr id="{{task.id}}">
+            <td> {{ task.name }} <em><small> <br/>{{ task.description }}</small></em></td>
+            <td> {{ task.category }} </td>
+            <td> {{ task.credits }}</td>
+            <!--<form action="" method="POST">-->
+            <td>
+                <form method="POST" action ="">
+                    {% csrf_token %}
+                    <input type="hidden" name="task_id" value="{{ task.id }}">
+                    <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
+                </form>
+                <div>
+                    <figure class="icon-remove " id="deleteTaskIcon" data-para="{{ task.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
                 </div>
+
+            </td>
+            <!--</form>-->
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div id="flatShoppingList" class ="span5 offset1">
+    <h3>Shopping List</h3>
+    <table id="tableShoppingList" class = "table table-striped">
+        <th>Name </th>
+        <th>Category</th>
+        <th>Points</th>
+        <th>Done</th>
+        <div id="shoppingItems">
+            {% for shopping_item in shopping_list %}
+
+            <tr id="{{ shopping_item.id }}" >
+                <td> {{ shopping_item.name }} <em><small> <br/>{{ shopping_item.description }}</small></em> </td>
+                <td> {{ shopping_item.category }}</td>
+                <td> {{ shopping_item.credits }} </td>
+                <td>
+                    <form method="POST" action ="">
+                        {% csrf_token %}
+                        <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
+                        <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
+                        <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
+                    </form>
+                    <div>
+                        <figure class="icon-remove " id="deleteTaskIcon2" data-para="{{ shopping_item.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </div>
+
+    </table>
+</div>
+
+<div class="span12">
+
+</div>
+
+
+<div id="summaryList" class ="row span6">
+    <h3>Short Summary</h3>
+    <table id="summaryTable" class = "table table-striped">
+        <th>User</th>
+        <th>Last Task (category)</th>
+        <th>Last Task Completed</th>
+        <th>Total Score</th>
+        <div id="allItems">
+            {% for row in summaryList %}
+            <tr>
+                <td> {{ row.0 }} </td>
+                <td> {{ row.1 }} </td>
+                <td> {{ row.2 }} </td>
+                <td> {{ row.3 }} </td>
+                {% endfor %}
+        </div>
+    </table>
+</div>
+<div class="span12 offset11">
+    <a href="#deleteFlat" class="btn btn-primary btn-small center" data-toggle="modal">Delete flat</a>
+</div>
+
+
+<div id="CreateItem" class="modal hide fade in" style="display: none; ">
+    <form class="form-horizontal" enctype="multipart/form-data" id="createItemForm" method="post" action=""> {% csrf_token %}
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal"></button>
+            <h3>New Item</h3>
+        </div>
+        <div class="modal-body">
+
+            <fieldset>
+                <div class="control-group success error">
+                    <label class="control-label">Name</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
+                    </div>
+                </div>
+
+                <div class="control-group success error">
+                    <label class="control-label">Description</label>
+                    <div class="controls">
+                        <textarea type="text" class="input-xlarge" rows="3" id="description" name="description" rel="popover" tabindex="2"></textarea>
+                    </div>
+                </div>
+                <div class="control-group success error">
+                    <label class="control-label">Credits</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="credits" name="credits" rel="popover" tabindex="3">
+                    </div>
+                </div>
+                <div class="control-group success error">
+                    <label class="control-label">Category</label>
+                    <div class="controls">
+                        <input type="hidden" class="input-xlarge" id="category" name="category" rel="popover" tabindex="4">
+                        {{task_form.category}}
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <input id="btnCreateItem" type="submit" name="createNewItem" class="btn btn-primary" value="Create" />
+        </div>
+    </form>
+</div>
+<br>
+
+<!-- Remove Flat Modal -->
+<div id="deleteFlat" class="modal hide fade in" style="display: none; ">
+    <form action="" method="POST"> {% csrf_token %}
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal"></button>
+            <h3>Are you sure you want to leave this flat?</h3>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
+            <input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
+        </div>
+    </form>
+</div>
+<!-- End Remove Flat Modal -->
+
+<div id="deleteTaskModal" class="modal hide fade in" style="display: none; ">
+    <form class="form-horizontal" id="deleteTaskModalForm" method="post" action=""> {% csrf_token %}
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal"></button>
+            <h3>Are you sure you want to permanently remove this task from the task list?</h3>
+        </div>
+        <div class="modal-body">
+            <div class="modal-form">
             </div>
-            <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                <input type="hidden" id="task_id_modal" name="task_id" value="">
-                <input type="submit" id="deleteTaskButton" name="deleteTaskItem" class="btn btn-danger" value="Yes, I'm sure" />
-            </div>
-        </form>
-    </div>
-    <!-- End delete task modal -->
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <input type="hidden" id="task_id_modal" name="task_id" value="">
+            <input type="submit" id="deleteTaskButton" name="deleteTaskItem" class="btn btn-danger" value="Yes, I'm sure" />
+        </div>
+    </form>
+</div>
+<!-- End delete task modal -->
 
-    <!-- Scripts -->
+<!-- Scripts -->
 
-    <!-- Validate the form content - create new item-->
-    <script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function()
-        {
-            // Validation
-            $("#createItemForm").validate({
-                rules:{
-                    name: {required: true, maxlength: 50},
-                    description:{required:true, maxlength: 100},
-                    credits: {number: true},
-                    category: {required: true}
-                },
+<!-- Validate the form content - create new item-->
+<script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        // Validation
+        $("#createItemForm").validate({
+            rules:{
+                name: {required: true, maxlength: 50},
+                description:{required:true, maxlength: 100},
+                credits: {required:true, whole: true},
+                category: {required: true}
+            },
 
-                errorClass: "help-inline",
-                errorElement: "span",
-                highlight:function(element, errorClass, validClass)
-                {
-                    $(element).parents('.control-group').addClass('error');
-                },
-                unhighlight: function(element, errorClass, validClass)
-                {
-                    $(element).parents('.control-group').removeClass('error');
-                    $(element).parents('.control-group').addClass('success');
-                }
-            });
-
-
-        });
-        $(function() {
-            $(document).on('click', '#deleteTaskIcon', function(e) {
-                var para = this.dataset['para'];
-                $('#task_id_modal').val(para);
-            });
-        });
-        $(function() {
-            $(document).on('click', '#deleteTaskIcon2', function(e) {
-                var para = this.dataset['para'];
-                alert(para);
-                $('#task_id_modal').val(para);
-            });
+            errorClass: "help-inline",
+            errorElement: "span",
+            highlight:function(element, errorClass, validClass)
+            {
+                $(element).parents('.control-group').addClass('error');
+            },
+            unhighlight: function(element, errorClass, validClass)
+            {
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
         });
 
-    </script>
 
-    {% endblock content %}
+    });
+    $(function() {
+        $(document).on('click', '#deleteTaskIcon', function(e) {
+            var para = this.dataset['para'];
+            $('#task_id_modal').val(para);
+        });
+    });
+    $(function() {
+        $(document).on('click', '#deleteTaskIcon2', function(e) {
+            var para = this.dataset['para'];
+            alert(para);
+            $('#task_id_modal').val(para);
+        });
+    });
+
+</script>
+
+{% endblock content %}
