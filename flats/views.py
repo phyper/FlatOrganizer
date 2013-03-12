@@ -145,12 +145,13 @@ def index(request):
 def flat(request, flatid=None):
     context = RequestContext(request)
     u = User.objects.get(username=request.user)
-
+    link = "/flats/" + flatid
+    success = False
     if "deleteFlat" in request.POST:
         flat_id = request.POST.get('flat_id')
         flat = Flat.objects.get(id = flat_id)
         flat.delete()
-        return render_to_response('flats/index.html', {}, context)
+        return HttpResponseRedirect("/flats")
 
     flat = Flat.objects.filter(id = flatid)
     full_list = Task.objects.filter(flat = flat )
@@ -200,10 +201,7 @@ def flat(request, flatid=None):
             userFlatMember = member
 
     new_task_form = NewTaskForm()
-    if access_right:
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'summaryList':summaryList} , context)
-    else:
-        raise PermissionDenied
+    
 
     #Do one common processing here..
     if "setTaskDone" in request.POST:
@@ -214,7 +212,7 @@ def flat(request, flatid=None):
         assigned_task.member = userFlatMember
         assigned_task.save()
         success = True
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success': success, 'summaryList':summaryList} , context)
+        return HttpResponseRedirect(link)
 
     if "setShoppingItemDone" in request.POST:
         task_id = request.POST.get('task_id')
@@ -233,7 +231,7 @@ def flat(request, flatid=None):
         for list_item in full_list:
             if list_item.category.name == "Shopping":
                 shopping_list.append(list_item)
-        response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success, 'summaryList':summaryList} , context)
+        return HttpResponseRedirect(link)
 
     if "createNewItem" in request.POST:
         new_task_form = NewTaskForm(request.POST)
@@ -255,13 +253,16 @@ def flat(request, flatid=None):
                     task_list.append(list_item)
                 else:
                     shopping_list.append(list_item)
-
-            response =  render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success, 'summaryList':summaryList} , context)
+            
+            return HttpResponseRedirect(link)
         else:
             print (new_task_form.errors)
 
-
-    return response
+    if access_right:
+        return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success, 'summaryList':summaryList} , context)        
+    else:
+        raise PermissionDenied
+    
 
 def update_task_in_flat_model(response):
     print (response)
