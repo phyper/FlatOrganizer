@@ -222,7 +222,7 @@
 													$("#editFlatForm").validate({
 															rules:{
 															name: "required",
-															description:{maxlength: 200}
+															description:{required:true, maxlength: 200}
 													},
 													
 													errorClass: "help-inline",
@@ -248,7 +248,7 @@
 													$("#createFlatForm").validate({
 															rules:{
 															name: "required",
-															description:{maxlength: 200}
+															description:{required:true, maxlength: 200}
 													},
 													
 													errorClass: "help-inline",
