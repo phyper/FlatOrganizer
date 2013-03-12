@@ -69,6 +69,10 @@
                         <input type="hidden" name="task_id" value="{{ task.id }}">
                         <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
                     </form>
+                    <div class="" id="deleteTaskIcon">
+                        <figure class="icon-remove dropdown-toggle" data-para="{{ task.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
+                    </div>
+
                 </td>
                 <!--</form>-->
             </tr>
@@ -94,7 +98,7 @@
                         <form method="POST" action ="">
                             {% csrf_token %}
                             <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
-                            <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
+                            <input type="hidden"  name="task_id" value="{{ shopping_item.id }}">
                             <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
                         </form>
                     </td>
@@ -195,6 +199,27 @@
     </div>
     <!-- End Remove Flat Modal -->
 
+    <div id="deleteTaskModal" class="modal hide fade in" style="display: none; ">
+        <form class="form-horizontal" id="deleteTaskModalForm" method="post" action=""> {% csrf_token %}
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"></button>
+                <h3>Are you sure you want to permanently remove this task from the task list?</h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-form">
+
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                <input type="hidden" name="task_id" value="{{ task.id }}">
+                <input type="submit" id="deleteTaskButton"  name="deleteTaskItem" class="btn btn-danger" value="Yes, I'm sure" />
+            </div>
+        </form>
+    </div>
+    <!-- End delete task modal -->
 
     <!-- Scripts -->
 
@@ -224,7 +249,16 @@
                     $(element).parents('.control-group').addClass('success');
                 }
             });
+
+            $(function() {
+                $(document).on('click', '.deleteTaskButton', function(e) {
+                    var task_id = this.dataset['para'];
+                    getFlatMemberId(para);
+                });
+            });
         });
+
+
     </script>
 
     {% endblock content %}
