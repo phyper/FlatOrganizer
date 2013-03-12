@@ -67,6 +67,7 @@ def index(request):
                 if invite.email == u.email:
                     invite.delete()
                     invited_flats.remove(flat)
+            return HttpResponseRedirect("/flats")
 
         # Ask people to join your flat
         if "sendInvite" in request.POST :
@@ -114,7 +115,6 @@ def index(request):
             edit_flat_form = EditFlatInfoForm(request.POST)
             if edit_flat_form.is_valid():	
                 flat_id = request.POST.get('flat_flat_id')
-                print (flat_id)
                 flat = Flat.objects.get(id = flat_id)
                 name = edit_flat_form.cleaned_data['name']
                 description = edit_flat_form.cleaned_data['description']
