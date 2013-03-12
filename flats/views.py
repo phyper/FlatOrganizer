@@ -373,8 +373,7 @@ def profile(request, flatid=None, username=None):
             #Happens when no valid flat number or username
             raise Http404
         if logged_in_user_in_flat and view_user_in_flat:
-            tasks_assigned = Assigned_Task.objects.filter(member = member_to_view)
-            #Sort the list later on by doing something like Assigned_Task.objects.order_by('')
+            tasks_assigned = Assigned_Task.objects.filter(member = member_to_view).order_by('-completion_date')
 
             #Consider moved to another place
             sum_credits = 0
