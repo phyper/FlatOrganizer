@@ -2,6 +2,14 @@
 {% block title %}Flat Organizer{% endblock %}
 
 {% block content %}
+
+    {% if error %}
+        <div class="alert alert-error">
+            <a class="close" data-dismiss="alert">×</a>
+            <strong>Wrong username/password</strong>
+        </div>
+    {% endif %}
+
     <link href="{{STATIC_URL}}CSS/login.css" rel="stylesheet"/>
                  
       <form class="form-signin wrapper" method="post" action="/flats/login/"> {% csrf_token %}

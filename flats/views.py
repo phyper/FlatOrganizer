@@ -280,7 +280,7 @@ def register(request):
                 picture = save_file(request.FILES['picture'])
                 profile.picture = picture
             else:
-                profile.picture = File(open('%s/%s' % (MEDIA_ROOT, "standard.gif")))
+                profile.picture = "standard.gif"
             profile.save()
             registered = True
             
@@ -292,7 +292,6 @@ def register(request):
             except:
                 raise Http404
         else:
-            print (uform.errors, pform.errors)
             return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': registered }, context)
     else:
         uform = UserCreateForm()
@@ -315,8 +314,7 @@ def user_login(request):
                 return HttpResponse("Your account is disabled.")
         else:
             # Return an 'invalid login' error message.
-            print  ("invalid login details " + username + " " + password)
-            return render_to_response('flats/login.html', {}, context) 
+            return render_to_response('flats/login.html', {'error':True}, context)
     else:
         # the login is a  GET request, so just show the user the login form.
         return render_to_response('flats/login.html', {}, context)

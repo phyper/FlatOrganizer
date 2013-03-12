@@ -22,8 +22,8 @@
             <div class="row hero-unit" style="margin-left: 0px;">
 
                 <div class="span2">
-                    <a href="#">
-                        <img src="{{ MEDIA_URL }}house_standard.jpg" alt="house" class="img-rounded">
+                    <a href="{{ flat.flat_id }}">
+                        <img src="{{ MEDIA_URL }}house_standard.jpg"  alt="house" class="img-rounded">
                     </a>
                 </div>
                 <div class="bottomaligned">
@@ -89,32 +89,35 @@
             </div>
             <!-- End Remove Flat Modal -->
 
+
             <!-- Edit Flat Info Modal -->
             <div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
                 <form action="" method="POST"> {% csrf_token %}
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal"></button>
                         <h3>Edit flat information</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-form">
 
-                            {% for field in edit_form.visible_fields %}
 
-                            <p>
-                                {{ field }}
-                                {{ field.help_text }}
-                                {{ field.errors }}
-                            </p>
+                        <div class="modal-body">
+                            <div class="modal-form">
 
-                            {% endfor %}
+                                {% for field in edit_form.visible_fields %}
 
+                                <p>
+                                    {{ field }}
+                                    {{ field.help_text }}
+                                    {{ field.errors }}
+                                </p>
+
+                                {% endfor %}
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn" data-dismiss="modal">Close</a>
-                        <input type="hidden" name="flat_flat_id" value="" id="editFlat">
-                        <input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal">Close</a>
+                            <input type="hidden" name="flat_flat_id" value="" id="editFlat">
+                            <input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
+                        </div>
                     </div>
                 </form>
             </div>
