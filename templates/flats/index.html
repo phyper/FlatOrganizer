@@ -57,7 +57,7 @@
                     <figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
+                            <a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  data-para1 = "{{ flat.flat.name }}" data-para2 = "{{ flat.flat.description }}" class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -97,32 +97,34 @@
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal"></button>
                         <h3>Edit flat information</h3>
-
-
                         <div class="modal-body">
                             <div class="modal-form">
+                                <fieldset>
+                                    <div class="control-group success error">
+                                        <label class="control-label">Name</label>
+                                        <div class="controls">
+                                            <input type="text" class="input-xlarge" id="editFlatName" name="name" rel="popover" tabindex="1">
+                                        </div>
+                                    </div>
 
-																																<fieldset>
-																																				<div class="control-group success error">
-																																				<label class="control-label">Name</label>
-																																					<div class="controls">
-																																						<input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
-																																					</div>
-																																				</div>
-																																				
-																																				<div class="control-group success error">
-																																				<label class="control-label">Description</label>
-																																					<div class="controls">
-																																						<textarea type="text" class="input-xlarge" rows="6" id="description" name="description" rel="popover" tabindex="2"></textarea>
-																																					</div>
-																																				</div>
-																																</fieldset>
+                                    <div class="control-group success error">
+
+                                        <label class="control-label">Description</label>
+                                        <div class="controls">
+                                            <textarea type="text" class="input-xlarge" rows="6" id="editFlatDescription" name="description" rel="popover" tabindex="2">
+
+
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </fieldset>
 
                             </div>
                         </div>
                         <div class="modal-footer">
                             <a href="#" class="btn" data-dismiss="modal">Close</a>
                             <input type="hidden" name="flat_flat_id" value="" id="editFlat">
+                            <input type="hidden" name="flat_id" id="editFlatNameModal" value="">
                             <input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
                         </div>
                     </div>
@@ -140,28 +142,28 @@
             <!-- Create Flat Modal -->
             <div id="CreateFlat" class="modal hide fade in" style="display: none; ">
                 <form class="form-horizontal" enctype="multipart/form-data" id="createFlatForm" method="post" action=""> {% csrf_token %}
-																<div class="modal-header">
-                    <button class="close" data-dismiss="modal"></button>
-                    <h3>New Flat</h3>
-                </div>
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"></button>
+                        <h3>New Flat</h3>
+                    </div>
                     <div class="modal-body">
                         <div class="modal-form">
-																												
-																												<fieldset>
-																																				<div class="control-group success error">
-																																				<label class="control-label">Name</label>
-																																					<div class="controls">
-																																						<input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
-																																					</div>
-																																				</div>
-																																				
-																																				<div class="control-group success error">
-																																				<label class="control-label">Description</label>
-																																					<div class="controls">
-																																						<textarea type="text" class="input-xlarge" rows="6" id="description" name="description" rel="popover" tabindex="2"></textarea>
-																																					</div>
-																																				</div>
-																												</fieldset>
+
+                            <fieldset>
+                                <div class="control-group success error">
+                                    <label class="control-label">Name</label>
+                                    <div class="controls">
+                                        <input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
+                                    </div>
+                                </div>
+
+                                <div class="control-group success error">
+                                    <label class="control-label">Description</label>
+                                    <div class="controls">
+                                        <textarea type="text" class="input-xlarge" rows="6" id="description" name="description" rel="popover" tabindex="2"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
 
                         </div>
                     </div>
@@ -207,108 +209,123 @@
         </div>
         <br>
 
-        </div>
+    </div>
 </div> <!-- /row -->
 
 <!-- Scripts -->
-								
-								<!-- Validate the form content - editFlatForm -->
-								<script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
-								<script type="text/javascript">
-													$(document).ready(function()
-													{
-													
-													// Validation
-													$("#editFlatForm").validate({
-															rules:{
-															name: "required",
-															description:{maxlength: 200}
-													},
-													
-													errorClass: "help-inline",
-													errorElement: "span",
-													highlight:function(element, errorClass, validClass)
-													{
-															$(element).parents('.control-group').addClass('error');
-													},
-													unhighlight: function(element, errorClass, validClass)
-													{
-															$(element).parents('.control-group').removeClass('error');
-															$(element).parents('.control-group').addClass('success');
-													}
-													});
-													});
-								</script>	
-															
-								<script type="text/javascript">
-													$(document).ready(function()
-													{
-													
-													// Validation
-													$("#createFlatForm").validate({
-															rules:{
-															name: "required",
-															description:{maxlength: 200}
-													},
-													
-													errorClass: "help-inline",
-													errorElement: "span",
-													highlight:function(element, errorClass, validClass)
-													{
-															$(element).parents('.control-group').addClass('error');
-													},
-													unhighlight: function(element, errorClass, validClass)
-													{
-															$(element).parents('.control-group').removeClass('error');
-															$(element).parents('.control-group').addClass('success');
-													}
-													});
-													});
-								</script>
-																
-								<script type="text/javascript">
-												$(document).ready(function(){
-																$(function() {
-																				$(document).on('click', '.inviteBox', function(e) {
-																								var $this = $(this);
-																								if ($this.next().is(":hidden")) {
-																												$this.next().slideDown("slow");
-																								} else {
-																												$this.next().slideUp("slow");
-																								}
-																				});
-																});
-												});
-								</script>
-								
-								<!-- Script to get the id of Flat_member of a row-->
-								<script type="text/javascript">
-																								function getFlatMemberId(para){
-																								document.getElementById('leaveFlat').value = para;
-																								}
-																								$(document).ready(function(){
-																												$(function() {
-																																$(document).on('click', '.removeFlatButton', function(e) {
-																																				var para = this.dataset['para'];
-																																				getFlatMemberId(para);
-																																});
-																												});
-																								});
-								</script>
-				
-								<!-- Script to get the id of Flat of a row-->
-								<script type="text/javascript">
-												function getFlatId(para){
-																document.getElementById('editFlat').value = para;
-												}
-												$(document).ready(function(){
-																$(function() {
-																				$(document).on('click', '.editFlatInfoButton', function(e) {
-																								var para = this.dataset['para'];
-																								getFlatId(para);
-																				});
-																});
-												});
-								</script>
+
+<!-- Validate the form content - editFlatForm -->
+<script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+
+        // Validation
+        $("#editFlatForm").validate({
+            rules:{
+                name: "required",
+                description:{maxlength: 200}
+            },
+
+            errorClass: "help-inline",
+            errorElement: "span",
+            highlight:function(element, errorClass, validClass)
+            {
+                $(element).parents('.control-group').addClass('error');
+            },
+            unhighlight: function(element, errorClass, validClass)
+            {
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+
+        // Validation
+        $("#createFlatForm").validate({
+            rules:{
+                name: "required",
+                description:{maxlength: 200}
+            },
+
+            errorClass: "help-inline",
+            errorElement: "span",
+            highlight:function(element, errorClass, validClass)
+            {
+                $(element).parents('.control-group').addClass('error');
+            },
+            unhighlight: function(element, errorClass, validClass)
+            {
+                $(element).parents('.control-group').removeClass('error');
+                $(element).parents('.control-group').addClass('success');
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(function() {
+            $(document).on('click', '.inviteBox', function(e) {
+                var $this = $(this);
+                if ($this.next().is(":hidden")) {
+                    $this.next().slideDown("slow");
+                } else {
+                    $this.next().slideUp("slow");
+                }
+            });
+        });
+    });
+</script>
+
+<!-- Script to get the id of Flat_member of a row-->
+<script type="text/javascript">
+    function getFlatMemberId(para){
+        document.getElementById('leaveFlat').value = para;
+    }
+    $(document).ready(function(){
+        $(function() {
+            $(document).on('click', '.removeFlatButton', function(e) {
+                var para = this.dataset['para'];
+                getFlatMemberId(para);
+            });
+        });
+    });
+</script>
+
+<!-- Script to get the id of Flat of a row-->
+<script type="text/javascript">
+    function getFlatId(para){
+        document.getElementById('editFlat').value = para;
+
+    }
+    $(document).ready(function(){
+        $(function() {
+            $(document).on('click', '.editFlatInfoButton', function(e) {
+                var para = this.dataset['para'];
+                getFlatId(para);
+            });
+        });
+    });
+</script>
+
+<!-- Script to get the id of Flat of a row for edit flat-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(function() {
+            $(document).on('click', '.editFlatInfoButton', function(e) {
+                var name = this.dataset['para1'];
+                var desc = this.dataset['para2'];
+                $('#editFlatName').val(name);
+                $('#editFlatDescription').val(desc);
+            });
+        });
+    });
+</script>
 
 {% endblock content %}
