@@ -37,19 +37,19 @@
                                     <fieldset><br>
                                         <input id="email" name="email" type="text" placeholder="Email address">
                                         <input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
-                                        <button name="sendInvite" class="btn btn-primary" type="submit" name="submit">Invite</button>
+                                        <button name="sendInvite" class="btn btn-primary" type="submit">Invite</button>
                                     </fieldset>
                                 </form>
                             </div>
                         </div>
-                    </div><!-- /span -->
+                    </div> <!-- /bottomaligned -->
                     <div class="text-right">
                         												
 																								<div class="dropdown btn-group " id="accountmenu">
 																												<figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
 																												<ul class="dropdown-menu">
 																																<li>
-																																				<a href="#removeFlat" data-para1="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
+																																				<a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
 																																</li>
 																																<li class="divider"></li>
 																																<li>
@@ -63,8 +63,9 @@
                                 $('.dropdown-toggle').dropdown();
                             });
                         </script>
-                    </div>
-                </div>
+                    </div><!-- /text-right -->
+                </div> <!-- /row -->
+																
 																<!-- Remove Flat Modal -->
 																<div id="removeFlat" class="modal hide fade in" style="display: none; ">
 																				<form action="" method="POST"> {% csrf_token %}
@@ -117,7 +118,7 @@
 
                 <a href="#CreateFlat" class="btn btn-primary btn-small" data-toggle="modal">New flat</a>
 
-                <!-- Modal -->
+                <!-- Create Flat Modal -->
                 <div id="CreateFlat" class="modal hide fade in" style="display: none; ">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal"></button>
@@ -140,11 +141,11 @@
                         </div>
                         <div class="modal-footer">
                             <a href="#" class="btn" data-dismiss="modal">Close</a>
-                            <input id="submit" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
+                            <input id="create" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
                         </div>
                     </form>
                 </div>
-                <!-- End Modal -->
+                <!-- End Create Flat Modal -->
             </div>
 
             <script type="text/javascript">
@@ -161,38 +162,38 @@
                     });
                 });
             </script>
-												
+				
+												<!-- Script to get the id of Flat_member of a row-->												
 												<script type="text/javascript">
-								function cap(para1){
-								document.getElementById('leaveFlat').value = para1;
-								}
-								$(document).ready(function(){
-												$(function() {
-																$(document).on('click', '.removeFlatButton', function(e) {
-																				var para1 = this.dataset['para1'];
-																								cap(para1);
+																function getFlatMemberId(para){
+																document.getElementById('leaveFlat').value = para;
+																}
+																$(document).ready(function(){
+																				$(function() {
+																								$(document).on('click', '.removeFlatButton', function(e) {
+																												var para = this.dataset['para'];
+																																getFlatMemberId(para);
+																								});
+																				});
 																});
-												});
-								});
-				</script>
-
-				<script type="text/javascript">
-								function cap1(para){
-																document.getElementById('editFlat').value = para;
-								}
-								$(document).ready(function(){
-												$(function() {
-																$(document).on('click', '.editFlatInfoButton', function(e) {
-																				var para = this.dataset['para'];
-																								cap1(para);
+												</script>
+												
+												<!-- Script to get the id of Flat of a row-->
+												<script type="text/javascript">
+																function getFlatId(para){
+																								document.getElementById('editFlat').value = para;
+																}
+																$(document).ready(function(){
+																				$(function() {
+																								$(document).on('click', '.editFlatInfoButton', function(e) {
+																												var para = this.dataset['para'];
+																																getFlatId(para);
+																								});
+																				});
 																});
-												});
-								});
-				</script>
+												</script>
 
-
-
-        </div>
+								</div> <!-- /span8 -->
 
         <div class="page-header">
             <h2 class="text-center">Pending invitations</h2>
@@ -221,6 +222,6 @@
             <br>
             {% endfor %}
         </div>
-    </div>
+				</div> <!-- /row -->
 
 {% endblock content %}
