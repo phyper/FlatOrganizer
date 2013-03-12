@@ -69,8 +69,8 @@
                         <input type="hidden" name="task_id" value="{{ task.id }}">
                         <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
                     </form>
-                    <div class="" id="deleteTaskIcon">
-                        <figure class="icon-remove dropdown-toggle" data-para="{{ task.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
+                    <div>
+                        <figure class="icon-remove " id="deleteTaskIcon" data-para="{{ task.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
                     </div>
 
                 </td>
@@ -98,9 +98,12 @@
                         <form method="POST" action ="">
                             {% csrf_token %}
                             <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
-                            <input type="hidden"  name="task_id" value="{{ shopping_item.id }}">
+                            <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
                             <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
                         </form>
+                        <div>
+                            <figure class="icon-remove " id="deleteTaskIcon2" data-para="{{ shopping_item.id }}"data-toggle="modal" href="#deleteTaskModal"></figure>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -207,15 +210,12 @@
             </div>
             <div class="modal-body">
                 <div class="modal-form">
-
-
-
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                <input type="hidden" name="task_id" value="{{ task.id }}">
-                <input type="submit" id="deleteTaskButton"  name="deleteTaskItem" class="btn btn-danger" value="Yes, I'm sure" />
+                <input type="hidden" id="task_id_modal" name="task_id" value="">
+                <input type="submit" id="deleteTaskButton" name="deleteTaskItem" class="btn btn-danger" value="Yes, I'm sure" />
             </div>
         </form>
     </div>
@@ -250,14 +250,21 @@
                 }
             });
 
-            $(function() {
-                $(document).on('click', '.deleteTaskButton', function(e) {
-                    var task_id = this.dataset['para'];
-                    getFlatMemberId(para);
-                });
+
+        });
+        $(function() {
+            $(document).on('click', '#deleteTaskIcon', function(e) {
+                var para = this.dataset['para'];
+                $('#task_id_modal').val(para);
             });
         });
-
+        $(function() {
+            $(document).on('click', '#deleteTaskIcon2', function(e) {
+                var para = this.dataset['para'];
+                alert(para);
+                $('#task_id_modal').val(para);
+            });
+        });
 
     </script>
 
