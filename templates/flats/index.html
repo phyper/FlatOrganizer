@@ -2,143 +2,107 @@
 {% block title %}Flat Organizer{% endblock %}
 
 {% block content %}
-												
-    {% if success %}
-        <div class="alert alert-success">
-            <a class="close" data-dismiss="alert">×</a>
-            <strong>Invite sent</strong>
-        </div>
-    {% endif %}
-    <div class ="row">
-        <div class="span8">
-            <div class="content">
-                <div class="page-header">
-                    <h1 class="text-center">Please select your flat</h1>
+
+{% if success %}
+<div class="alert alert-success" xmlns="http://www.w3.org/1999/html">
+    <a class="close" data-dismiss="alert">×</a>
+    <strong>Invite sent</strong>
+</div>
+{% endif %}
+<div class ="row">
+    <div class="span8">
+        <div class="content">
+            <div class="page-header">
+                <h1 class="text-center"> Please select your flat</h1>
+            </div>
+            <a href="#CreateFlat" class="btn btn-primary btn-small center" data-toggle="modal">New flat</a>
+            </br>
+            </br>
+            {% if flats %}
+            {% for flat in flats %}
+            <div class="row hero-unit" style="margin-left: 0px;">
+
+                <div class="span2">
+                    <a href="{{ flat.flat_id }}">
+                        <img src="{{ MEDIA_URL }}house_standard.jpg"  alt="house" class="img-rounded">
+                    </a>
                 </div>
-
-                {% if flats %}
-                {% for flat in flats %}
-                <div class="row hero-unit" style="margin-left: 0px;">
-
-                    <div class="span2">
-                        <a href="#">
-                            <img src="{{ MEDIA_URL }}house_standard.jpg" alt="house" class="img-rounded">
+                <div class="bottomaligned">
+                    <div class="span3">
+                        <a href="{{ flat.flat_id }}">
+                            <p>{{flat.flat.name}}</p>
                         </a>
-                    </div>
-                    <div class="bottomaligned">
-                        <div class="span4">
-                            <a href="{{ flat.flat_id }}">
-                                <p>{{flat.flat.name}}</p>
-                            </a>
-                            <p>
-                                {% for member in flat.member_list %}
-                                <a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
-                                {% endfor %}
-                            </p>
-                            <p>
+                        <p>
+                            {% for member in flat.member_list %}
+                            <a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
+                            {% endfor %}
+                        </p>
+                        <p>
 
-                            <div id="inviteBox{{  flat.flat_id }}" class="inviteBox btn-link">Invite</div>
-                            <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
-                                <form action="" method="POST">
-                                    {% csrf_token %}
-                                    <fieldset><br>
-                                        <input id="email" name="email" type="text" placeholder="Email address">
-                                        <input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
-                                        <button name="sendInvite" class="btn btn-primary" type="submit">Invite</button>
-                                    </fieldset>
-                                </form>
-                            </div>
+                        <div id="inviteBox{{  flat.flat_id }}" class="inviteBox btn-link">Invite</div>
+                        <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <fieldset><br>
+                                    <input id="email" name="email" type="text" placeholder="Email address">
+                                    <input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
+                                    <button name="sendInvite" class="btn btn-primary" type="submit">Invite</button>
+                                </fieldset>
+                            </form>
                         </div>
-                    </div> <!-- /bottomaligned -->
-                        												
-                    <div class="dropdown btn-group span1" id="accountmenu">
-																								<figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
-																								<ul class="dropdown-menu">
-																												<li>
-																																<a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
-																												</li>
-																												<li class="divider"></li>
-																												<li>
-																																<a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
-																												</li>
-																								</ul>
-                    </div> <!-- /dropdown -->
-
-                    <script type="text/javascript">
-																								$(document).ready(function () {
-																												$('.dropdown-toggle').dropdown();
-																								});
-                    </script>
-                    </div> <!-- /row -->
-
-                    <!-- Remove Flat Modal -->
-                    <div id="removeFlat" class="modal hide fade in" style="display: none; ">
-                        <form action="" method="POST"> {% csrf_token %}
-																												<div class="modal-header">
-																																<button class="close" data-dismiss="modal"></button>
-																																<h3>Are you sure you want to leave this flat?</h3>
-																												</div>
-																												<div class="modal-footer">
-																																<a href="#" class="btn" data-dismiss="modal">Cancel</a>
-																																<input type="hidden" name="flat_id" value="" id="leaveFlat">
-																																<input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
-																												</div>
-                        </form>
                     </div>
-																				<!-- End Remove Flat Modal -->
-																				
-																				<!-- Edit Flat Info Modal -->
-																				<div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
-																								<form class="form-horizontal" enctype="multipart/form-data" id="editFlatForm" method="post" action=""> {% csrf_token %}
-																												<div class="modal-header">
-																																<button class="close" data-dismiss="modal"></button>
-																																			<h3>Edit flat information</h3>
-																												</div>
-																												<div class="modal-body">
-																																<div class="modal-form">
-																																								<fieldset>
-																																								<div class="control-group success error">
-																																								<label class="control-label">Name</label>
-																																									<div class="controls">
-																																										<input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
-																																									</div>
-																																								</div>
-																																								
-																																								<div class="control-group success error">
-																																								<label class="control-label">Description</label>
-																																									<div class="controls">
-																																										<textarea type="text" class="input-xlarge" rows="6" id="description" name="description" rel="popover" tabindex="2"></textarea>
-																																									</div>
-																																								</div>
-																																								</fieldset>
-																																
-																																</div>
-																												</div>
-																												<div class="modal-footer">
-																																<a href="#" class="btn" data-dismiss="modal">Close</a>
-																																<input type="hidden" name="flat_flat_id" value="" id="editFlat">
-																																<input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
-																												</div>
-																								</form>
-																				</div>
-																				<!-- End Edit Flat Info Modal -->
-																																
-																				{% endfor %}
-																				{% endif %}
+                </div> <!-- /bottomaligned -->
 
-																				<a href="#CreateFlat" class="btn btn-primary btn-small" data-toggle="modal">New flat</a>
+                <div class="dropdown btn-group span1 offset1" id="accountmenu">
+                    <figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
+                        </li>
 
-																				<!-- Create Flat Modal -->
-																				<div id="CreateFlat" class="modal hide fade in" style="display: none; ">
-																								<form class="form-horizontal" enctype="multipart/form-data" id="createFlatForm" method="post" action=""> {% csrf_token %}
-																								<div class="modal-header">
-																												<button class="close" data-dismiss="modal"></button>
-																												<h3>New Flat</h3>
-																								</div>
-																												<div class="modal-body">
-																																<div class="modal-form">
-																
-																																				<fieldset>
+                    </ul>
+                </div> <!-- /dropdown -->
+
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.dropdown-toggle').dropdown();
+                    });
+                </script>
+            </div> <!-- /row -->
+
+            <!-- Remove Flat Modal -->
+            <div id="removeFlat" class="modal hide fade in" style="display: none; ">
+                <form action="" method="POST"> {% csrf_token %}
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"></button>
+                        <h3>Are you sure you want to leave this flat?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                        <input type="hidden" name="flat_id" value="" id="leaveFlat">
+                        <input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
+                    </div>
+                </form>
+            </div>
+            <!-- End Remove Flat Modal -->
+
+
+            <!-- Edit Flat Info Modal -->
+            <div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
+                <form class="form-horizontal" enctype="multipart/form-data" id="editFlatForm" method="post" action=""> {% csrf_token %}
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"></button>
+                        <h3>Edit flat information</h3>
+
+
+                        <div class="modal-body">
+                            <div class="modal-form">
+
+																																<fieldset>
 																																				<div class="control-group success error">
 																																				<label class="control-label">Name</label>
 																																					<div class="controls">
@@ -152,51 +116,101 @@
 																																						<textarea type="text" class="input-xlarge" rows="6" id="description" name="description" rel="popover" tabindex="2"></textarea>
 																																					</div>
 																																				</div>
-																																				</fieldset>
-																
-																																</div>
-																												</div>
-																												<div class="modal-footer">
-																																<a href="#" class="btn" data-dismiss="modal">Close</a>
-																																<input id="create" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
-																												</div>
-																								</form>
-																				</div>
-																				<!-- End Create Flat Modal -->
-																</div>
-												</div> <!-- /span8 -->
+																																</fieldset>
 
-												<div class="page-header">
-																<h2 class="text-center">Pending invitations</h2>
-												</div>
-												
-												<div>
-																<div class="span3 offset1">
-																				{% if invited_flats %}
-																				<table class="table table-striped ">
-																								<tr>
-																												<th>Flat name</th>
-																												<th>Accept</th>
-																								</tr>
-																								{% for flat_to_accept in invited_flats %}
-												
-																								<form method="POST" action="">
-																												{% csrf_token %}
-																												<tr>
-																																<input type="hidden" name="flat_id" value="{{ flat_to_accept.id }}"/>
-																																<td>{{ flat_to_accept.name}}</td>
-																																<td><button type="submit list-space" class="btn-primary btn" name="acceptInvite">Join</button></td>
-																												</tr>
-																								</form>
-																								{% endfor %}
-																				</table>
-																				{% endif %}
-																</div>
-																<br>
-												</div>
-								</div> <!-- /row -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal">Close</a>
+                            <input type="hidden" name="flat_flat_id" value="" id="editFlat">
+                            <input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End Edit Flat Info Modal -->
 
-								<!-- Scripts -->
+            {% endfor %}
+            {% endif %}
+
+
+
+
+
+            <!-- Create Flat Modal -->
+            <div id="CreateFlat" class="modal hide fade in" style="display: none; ">
+                <form class="form-horizontal" enctype="multipart/form-data" id="createFlatForm" method="post" action=""> {% csrf_token %}
+																<div class="modal-header">
+                    <button class="close" data-dismiss="modal"></button>
+                    <h3>New Flat</h3>
+                </div>
+                    <div class="modal-body">
+                        <div class="modal-form">
+																												
+																												<fieldset>
+																																				<div class="control-group success error">
+																																				<label class="control-label">Name</label>
+																																					<div class="controls">
+																																						<input type="text" class="input-xlarge" id="name" name="name" rel="popover" tabindex="1">
+																																					</div>
+																																				</div>
+																																				
+																																				<div class="control-group success error">
+																																				<label class="control-label">Description</label>
+																																					<div class="controls">
+																																						<textarea type="text" class="input-xlarge" rows="6" id="description" name="description" rel="popover" tabindex="2"></textarea>
+																																					</div>
+																																				</div>
+																												</fieldset>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn" data-dismiss="modal">Close</a>
+                        <input id="create" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
+                    </div>
+                </form>
+            </div>
+            <!-- End Create Flat Modal -->
+        </div>
+
+    </div> <!-- /span8 -->
+
+
+
+    <div>
+        <div class="span4">
+            <div class="page-header">
+                <h2 class="text-center">Pending invitations </h2>
+            </div>
+            {% if invited_flats %}
+            <div class="offset1">
+                <table class="table table-striped ">
+                    <tr>
+                        <th>Flat name</th>
+                        <th>Accept</th>
+                    </tr>
+                    {% for flat_to_accept in invited_flats %}
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <tr>
+                            <input type="hidden" name="flat_id" value="{{ flat_to_accept.id }}"/>
+                            <td>{{ flat_to_accept.name}}</td>
+                            <td><button type="submit list-space" class="btn-primary btn" name="acceptInvite">Join</button></td>
+                        </tr>
+                    </form>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endif %}
+        </div>
+        <br>
+
+        </div>
+</div> <!-- /row -->
+
+<!-- Scripts -->
 								
 								<!-- Validate the form content - editFlatForm -->
 								<script src="{{ STATIC_URL }}js/jquery.validate.js"></script>

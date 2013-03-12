@@ -99,8 +99,12 @@ class Assigned_Task(models.Model):
     member = models.ForeignKey(Flat_Member)
     creation_date = models.DateTimeField(auto_now_add = True)
     completion_date = models.DateTimeField(auto_now_add = True)
+
     def __unicode__(self):
         return self.member + " - " + self.task
+
+    class Meta:
+        get_latest_by = 'completion_date'
 
 
 class Invitation(models.Model):
