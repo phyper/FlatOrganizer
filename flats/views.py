@@ -231,6 +231,7 @@ def flat(request, flatid=None):
 
     if "deleteTaskItem" in request.POST and user_lives_in_flat:
         task_id = request.POST.get('task_id')
+        print (task_id)
         task = Task.objects.get(id = task_id)
         task.delete()
         success = True
