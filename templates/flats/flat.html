@@ -7,7 +7,7 @@
 {% if success %}
     <div class="alert alert-success">
         <a class="close" data-dismiss="alert">×</a>
-        <strong>Success!</strong> Task set as completed registered!
+        <strong>Success!</strong> Task registered!
     </div>
 {% endif %}
 <div style="display: none;" class="alert alert-error">
@@ -195,7 +195,7 @@
         <form method="POST" action="">
             {% csrf_token %}
             <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
-            <button type="submit" class="btn-primary" name="deleteFlat" onclick="confirmDelete(event);" >Delete flat</button>
+            <button type="submit" class="btn btn-primary" name="deleteFlat" onclick="confirmDelete(event);" >Delete flat</button>
         </form>
         <script>
             function confirmDelete(e) {

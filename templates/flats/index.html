@@ -199,14 +199,15 @@
         </div>
 
         <div>
-            {% for flat_to_accept in invited_flats %}
             <div class="span3 offset1">
-                {% if flat_to_accept.name %}
+                {% if invited_flats %}
                 <table class="table table-striped ">
                     <tr>
                         <th>Flat name</th>
                         <th>Accept</th>
                     </tr>
+                    {% for flat_to_accept in invited_flats %}
+
                     <form method="POST" action="">
                         {% csrf_token %}
                         <tr>
@@ -215,11 +216,12 @@
                             <td><button type="submit list-space" class="btn-primary btn" name="acceptInvite">Join</button></td>
                         </tr>
                     </form>
+                    {% endfor %}
                 </table>
                 {% endif %}
             </div>
             <br>
-            {% endfor %}
+
         </div>
     </div>
 
