@@ -2,210 +2,220 @@
 {% block title %}Flat Organizer{% endblock %}
 
 {% block content %}
-    {% if success %}
-        <div class="alert alert-success">
-            <a class="close" data-dismiss="alert">×</a>
-            <strong>Invite sent</strong>
-        </div>
-    {% endif %}
-    <div class ="row">
-        <div class="span8">
-            <div class="content">
-                <div class="page-header">
-                    <h1 class="text-center">Please select your flat</h1>
+{% if success %}
+<div class="alert alert-success" xmlns="http://www.w3.org/1999/html">
+    <a class="close" data-dismiss="alert">×</a>
+    <strong>Invite sent</strong>
+</div>
+{% endif %}
+<div class ="row">
+    <div class="span8">
+        <div class="content">
+            <div class="page-header">
+                <h1 class="text-center"> Please select your flat</h1>
+            </div>
+            <a href="#CreateFlat" class="btn btn-primary btn-small center" data-toggle="modal">New flat</a>
+            </br>
+            </br>
+            {% if flats %}
+            {% for flat in flats %}
+            <div class="row hero-unit" style="margin-left: 0px;">
+
+                <div class="span2">
+                    <a href="{{ flat.flat_id }}">
+                        <img src="{{ MEDIA_URL }}house_standard.jpg"  alt="house" class="img-rounded">
+                    </a>
                 </div>
-
-                {% if flats %}
-                {% for flat in flats %}
-                <div class="row hero-unit" style="margin-left: 0px;">
-
-                    <div class="span2">
+                <div class="bottomaligned">
+                    <div class="span3">
                         <a href="{{ flat.flat_id }}">
-                            <img src="{{ MEDIA_URL }}house_standard.jpg"  alt="house" class="img-rounded">
+                            <p>{{flat.flat.name}}</p>
                         </a>
-                    </div>
-                    <div class="bottomaligned">
-                        <div class="span4">
-                            <a href="{{ flat.flat_id }}">
-                                <p>{{flat.flat.name}}</p>
-                            </a>
-                            <p>
-                                {% for member in flat.member_list %}
-                                <a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
-                                {% endfor %}
-                            </p>
-                            <p>
+                        <p>
+                            {% for member in flat.member_list %}
+                            <a href="{{ flat.flat_id }}/{{ member.user.username }}">{{member.user.first_name}}</a>
+                            {% endfor %}
+                        </p>
+                        <p>
 
-                            <div id="inviteBox{{  flat.flat_id }}" class="inviteBox btn-link">Invite</div>
-                            <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
-                                <form action="" method="POST">
-                                    {% csrf_token %}
-                                    <fieldset><br>
-                                        <input id="email" name="email" type="text" placeholder="Email address">
-                                        <input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
-                                        <button name="sendInvite" class="btn btn-primary" type="submit">Invite</button>
-                                    </fieldset>
-                                </form>
-                            </div>
+                        <div id="inviteBox{{  flat.flat_id }}" class="inviteBox btn-link">Invite</div>
+                        <div id="inviteForm{{ flat.flat_id }}" class="inviteForm" hidden="true">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <fieldset><br>
+                                    <input id="email" name="email" type="text" placeholder="Email address">
+                                    <input type="hidden" name="flat_id" value="{{ flat.flat_id }}">
+                                    <button name="sendInvite" class="btn btn-primary" type="submit">Invite</button>
+                                </fieldset>
+                            </form>
                         </div>
-                    </div> <!-- /bottomaligned -->
-                        												
-                    <div class="dropdown btn-group span1" id="accountmenu">
-                                    <figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
-                                    <ul class="dropdown-menu">
-                                                    <li>
-                                                                    <a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
-                                                    </li>
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                                    <a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
-                                                    </li>
-                                    </ul>
-                    </div> <!-- /dropdown -->
-
-                    <script type="text/javascript">
-                                    $(document).ready(function () {
-                                                    $('.dropdown-toggle').dropdown();
-                                    });
-                    </script>
-                    </div> <!-- /row -->
-
-                    <!-- Remove Flat Modal -->
-                    <div id="removeFlat" class="modal hide fade in" style="display: none; ">
-                        <form action="" method="POST"> {% csrf_token %}
-                                    <div class="modal-header">
-                                                    <button class="close" data-dismiss="modal"></button>
-                                                    <h3>Are you sure you want to leave this flat?</h3>
-                                    </div>
-                                    <div class="modal-footer">
-                                                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                                                    <input type="hidden" name="flat_id" value="" id="leaveFlat">
-                                                    <input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
-                                    </div>
-                        </form>
                     </div>
-    <!-- End Remove Flat Modal -->
+                </div> <!-- /bottomaligned -->
 
-    <!-- Edit Flat Info Modal -->
-    <div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
-                    <form action="" method="POST"> {% csrf_token %}
-                                    <div class="modal-header">
-                                                    <button class="close" data-dismiss="modal"></button>
-                                                    <h3>Edit flat information</h3>
-                                    </div>
-                                    <div class="modal-body">
-                                                    <div class="modal-form">
+                <div class="dropdown btn-group span1 offset1" id="accountmenu">
+                    <figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
+                        </li>
 
-                                                                    {% for field in edit_form.visible_fields %}
+                    </ul>
+                </div> <!-- /dropdown -->
 
-                                                                    <p>
-                                                                                    {{ field }}
-                                                                                    {{ field.help_text }}
-                                                                                    {{ field.errors }}
-                                                                    </p>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.dropdown-toggle').dropdown();
+                    });
+                </script>
+            </div> <!-- /row -->
 
-                                                                    {% endfor %}
-
-                                                    </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                                    <a href="#" class="btn" data-dismiss="modal">Close</a>
-                                                    <input type="hidden" name="flat_flat_id" value="" id="editFlat">
-                                                    <input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
-                                    </div>
-                    </form>
-    </div>
-    <!-- End Edit Flat Info Modal -->
-																
-                {% endfor %}
-                {% endif %}
-
-                <a href="#CreateFlat" class="btn btn-primary btn-small" data-toggle="modal">New flat</a>
-
-                <!-- Create Flat Modal -->
-                <div id="CreateFlat" class="modal hide fade in" style="display: none; ">
+            <!-- Remove Flat Modal -->
+            <div id="removeFlat" class="modal hide fade in" style="display: none; ">
+                <form action="" method="POST"> {% csrf_token %}
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal"></button>
-                        <h3>New Flat</h3>
+                        <h3>Are you sure you want to leave this flat?</h3>
                     </div>
-                    <form action="" method="POST">
+                    <div class="modal-footer">
+                        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                        <input type="hidden" name="flat_id" value="" id="leaveFlat">
+                        <input id="remove" type="submit" name="deleteFlat" class="btn btn-danger" value="Yes, I'm sure" />
+                    </div>
+                </form>
+            </div>
+            <!-- End Remove Flat Modal -->
+
+
+            <!-- Edit Flat Info Modal -->
+            <div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
+                <form action="" method="POST"> {% csrf_token %}
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"></button>
+                        <h3>Edit flat information</h3>
+
+
                         <div class="modal-body">
                             <div class="modal-form">
 
-                                {% for field in flat_form.visible_fields %}
-                                {% csrf_token %}
+                                {% for field in edit_form.visible_fields %}
+
                                 <p>
                                     {{ field }}
                                     {{ field.help_text }}
                                     {{ field.errors }}
                                 </p>
+
                                 {% endfor %}
 
                             </div>
                         </div>
                         <div class="modal-footer">
                             <a href="#" class="btn" data-dismiss="modal">Close</a>
-                            <input id="create" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
+                            <input type="hidden" name="flat_flat_id" value="" id="editFlat">
+                            <input id="edit" type="submit" name="editFlatInfo" class="btn btn-primary" value="Edit" />
                         </div>
-                    </form>
-                </div>
-                <!-- End Create Flat Modal -->
+                    </div>
+                </form>
             </div>
+            <!-- End Edit Flat Info Modal -->
 
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    $(function() {
-                        $(document).on('click', '.inviteBox', function(e) {
-                            var $this = $(this);
-                            if ($this.next().is(":hidden")) {
-                                $this.next().slideDown("slow");
-                            } else {
-                                $this.next().slideUp("slow");
-                            }
-                        });
-                    });
-                });
-            </script>
-				
-            <!-- Script to get the id of Flat_member of a row-->
-            <script type="text/javascript">
-                            function getFlatMemberId(para){
-                            document.getElementById('leaveFlat').value = para;
-                            }
-                            $(document).ready(function(){
-                                            $(function() {
-                                                            $(document).on('click', '.removeFlatButton', function(e) {
-                                                                            var para = this.dataset['para'];
-                                                                                            getFlatMemberId(para);
-                                                            });
-                                            });
-                            });
-            </script>
+            {% endfor %}
+            {% endif %}
 
-            <!-- Script to get the id of Flat of a row-->
-            <script type="text/javascript">
-                            function getFlatId(para){
-                                                            document.getElementById('editFlat').value = para;
-                            }
-                            $(document).ready(function(){
-                                            $(function() {
-                                                            $(document).on('click', '.editFlatInfoButton', function(e) {
-                                                                            var para = this.dataset['para'];
-                                                                                            getFlatId(para);
-                                                            });
-                                            });
-                            });
-            </script>
 
-        </div> <!-- /span8 -->
 
-        <div class="page-header">
-            <h2 class="text-center">Pending invitations</h2>
+
+
+            <!-- Create Flat Modal -->
+            <div id="CreateFlat" class="modal hide fade in" style="display: none; ">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal"></button>
+                    <h3>New Flat</h3>
+                </div>
+                <form action="" method="POST">
+                    <div class="modal-body">
+                        <div class="modal-form">
+
+                            {% for field in flat_form.visible_fields %}
+                            {% csrf_token %}
+                            <p>
+                                {{ field }}
+                                {{ field.help_text }}
+                                {{ field.errors }}
+                            </p>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn" data-dismiss="modal">Close</a>
+                        <input id="create" type="submit" name="createNewFlat" class="btn btn-primary" value="Create" />
+                    </div>
+                </form>
+            </div>
+            <!-- End Create Flat Modal -->
         </div>
 
-        <div>
-            <div class="span3 offset1">
-                {% if invited_flats %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(function() {
+                    $(document).on('click', '.inviteBox', function(e) {
+                        var $this = $(this);
+                        if ($this.next().is(":hidden")) {
+                            $this.next().slideDown("slow");
+                        } else {
+                            $this.next().slideUp("slow");
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <!-- Script to get the id of Flat_member of a row-->
+        <script type="text/javascript">
+            function getFlatMemberId(para){
+                document.getElementById('leaveFlat').value = para;
+            }
+            $(document).ready(function(){
+                $(function() {
+                    $(document).on('click', '.removeFlatButton', function(e) {
+                        var para = this.dataset['para'];
+                        getFlatMemberId(para);
+                    });
+                });
+            });
+        </script>
+
+        <!-- Script to get the id of Flat of a row-->
+        <script type="text/javascript">
+            function getFlatId(para){
+                document.getElementById('editFlat').value = para;
+            }
+            $(document).ready(function(){
+                $(function() {
+                    $(document).on('click', '.editFlatInfoButton', function(e) {
+                        var para = this.dataset['para'];
+                        getFlatId(para);
+                    });
+                });
+            });
+        </script>
+
+    </div> <!-- /span8 -->
+
+
+
+    <div>
+        <div class="span4">
+            <div class="page-header">
+                <h2 class="text-center">Pending invitations </h2>
+            </div>
+            {% if invited_flats %}
+            <div class="offset1">
                 <table class="table table-striped ">
                     <tr>
                         <th>Flat name</th>
@@ -223,11 +233,12 @@
                     </form>
                     {% endfor %}
                 </table>
-                {% endif %}
             </div>
-            <br>
+            {% endif %}
+        </div>
+        <br>
 
         </div>
-				</div> <!-- /row -->
+</div> <!-- /row -->
 
 {% endblock content %}
