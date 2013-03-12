@@ -43,27 +43,25 @@
                             </div>
                         </div>
                     </div> <!-- /bottomaligned -->
-                    <div class="text-right">
                         												
-																								<div class="dropdown btn-group " id="accountmenu">
-																												<figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
-																												<ul class="dropdown-menu">
-																																<li>
-																																				<a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
-																																</li>
-																																<li class="divider"></li>
-																																<li>
-																																				<a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
-																																</li> 
-																												</ul>
-																								</div>
-												
-                        <script type="text/javascript">
-                            $(document).ready(function () {
-                                $('.dropdown-toggle').dropdown();
-                            });
-                        </script>
-                    </div><!-- /text-right -->
+																				<div class="dropdown btn-group span1" id="accountmenu">
+																								<figure class="icon-pencil dropdown-toggle" data-toggle="dropdown" href="#"></figure>
+																								<ul class="dropdown-menu">
+																												<li>
+																																<a href="#removeFlat" data-para="{{ flat.id }}" class="removeFlatButton" data-toggle="modal">Leave flat</a>
+																												</li>
+																												<li class="divider"></li>
+																												<li>
+																																<a href="#editFlatInfo" data-para="{{ flat.flat_id }}"  class="editFlatInfoButton" data-toggle="modal">Edit flat information</a>
+																												</li> 
+																								</ul>
+																				</div> <!-- /dropdown -->
+								
+																				<script type="text/javascript">
+																								$(document).ready(function () {
+																												$('.dropdown-toggle').dropdown();
+																								});
+																				</script>
                 </div> <!-- /row -->
 																
 																<!-- Remove Flat Modal -->
