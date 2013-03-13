@@ -2,6 +2,8 @@
 {% block title %}Flat Organizer{% endblock %}
 
 {% block content %}
+    
+    <link href="{{STATIC_URL}}CSS/login.css" rel="stylesheet"/>
 
     {% if error %}
         <div class="alert alert-error">
@@ -9,18 +11,11 @@
             <strong>Wrong username/password</strong>
         </div>
     {% endif %}
-
-    <link href="{{STATIC_URL}}CSS/login.css" rel="stylesheet"/>
                  
       <form class="form-signin wrapper" method="post" action="/flats/login/"> {% csrf_token %}
             <h2 class="form-signin-heading wrapper">Please sign in</h2>
             <input type="text" class="input-block-level" name="username" value="" id="username" tabindex="1" placeholder="User name">
             <input type="password" class="input-block-level" name="password" value="" id="password" tabindex="2" placeholder="Password">
-            <!--<label class="checkbox">
-                <!--<input type="checkbox" tabindex="3" name="remember-me" value="1"> Remember me-->
-                 <!--<span class="separator"> - </span>-->
-                <!--<a class="forgot" href="/flats/resend_password/">Forgot password?</a>
-            </label>-->
             <button class="submit btn btn-medium btn-primary" tabindex="3" type="submit">Sign in</button>
       </form>
       <div class="form-register wrapper">

@@ -224,50 +224,5 @@
 </div>
 <!-- End delete task modal -->
 
-<!-- Scripts -->
-
-<!-- Validate the form content - create new item-->
-<script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        // Validation
-        $("#createItemForm").validate({
-            rules:{
-                name: {required: true, maxlength: 50},
-                description:{required:true, maxlength: 100},
-                credits: {required:true, whole: true},
-                category: {required: true}
-            },
-
-            errorClass: "help-inline",
-            errorElement: "span",
-            highlight:function(element, errorClass, validClass)
-            {
-                $(element).parents('.control-group').addClass('error');
-            },
-            unhighlight: function(element, errorClass, validClass)
-            {
-                $(element).parents('.control-group').removeClass('error');
-                $(element).parents('.control-group').addClass('success');
-            }
-        });
-
-
-    });
-    $(function() {
-        $(document).on('click', '#deleteTaskIcon', function(e) {
-            var para = this.dataset['para'];
-            $('#task_id_modal').val(para);
-        });
-    });
-    $(function() {
-        $(document).on('click', '#deleteTaskIcon2', function(e) {
-            var para = this.dataset['para'];
-            $('#task_id_modal').val(para);
-        });
-    });
-
-</script>
 
 {% endblock content %}

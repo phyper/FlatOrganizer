@@ -13,7 +13,7 @@
     {% endif %}
 
 	<div class="container">
-		<div class="row">
+  <div class="row">
 			<div class="span12">
 					
 				<legend>Registration</legend>
@@ -52,14 +52,14 @@
 					<div class="control-group success error">
 					<label class="control-label">Password</label>
 						<div class="controls">
-							<input type="password" class="input-xlarge" id="password1" name="password1" rel="popover" tabindex="5" data-content="Type your password" data-original-title="Password">
+							<input type="password" class="input-xlarge" id="password1" name="password1" rel="popover" tabindex="5" data-content="Enter your password" data-original-title="Password">
 						</div>
 					</div>
 					
 					<div class="control-group success error">
 					<label class="control-label">Retype password</label>
 						<div class="controls">
-							<input type="password" class="input-xlarge" id="password2" name="password2" rel="popover" tabindex="6" data-content="Retype your password" data-original-title="Password">
+							<input type="password" class="input-xlarge" id="password2" name="password2" rel="popover" tabindex="6" data-content="Re-enter your password" data-original-title="Password">
 						</div>
 					</div>
 					
@@ -77,69 +77,11 @@
 						</div>
 					</div>
 					
-					
-					
 					<fieldset>
 					
 				</form>
 			</div>
 		</div>
 	</div>
-	
-	<!-- Include Bootstrap Asserts JavaScript Files. -->
-	<script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function()
-		{
-		// Popover 
-		$('#registerHere input').hover(
-		  function(){
-		    $(this).popover('show')
-		  },
-		  function(){
-		    $(this).popover('hide') 
-		   }
-		);
-		
-		// Validation
-		$("#registerHere").validate({
-		  rules:{
-		  first_name: "required",
-		  last_name: "required",
-		  username:"required",
-		  email:{required:true,email: true},
-		  password1:{required:true,minlength: 6},
-		  password2:{required:true,equalTo: "#password1"}
-		},
-		
-		messages:{
-		  first_name: "Enter your first name",
-		  last_name: "Enter your last name",
-		  username:"Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.",
-		  email:{
-		    required:"Enter your email address",
-		    email:"Enter valid email address"},
-		  password1:{
-		    required:"Enter your password",
-		    minlength:"Password must be minimum 6 characters"},
-		  password2:{
-		    required:"Enter confirm password",
-		    equalTo:"Password and Confirm Password must match"}
-		},
-		
-		errorClass: "help-inline",
-		errorElement: "span",
-		highlight:function(element, errorClass, validClass)
-		{
-		  $(element).parents('.control-group').addClass('error');
-		},
-		unhighlight: function(element, errorClass, validClass)
-		{
-		  $(element).parents('.control-group').removeClass('error');
-		  $(element).parents('.control-group').addClass('success');
-		}
-		});
-		});
-	</script>
 	
 {% endblock content %}
