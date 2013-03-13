@@ -48,91 +48,98 @@
 
 
 <div id="flatLists" class = "row bord">
-<div id="flatTaskList" class ="span6">
-    <h3>Continuous Chores</h3>
-    <table class="table table-striped">
-        <tr>
-            <th>Task </th>
+    <div id="flatTaskList" class ="span6">
+        <h3>Continuous Chores</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>Task </th>
+                <th>Category</th>
+                <th>Points</th>
+                <th>Done</th>
+                <th>Delete</th>
+            </tr>
+            {% for task in task_list %}
+            <tr id="{{task.id}}">
+                <td> {{ task.name }} <em><small> <br/>&nbsp&nbsp&nbsp{{ task.description }}</small></em></td>
+                <td> {{ task.category }} </td>
+                <td> {{ task.credits }}</td>
+                <td>
+                    <form method="POST" action ="">
+                        {% csrf_token %}
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                        <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
+                    </form>
+                </td>
+                <td> <a class="icon-remove" id="deleteTaskIcon" data-para="{{ task.id }}"data-toggle="modal" href="#deleteTaskModal"></a> </td>
+                <!--</form>-->
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div id="flatShoppingList" class ="span5 offset1">
+        <h3>Shopping List</h3>
+        <table id="tableShoppingList" class = "table table-striped">
+            <th>Item </th>
             <th>Category</th>
             <th>Points</th>
             <th>Done</th>
             <th>Delete</th>
-        </tr>
-        {% for task in task_list %}
-        <tr id="{{task.id}}">
-            <td> {{ task.name }} <em><small> <br/>&nbsp&nbsp&nbsp{{ task.description }}</small></em></td>
-            <td> {{ task.category }} </td>
-            <td> {{ task.credits }}</td>
-            <td>
-                <form method="POST" action ="">
-                    {% csrf_token %}
-                    <input type="hidden" name="task_id" value="{{ task.id }}">
-                    <button type="submit"name="setTaskDone" id="btnSetTaskDone" class ="btn btn-primary btn-small done"/>Done</button>
-                </form>
-            </td>
-            <td> <a class="icon-remove" id="deleteTaskIcon" data-para="{{ task.id }}"data-toggle="modal" href="#deleteTaskModal"></a> </td>
-            <!--</form>-->
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+            <div id="shoppingItems">
+                {% for shopping_item in shopping_list %}
 
-<div id="flatShoppingList" class ="span5 offset1">
-    <h3>Shopping List</h3>
-    <table id="tableShoppingList" class = "table table-striped">
-        <th>Item </th>
-        <th>Category</th>
-        <th>Points</th>
-        <th>Done</th>
-        <th>Delete</th>
-        <div id="shoppingItems">
-            {% for shopping_item in shopping_list %}
-
-            <tr id="{{ shopping_item.id }}" >
-                <td> {{ shopping_item.name }} <em><small> <br/>&nbsp&nbsp&nbsp{{ shopping_item.description }}</small></em> </td>
-                <td> {{ shopping_item.category }}</td>
-                <td> {{ shopping_item.credits }} </td>
-                <td>
-                    <form method="POST" action ="">
-                        {% csrf_token %}
-                        <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
-                        <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
-                        <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
-                    </form>
-                </td>
-                <td><a class="icon-remove" id="deleteTaskIcon2" data-para="{{ shopping_item.id }}"data-toggle="modal" href="#deleteTaskModal"></a></td>
-            </tr>
-            {% endfor %}
-        </div>
-
-    </table>
-</div>
-
-<div class="span12">
-
-</div>
-
-
-<div id="summaryList" class ="row span6">
-    <h3>Short Summary</h3>
-    <table id="summaryTable" class = "table table-striped">
-        <th>User</th>
-        <th>Last Task</th>
-        <th>Last Task Completed</th>
-        <th>Total Score</th>
-        <div id="allItems">
-            {% for row in summaryList %}
-            <tr>
-                <td> {{ row.0 }} </td>
-                <td> {{ row.1 }} </td>
-                <td> {{ row.2 }} </td>
-                <td> {{ row.3 }} </td>
+                <tr id="{{ shopping_item.id }}" >
+                    <td> {{ shopping_item.name }} <em><small> <br/>&nbsp&nbsp&nbsp{{ shopping_item.description }}</small></em> </td>
+                    <td> {{ shopping_item.category }}</td>
+                    <td> {{ shopping_item.credits }} </td>
+                    <td>
+                        <form method="POST" action ="">
+                            {% csrf_token %}
+                            <input type="hidden" name="flat_id" value="{{ flat_info.id }}">
+                            <input type="hidden" name="task_id" value="{{ shopping_item.id }}">
+                            <button type="submit" name ="setShoppingItemDone" id="btnSetShoppingDone" class ="btn btn-primary btn-small shopping-item" onclick="removeShoppingItem(this.form);">Done</button>
+                        </form>
+                    </td>
+                    <td><a class="icon-remove" id="deleteTaskIcon2" data-para="{{ shopping_item.id }}"data-toggle="modal" href="#deleteTaskModal"></a></td>
+                </tr>
                 {% endfor %}
-        </div>
-    </table>
+            </div>
+        </table>
+    </div>
 </div>
-<div class="span12 offset11">
-    <a href="#deleteFlat" class="btn btn-primary btn-small center" data-toggle="modal">Delete flat</a>
+
+<div class="row">
+    <div class="span12">
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="summaryList" class ="span6">
+        <h3>Short Summary</h3>
+        <table id="summaryTable" class = "table table-striped">
+            <th>User</th>
+            <th>Last Task</th>
+            <th>Last Task Completed</th>
+            <th>Total Score</th>
+            <div id="allItems">
+                {% for row in summaryList %}
+                <tr>
+                    <td> {{ row.0 }} </td>
+                    <td> {{ row.1 }} </td>
+                    <td> {{ row.2 }} </td>
+                    <td> {{ row.3 }} </td>
+                    {% endfor %}
+            </div>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <a href="#deleteFlat" class="btn btn-primary btn-small center  pull-right" data-toggle="modal">Delete flat</a>
+    </div>
 </div>
 
 
