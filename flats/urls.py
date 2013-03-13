@@ -15,8 +15,7 @@ urlpatterns = patterns('',
     url(r'^resend_password/', views.resend_password, name='resend_password'),
 )
 
-if DEBUG:
-    # static files (images, css, javascript, etc.)
-    urlpatterns += patterns('',
-        (r'^imgs/(?P<path>.*)$', 'django.views.static.serve', {
-            'document_root': MEDIA_ROOT}))
+# static files (images, css, javascript, etc.)
+urlpatterns += patterns('',
+    (r'^imgs/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': MEDIA_ROOT}))
