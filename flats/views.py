@@ -438,4 +438,4 @@ def send_email(email_address):
     try:
         return msg.send()
     except:
-        print "Failed to send email to " + email_address
+        print ("Failed to send email to " + email_address)
