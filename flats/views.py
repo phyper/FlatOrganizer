@@ -356,8 +356,11 @@ def profile(request, flatid=None, username=None):
     context = RequestContext(request)
     if flatid and username:
         logged_in_user = User.objects.get(username=request.user)
-        view_user = User.objects.get(username=username)
-        flat = Flat.objects.get(id=flatid)
+        try:
+            view_user = User.objects.get(username=username)
+            flat = Flat.objects.get(id=flatid)
+        except:
+            raise PermissionDenied
         #access is defined as both the user and the user to view lives in the
         #chosen flat
         access = livesTogetherWithUser(logged_in_user, view_user, flat)
