@@ -271,21 +271,6 @@ def flat(request, flatid=None):
     else:
         raise PermissionDenied
 
-def password_change(request):
-    context = RequestContext(request)
-    return render_to_response('flats/login.html', {}, context)
-
-def resend_password(request):
-
-    context = RequestContext(request)
-    if request.method =='POST':
-        passwdform = PasswordResetForm(data = request.POST)
-        if passwdform.is_valid():
-            passwdform.save()
-            return render_to_response('flats/login.html', {}, context)
-
-    return render_to_response('flats/resend_password.html', {}, context)
-
 def register(request):
 
     context = RequestContext(request)
