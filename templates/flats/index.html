@@ -3,12 +3,6 @@
 
 {% block content %}
 
-{% if success %}
-<div class="alert alert-success" xmlns="http://www.w3.org/1999/html">
-    <a class="close" data-dismiss="alert">×</a>
-    <strong>Invite sent</strong>
-</div>
-{% endif %}
 <div class ="row">
 <div class="span8">
     <div class="content">
@@ -16,8 +10,8 @@
             <h1 class="text-center"> Please select your flat</h1>
         </div>
         <a href="#CreateFlat" class="btn btn-primary btn-small center" data-toggle="modal">New flat</a>
-        </br>
-        </br>
+        <br>
+        <br>
         {% if flats %}
         {% for flat in flats %}
         <div class="row hero-unit" style="margin-left: 0px;">
@@ -66,12 +60,6 @@
 
                 </ul>
             </div> <!-- /dropdown -->
-
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $('.dropdown-toggle').dropdown();
-                });
-            </script>
         </div> <!-- /row -->
 
         <!-- Remove Flat Modal -->
@@ -89,7 +77,6 @@
             </form>
         </div>
         <!-- End Remove Flat Modal -->
-
 
         <!-- Edit Flat Info Modal -->
         <div id="editFlatInfo" class="modal hide fade in" style="display: none; ">
@@ -118,7 +105,6 @@
                                     </div>
                                 </div>
                             </fieldset>
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -171,10 +157,7 @@
         </div>
         <!-- End Create Flat Modal -->
     </div>
-
 </div> <!-- /span8 -->
-
-
 
 <div>
     <div class="span4">
@@ -204,7 +187,6 @@
         {% endif %}
     </div>
     <br>
-
 </div>
 </div> <!-- /row -->
 

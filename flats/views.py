@@ -20,7 +20,7 @@ def index(request):
     context = RequestContext(request)
     success = None
 
-    try: # This might need refactoring later as this is not the best way to check user's status
+    try:
         u = User.objects.get(username=request.user)
         flats_user = Flat_Member.objects.filter(user=u)
 
@@ -130,18 +130,18 @@ def index(request):
                 flat.name = name
                 flat.description = description
                 flat.save()
-                success = True
                 return HttpResponseRedirect("/flats")
             else:
                 print (edit_flat_form.errors)
 
-        return render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'edit_form' : edit_flat_form, 'invited_flats' : invited_flats, 'success': success}, context)
+        return render_to_response('flats/index.html', { 'flats' : flats_user, 'flat_form' : new_flat_form, 'edit_form' : edit_flat_form, 'invited_flats' : invited_flats}, context)
 
     except:
         context = RequestContext(request)
         return render_to_response('flats/login.html', {}, context)
 
-# User Registration view/Template
+
+# User Registration
 @login_required
 def flat(request, flatid=None):
     context = RequestContext(request)
@@ -201,7 +201,6 @@ def flat(request, flatid=None):
 
     new_task_form = NewTaskForm()
 
-    #Do one common processing here..
     if "setTaskDone" in request.POST and user_lives_in_flat:
         task_id = request.POST.get('task_id')
         task = Task.objects.get(id = task_id)
@@ -209,7 +208,6 @@ def flat(request, flatid=None):
         assigned_task.task = task
         assigned_task.member = userFlatMember
         assigned_task.save()
-        success = True
         return HttpResponseRedirect(link)
 
     if "setShoppingItemDone" in request.POST and user_lives_in_flat:
@@ -219,10 +217,8 @@ def flat(request, flatid=None):
         assigned_task.task = task
         assigned_task.member = userFlatMember
         assigned_task.save()
-        success = True
         task.delete()
 
-        #Need to get the new list. This is ugly and needs refactoring
         full_list = Task.objects.filter(flat = flat )
         shopping_list = []
 
@@ -236,7 +232,6 @@ def flat(request, flatid=None):
         print (task_id)
         task = Task.objects.get(id = task_id)
         task.delete()
-        success = True
         return HttpResponseRedirect(link)
 
     if "createNewItem" in request.POST and user_lives_in_flat:
@@ -246,8 +241,6 @@ def flat(request, flatid=None):
             task = new_task_form.save(commit=False)
             task.flat = flat[0]
             task.save()
-            success = True
-
             full_list = Task.objects.filter(flat = flat )
             task_list = []
             shopping_list = []
@@ -263,12 +256,12 @@ def flat(request, flatid=None):
             print (new_task_form.errors)
 
     if user_lives_in_flat:
-        return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'success' : success, 'summaryList':summaryList} , context)        
+        return render_to_response('flats/flat.html', {'flat_info': flat[0], 'task_list' : task_list, 'shopping_list' : shopping_list, 'flat_members' : flat_members, 'task_form':new_task_form, 'summaryList':summaryList} , context)
     else:
         raise PermissionDenied
 
-def register(request):
 
+def register(request):
     context = RequestContext(request)
     success = False
     if request.method =='POST':
@@ -288,8 +281,7 @@ def register(request):
             else:
                 profile.picture = "standard.gif"
             profile.save()
-            success = True
-            
+
             #Redirect user to the home page after successful registration
             try:
                 user = auth.authenticate(username=uform['username'].value(), password=uform['password1'].value())
@@ -298,11 +290,11 @@ def register(request):
             except:
                 raise Http404
         else:
-            return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': success }, context)
+            return render_to_response('flats/register.html', {'uform': uform, 'pform': pform}, context)
     else:
         uform = UserCreateForm()
         pform = UserProfileForm()
-        return render_to_response('flats/register.html', {'uform': uform, 'pform': pform, 'registered': success }, context)
+        return render_to_response('flats/register.html', {'uform': uform, 'pform': pform}, context)
 
 def user_login(request):
     context = RequestContext(request)
@@ -325,12 +317,14 @@ def user_login(request):
         # the login is a  GET request, so just show the user the login form.
         return render_to_response('flats/login.html', {}, context)
 
+
 @login_required
 def user_logout(request):
     context = RequestContext(request)
     logout(request)
     # Redirect back to index page.
     return HttpResponseRedirect('//')
+
 
 @login_required
 def profile(request, flatid=None, username=None):
@@ -417,7 +411,7 @@ def livesTogetherWithUser(logged_in_user, user_to_view, flat):
 def send_email(email_address):
     msg = EmailMessage('FlatOrganizer: Flat Invitation',
         'You got an invite! ' +
-        'To accept this invitation, login or register for the FlatOrganizer with your ('+email_address+').'
+        'To accept this invitation, login or register for the FlatOrganizer with your email address ('+email_address+').'
         , to=[email_address])
     try:
         return msg.send()

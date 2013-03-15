@@ -4,16 +4,6 @@
 {% block content %}
 
 <h2 xmlns="http://www.w3.org/1999/html">Welcome to {{ flat_info.name }}!</h2>
-{% if success %}
-<div class="alert alert-success">
-    <a class="close" data-dismiss="alert">×</a>
-    <strong>Success!</strong> Task registered!
-</div>
-{% endif %}
-<div style="display: none;" class="alert alert-error">
-    <a class="close" data-dismiss="alert">×</a>
-    <strong>Error!</strong> Oh snap, something went wrong here..
-</div>
 <div id="flatDescription" class ="row">
     <br>
     <div class="span2" id="pictureContainer">
@@ -25,8 +15,6 @@
             {{ flat_info.description }}
         </small>
         </h5>
-
-
         <div id="memberList" >
             <h5>Members in flat<small>
                 {% for member in flat_members %}
@@ -35,18 +23,13 @@
             </small>
             </h5>
         </div>
-
-
     </div>
     <div class="span2 create-button">
         <a data-toggle="modal" href="#CreateItem" class="btn btn-success btn-small">Create Item</a>
     </div>
 
 </div>
-
 <br>
-
-
 <div id="flatLists" class = "row bord">
     <div id="flatTaskList" class ="span6">
         <h3>Continuous Chores</h3>
@@ -110,10 +93,8 @@
 
 <div class="row">
     <div class="span12">
-
     </div>
 </div>
-
 
 <div class="row">
     <div id="summaryList" class ="span6">
@@ -141,7 +122,6 @@
         <a href="#deleteFlat" class="btn btn-primary btn-small center  pull-right" data-toggle="modal">Delete flat</a>
     </div>
 </div>
-
 
 <div id="CreateItem" class="modal hide fade in" style="display: none; ">
     <form class="form-horizontal" enctype="multipart/form-data" id="createItemForm" method="post" action=""> {% csrf_token %}
@@ -223,6 +203,5 @@
     </form>
 </div>
 <!-- End delete task modal -->
-
 
 {% endblock content %}

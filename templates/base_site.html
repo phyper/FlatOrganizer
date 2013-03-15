@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <HTML lang="en">
 
-<HEADER>
+<HEAD>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <title>Flat Organizer</title>
     <meta content="Keep your flat organized with your mates" name="description"/>
@@ -9,7 +9,6 @@
 
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
-    <!--[if lt IE 9]><script src="dist/html5shiv.js"></script> <![endif]-->
     <script src="{{ STATIC_URL }}js/jquery.validate.js"></script>
     
     <script src="{{STATIC_URL}}js/scripts.js"></script>
@@ -17,19 +16,8 @@
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="{{STATIC_URL}}CSS/main.css" rel="stylesheet"/>
     <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
-
-    <style type="text/css">
-        body {
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-        .sidebar-nav {
-            padding: 9px 0;
-        }
-    </style>    
-
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet"/>
-</HEADER>
+</HEAD>
 <BODY>
 <div class="container">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -42,18 +30,7 @@
                 </a>
                 <a class="brand" href="/flats/">Flat Organizer</a>
                 <div class="nav-collapse collapse ">
-                
-                <script>
-                    $('#modal-footer').on('click', function(e){
-                    // We don't want this to act as a link so cancel the link action
-                    e.preventDefault();
-                    // Find form and submit it
-                    $('submit').submit();
-                    });
-                </script>
-                
-                
-                        
+
                     <p class="navbar-text pull-right">
                 
                         {% if user.is_authenticated %}
@@ -93,9 +70,7 @@
         
     </footer>
 
-
     </DIV>
 </div>
 </BODY>
-
 </HTML>
