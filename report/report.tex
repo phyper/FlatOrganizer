@@ -17,12 +17,14 @@
 \usepackage{cite}
 \usepackage[numbers]{natbib}
 
+\definecolor{light-gray}{gray}{0.95}
+
 \begin{document}
 \newcommand{\todo}[1]{\textcolor{red}{#1}}
 \def\newblock{\hskip .11em plus .33em minus .07em}
 
-\conferenceinfo{DIM3} {2010, Glasgow, UK} 
-\CopyrightYear{2010}
+\conferenceinfo{ITECH} {2013, Glasgow, UK} 
+\CopyrightYear{2013}
 \clubpenalty=10000
 \widowpenalty = 10000
 
@@ -42,18 +44,32 @@ Haakon S{\o}nsteby\\
 \maketitle
 
 \begin{abstract}
-Flat Organizer is a web application that helps people to manage tasks in households. It provides a simple interface, where users can keep a track of tasks that need to be done. The main page contains two different list: a continuous chores list, and a shopping list. A continuous chores list is meant to be for tasks that does not expire, but can be done regularly. A shopping list is for keeping list of items that should be bought to the household. In addition, Flat Organizer provides a simple view of what each member of the household has done and when. Each task will be scored based on how challenge it is to perform. Users' points will increase as they perform tasks.
+Flat Organizer is a web application that helps people to manage tasks in
+households. It provides a simple interface, where users can keep track of tasks
+that need to be done. The main page contains two different lists: a continuous
+chores list, and a shopping list. A continuous chores list is meant to be for
+tasks that does not expire, but can be done regularly. A shopping list is a list
+of items that should be bought to the household. In addition, Flat Organizer
+provides a simple view of what each member of the household has done and when.
+Each task will be scored based on how challenge it is to perform. Users' points
+will increase as they perform tasks.
 
 \end{abstract}
 
 \section{Aim of Application}
-Most people lives in one a kind of household, it might be with their family, partner, roommates or perhaps some sort of student accommodation. While living in a household there are obligations among the residents that have to be fulfilled. Flat Organizer will make sure that each person in the household will contribute to the fellowship by both listing things that have to be done, and maybe even more important, shows a record of what everyone has completed in the last period of time.
+Most people lives in one a kind of household, it might be with their family,
+partner, roommates or perhaps some sort of student accommodation. While living
+in a household there are obligations among the residents that have to be
+fulfilled. Flat Organizer will make sure that each person in the household will
+contribute to the fellowship by both listing things that have to be done, and
+maybe even more important, shows a record of what everyone has completed in the
+last period of time.
 
 \subsection{Functional Requirements}
 
-We used so called MoSCoW technique to prioritize required functionalities. There are four different categories: 
-\begin{itemize}
-	\itemsep-2em
+We used so called MoSCoW technique to prioritize required functionalities. There
+are four different categories:
+\begin{itemize} \itemsep-2em
 \item \textbf{M} = Must have
 \item \textbf{S} = Should have
 \item \textbf{C} = Could have
@@ -61,7 +77,7 @@ We used so called MoSCoW technique to prioritize required functionalities. There
 \end{itemize}
 	
 \begin{center}
-	\rowcolors{1}{gray}{white}
+	\rowcolors{1}{light-gray}{white}
     \begin{tabular}{ | l | p{3.5cm} | l |}
     \hline
 	 \textbf{ID}	& \textbf{Name} & \textbf{Priority} \\ \hline
@@ -92,7 +108,7 @@ We used so called MoSCoW technique to prioritize required functionalities. There
 \item Responsive UI, screen resolution down to 800x600 px must be supported
 \item The application must work on the most common browsers: Google Chrome and Mozilla Firefox 
 \item All data must be available in the data storage even though the user deletes it.
-\item Security and authorization over entire application
+\item Security and authorization.
 \item All operations should be performed within a second, as after a couple seconds a user will start thinking that something is broken.
 \item Any personal information should not be accessed by outsider.
 \item Good usability.
@@ -100,34 +116,34 @@ We used so called MoSCoW technique to prioritize required functionalities. There
 
 \subsection{Assumptions}
 
-The implemented application will be used on laptop or desktop as it is not designed for mobile using. Actually this application would be primarily used on mobile devices, but that would be implemented afterwards if the team continue to extend the application after delivery. 
+The implemented application will be used on laptop or desktop as it is not designed for mobile using. This application would also be used on mobile devices, but that would be implemented afterwards if the team continue to extend the application after delivery. 
 
 \subsection{Design goals}
 
-The overall design goals is allowing users to create and join flats, create and
+The overall design goals are allowing users to create and join flats, create and
 complete tasks and keep track of who did what in a flat. This should be
 accomplished by letting the user interact with an interface following the Keep
 It Short and Simple (KISS) guidelines. This is a functional, target driven
 application, so the number of disturbing elements should be minimized and the
-focus should rather be on letting the user do his/her's desired task in a
+focus should rather be on letting the user do his/her desired task in a
 simplistic, neat way. Less is more.
 
 Time is one big constraint, but managing the time and estimating the tasks so
 that the scope of the application is appropriate may be even harder. None of the
-team members has any knowledge of Django or Python, so this is a new web
+team members has any experience of Django or Python. Therefor this is a new web
 development framework and programing language for all team members to become
-comfortable in. Some team members has a small amount of HTML, CSS and JavaScript
-experience, but this is very basic. When it comes to the three person team size,
-this is both an advantage and a disadvantage. Only three people makes the
-project easier to manage, communication flow is easier and every group member
-can be involved in all parts of the system. The disadvantage is that more people
-would generate more inputs on ideas, most likely have more knowledge and can
-produce more features to an application.
+comfortable in. Some team members have a small amount of HTML, CSS and
+JavaScript experience, but this is very basic. When it comes to the three person
+team size, this is both an advantage and a disadvantage. Only three people make
+the project easier to manage, communication flow is easier and every group
+member can be involved in all parts of the system. The disadvantage is that more
+people would generate more inputs on ideas, most likely have more knowledge and
+can produce more features to an application.
 
 Estimating the appropriate scope of the application is challenging. Especially
 when the web framework is new to every team member, giving no knowledge
-regarding the features it supports "out of the box". To try to overcome this
-problem priorities are used on every functionality implemented, so that core
+regarding the features it supports. To try to overcome this challenge,
+priorities are used on every functionality implemented, so that core
 functionality is in place and more features can be implemented if time. The team
 realizes that the selected scope is ambitious, but feels that it it needs to be
 of this size in order to work as a complete, usable application.
@@ -138,8 +154,10 @@ of this size in order to work as a complete, usable application.
 
 \subsubsection{Main page}
 \begin{enumerate}
-\item Logo of the application that also works as a link back to the flat overview. 
-\item Description of the flat, containing a picture, name of the flat, and the current members. The plus icon will show a small text field that is used to invite new members
+\item Logo of the application that works as a link back to the flat overview. 
+\item Description of the flat, containing a picture, name of the flat, and the
+current members. The plus icon will show a small text field that is used to
+invite new members
 \item Contains a list of the continuous tasks that needs to be done inside a flat. Every task has credits, a done button and a delete icon. 
 \item Shopping list contains the items that only needs to be done once. Every item has a name, credits, a done button and a delete icon. 
 \item The highscore list will show all the users, with their total points and last completed task, giving a quick and easy view of the score in the flat. 
@@ -169,7 +187,7 @@ of this size in order to work as a complete, usable application.
 \subsubsection{Flats}
 
 \begin{enumerate}
-\item Logo of the application that also works as a link back to this view
+\item Logo of the application that works as a link back to this view
 \item A list of all the flats the user is currently a member of, giving the picture, name and other members. 
 \item A list of flats the user has been invited to join. 
 \item The new flat button will trigger a modal window to be displayed and the user can fill in the appropriate information.
@@ -188,7 +206,7 @@ of this size in order to work as a complete, usable application.
 \textbf{Use case}: Create a new shopping item.\\
 \textbf{Summary}: User can create a new shopping item that appears in shopping list.\\
 \textbf{Actors}: User \\
-\textbf{Preconditions}: There is not this particular shopping list item. \\
+\textbf{Preconditions}: User needs to be a member of the flat. \\
 \textbf{Goal of the primary user}: User wants to remember what (s)he needs to buy when in shop. \\
 \textbf{Basic sequence}:
 \begin{enumerate}
@@ -206,7 +224,7 @@ of this size in order to work as a complete, usable application.
 
 \noindent
 \textbf{Use case}: Set shopping item as done. \\
-\textbf{Summary}: After buying a item that has been on shopping list, a user want to set it done. \\
+\textbf{Summary}: After buying an item that has been on shopping list, a user want to set it done. \\
 \textbf{Actor}: User \\
 \textbf{Preconditions}: There is an item on shopping list. \\
 \textbf{Goal of the primary user}: User wants to show that (s)he has participated in the work of a common flat and bought an item that was on the shopping list. \\
@@ -223,7 +241,7 @@ of this size in order to work as a complete, usable application.
 \textbf{Use case}: Create new flat and invite Justin Timberlake. \\
 \textbf{Summary}: A user has just moved in a new flat and want to create a new flat. As Justin Timberlake moved in with her, she wants to send invite to him. \\
 \textbf{Actor}: User and a secondary user \\
-\textbf{Preconditions}: Both users have registered on the service.  \\
+\textbf{Preconditions}: None  \\
 \textbf{Goal of the primary user}: User want to create a new flat, as she has just moved in a new flat. In addition, she want to invite her friends, so that they can easily divide common tasks in the flat community. \\
 \textbf{Basic sequences}:
 \begin{enumerate}
@@ -235,36 +253,51 @@ of this size in order to work as a complete, usable application.
 \item User fills in the email address of the other member.
 \item User submits the invite.
 \end{enumerate}
-\textbf{Postconditions}: Invitation appears on the Flats page of the secondary user, and as he accept the invitation, his name will be shown on the Flat information of that flat and the User can also see that. \\
+\textbf{Postconditions}: Invitation appears on the Flats page of the secondary
+user, and as he accept the invitation, his name will be shown on the Flat
+information of that flat and the User can also see that. \\
 
 \subsection{Front-end technologies}
 
-The technologies used to develop the front end is a combination of HTML5 and JavaScript, styled with the CSS toolkit Twitter Bootstrap \cite{x14}. The team used an external JavaScript library called jQuery \cite{x15} which simplified the client side scripting and provided easy access to new features. As for the discussion of implementing POST queries using Ajax, the team decided that Ajax is considered a luxury feature and will be implemented if time. All these technologies and extensions are well established with their own community and thorough documentation. There are other CSS toolkits out here, like blueprint \cite{x16}, HTML5BoilerPlate \cite{x17}, and Zurb \cite{x18}, but Bootstrap was chosen because of its popularity and community size. 
+The technologies used to develop the front end is a combination of HTML5 and
+JavaScript, styled with the CSS toolkit Twitter Bootstrap \cite{x14}. The team
+used an external JavaScript library called jQuery \cite{x15} which simplified
+the client side scripting and provided easy access to new features. As for the
+discussion of implementing POST queries using Ajax, the team decided that Ajax
+is considered a luxury feature and will be implemented if time. All these
+technologies and extensions are well established with their own community and
+thorough documentation. There are other CSS toolkits out here, like blueprint
+\cite{x16}, HTML5BoilerPlate \cite{x17}, and Zurb \cite{x18}, but Bootstrap was
+chosen because of its popularity and community size.
 
-The achievement of using all these well established technologies and libraries is a set of predefined layout guidelines and elements allowing the team to easily make use of this instead of reinventing the wheel. This helped us to make Flat Organizer a neat, clean and intuitive application, where the users immediately finds themselves at home and can conduct their preferred task quick and easily.
+The achievement of using all these well established technologies and libraries
+is a set of predefined layout guidelines and elements allowing the team to
+easily make use of this instead of reinventing the wheel. This helped us to make
+Flat Organizer a neat, clean and intuitive application, where the users
+immediately finds themselves at home and can conduct their preferred task quick
+and easily.
 
 \section{Application Architecture}
 
-\subsection{N-Tier architecture}
-FlatOrganizer consists of a 3-Tier layered architecture. The separation of
+\subsection{N-Tier Architecture}
+Flat Organizer consists of a 3-Tier layered architecture. The separation of
 concerns (the three independent layers) makes it easy to develop and manage. In
-addition Django is based on the MVC (Model-View-Controller pattern) even though
+addition, Django is based on the MVC (Model-View-Controller) pattern even though
 one might say that MTV (Model-Template-View) is more accurate if acronyms are
-important \cite{django1}. This way of both implementing the application and the
+important \cite{django1}. This way implementing the application and the
 mindset this structure forces, ensures separation of concerns.
 
-The front end (presentation layer) which is presented to the client is loaded
+The front end (presentation layer) is presented to the client
 after http requests. The clients are usually web browsers, and the requests are
-mostly based on URLs and form submits. The front end technologies in
-FlatOrganizer are HTML, CSS, JavaScript and jQuery.
+mostly based on URLs and form submits.
 
-The application layer in FlatOrganizer is implemented with Django, a Python Web
+The application layer in Flat Organizer is implemented with Django, a Python Web
 Framework. It is the logical part of the application which handles client
 requests, maps URLs, performs calculations, and retrieves data from the data
 layer.
 
 The data layer, the database, is a SQLite database that is a lightweight
-database management system and easily used with Django applications.
+database management system and is implemented in Django applications.
 
 \begin{figure}[!ht]
 \centering
@@ -274,40 +307,40 @@ database management system and easily used with Django applications.
 \end{figure}
 
 
-\subsection{ER model}
-In Figure~\ref{fig:er} below shows the ER-model, and the database is implemented
+\subsection{ER Model}
+Figure~\ref{fig:er} below shows the ER model, and the database is implemented
 as a relational database. For the implementation we used Django's SQLite
 support. By creating classes and relations in the model (models.py) we are able
 to let Django handle the requests (e.g. INSERT, DELETE, SELECT statements) with
-its ORM (Object Relational Mapper) (Managers).
+its ORM (Object Relational Mapper).
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.3]{er}
-\caption{ ER diagram}
+\caption{ ER Diagram}
 \label{fig:er}
 \end{figure}
 
 \noindent \textbf{Web Framework: Django} \\ 
 Django suits our project perfectly and is a recognized and easy to use Python
 web framework. However there are many web frameworks out there. Other frameworks
-are for example Flask (Python) \citenum{x1}, Pylon (Python) \cite{x2}, Grok
+are for example Flask (Python) \cite{x1}, Pylon (Python) \cite{x2}, Grok
 (Python) \cite{x3} and TurboGears (Python) \cite{x4}, JSF (Java) \cite{x5},
 Apache Struts (Java) \cite{x6}, CakePHP (PHP) \cite{x7}, ASP (.NET) \cite{x8}
-and maybe the strongest competitor Ruby on Rails (Rails) \cite{x9} \cite{x19}.
+and maybe the strongest competitor Ruby on Rails (Rails) \cite{x9}, \cite{x19}.
 They all support N-tier architecture with focus on web development.
 
 Web Application Frameworks focus on building web applications, and the main
 advantages are functionality such as session management and user authentication,
 data persistence and template systems \cite{x10}.
 
-Even though Web Application Framework has a lot of advantages there are some
+Even though Web Application Frameworks have a lot of advantages there are some
 disadvantages that must be considered before selecting a framework. These
 disadvantages could be performance issues, one might need education in a
 specific language and framework to be able to develop efficiently, customization
 of functions and functionality might be hard, and if bugs and security issues
-are discovered, all applications that use the framework could be affected.
-\cite{x11}
+are discovered, all applications that use the framework could be affected
+\cite{x11}.
 
 \section{Message Parsing}
 
@@ -324,11 +357,12 @@ sending messages.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[scale=0.55]{sequencediagrams}
+\includegraphics[scale=0.5]{sequencediagrams}
 \caption{Sequence diagrams}
 \label{fig:sequence}
 \end{figure}
 
+\vspace{5 mm}
 \noindent
 \textbf{Database Request Format} \\
 The connection between the database and the application is SQLite format. These transactions/requests are handled by Django.
@@ -337,24 +371,22 @@ These messages are formatted as SQL statements such as:
 \begin{verbatim} SELECT * FROM flats_flat \end{verbatim}
 
 
-
 \section{Implementation Notes}
 
-Views
-FlatOrganizer has only one view.py file, but implements many functions (redirected through the URL dispatcher). The following functions exist:
+\noindent \textbf{Views}\\
+Flat Organizer has only one view.py file, but implements many functions (redirected through the URL dispatcher). The following functions exist:
 
 \begin{itemize}
 \item def index(request)
 \item def flat(request, flatid=None)
-\item def profile(request, flatid=None, username=None)
-\end{itemize}
-Depending on a flat id, this will redirect either to the personal profile (no flat id argument), or to the users profile within one flat.
-\begin{itemize}
+\item def profile(request, flatid=None, username=None)*
 \item def register(request)
 \item def user{\_}logout(request)
 \item def user{\_}login(request)
 \end{itemize}
-URL Mapping Schema
+* Depending on a flat id, this will redirect either to the personal profile (no flat id argument), or to the users profile within one flat. \\
+
+\noindent \textbf{URL Mapping Schema}\\
 The following code snippet is the main URL patterns in FlatOrganizer. Every pattern redirects the client to the correct method (second argument) in views.py.
 
 \begin{lstlisting}[language=HTML, numbers=left, linewidth=8.5cm, breaklines=true, breakautoindent=true]
@@ -368,22 +400,22 @@ urlpatterns = patterns('',
    	url(r'^(?P<flatid>\d+)/$', views.flat, name='flat'),
 \end{lstlisting}
 
-
-
 The code snippet above results in the following URLs (after:
 http://servername/flats/: index, register, login, logout, <flatid>,
 <flatid>/<username>, profile.
 
-External Services We did not use any external services (only serviced within the
+\vspace{5 mm}
+\noindent \textbf{External Services}\\
+We did not use any external services (only serviced within the
 Django environment).
 
 To be able to send email, a SMTP server was needed. During the demonstration we
-used Gmails SMTP server and one personal Gmail account to make this work.
+used Gmail's SMTP server and one personal Gmail account.
 However we needed only to add the account settings to settings.py and from
 there, Django packages handled the rest.
 
-
-\textbf{Functionality Checklist}
+\vspace{5 mm}
+\noindent \textbf{Functionality Checklist}\\
 \begin{itemize}
 \item List all flats a user is a member of
 \item Create a new flat
@@ -404,13 +436,15 @@ there, Django packages handled the rest.
 \item Log in with their credentials
 \end{itemize}
 
-\textbf{Known Issues} There are no known issues (bugs), but take a look at the
-improvement section for functionality that could and perhaps should be improved.
+\noindent \textbf{Known Issues} \\
+There are no known issues (bugs), but take a look at the summary and future work
+section for functionality that could and perhaps should be improved.
 
-\textbf{Technologies}
+\vspace{5 mm}
+\noindent \textbf{Technologies}
 
 \begin{center}
-	\rowcolors{1}{gray}{white}
+	\rowcolors{1}{light-gray}{white}
     \begin{tabular}{ | p{1.7cm} | p{3.5cm} | p{2cm} |}
     \hline
 	 \textbf{Technology} & \textbf{Description} & \textbf{Category} \\ \hline
@@ -437,11 +471,11 @@ the client side to create asynchronous messages (messages that are sent in
 background) to the application layer. These messages are sent to the server side
 without the need of refreshing a page. JavaScript or jQuery is then often used
 for altering the DOM with new data (the response). A good tool for implementing
-Ajax within the Django Framework is Dajax [1].
+Ajax within the Django Framework is Dajax \cite{x20}.
 
 \section{Reflective Summary}
 
-\textbf{What have we learnt through the process of development?}
+\vspace{5 mm} \noindent \textbf{What have we learnt through the process of development?}
 
 We learned a lot about different web development technologies, such as HTML5,
 CSS, JavaScript, Python, and Django. These were quite a new area of study for
@@ -452,46 +486,43 @@ Python/Django combination in future, as it provide a simple and logical way to
 implement web applications.
 
 This project increased our understanding of web applications in general. Now we
-understand much more better how the information flows in a web application, and
-what is the overall structure of it. We had heard that there is some http
-request and responses between client and server, but now we saw how those are
-actually happening. Furthermore, during the development process our
-understanding of how different technologies and protocols presented on lectures
-take part in different phases increased a lot.
+have better understanding of how the information flows in web applications, and
+what the overall structure is. Furthermore, during the development process our
+understanding of how different technologies and protocols interact increased a
+lot.
 
-We also used Git for version control management. Using Git reminded us how
-important it is to keep track of changes. As something went broken, it was easy
-to return to previous commit and check where the broken code was. In addition,
-two of us had not used Git for a while, so it was useful to recall how to use
-it, as it is widely used in software industry nowadays.
+We used Git \cite{x21} for version control management. Using Git reminded us how
+important it is to keep track of changes. As something went broke, it was easy
+to return to previous commit. In addition, two of us had not used Git for a
+while, so it was useful to recall how to use it, as it is widely used in
+software industry.
 
-\textbf{How did the frameworks help progress?}
+\vspace{5 mm} \noindent \textbf{How did the frameworks help progress?}
 
 As we had designed the layout beforehand, it was easy to follow those frameworks
 during the development process. Even though the layout changed from original
 drafts, those helped to understand what needed to be done as they concretized
-the view of the application. In this reason, it is really beneficial to draw
+the view of the application. For this reason, it is beneficial to draw
 some sort of drafts of the application as these help to imagine the entirety and
 estimate the progress.
 
-\textbf{Problems}
+\vspace{5 mm} \noindent \textbf{Problems}
 
 We did not encountered major problems during the development process. We did not
-have previous experience with Python and Django, so every now and then some one
-got stuck with technical problem, for example how to make something work.
-Usually these were overcame fast with the support of other team members.
+have previous experience with Python and Django, therefore every now and then
+some one got stuck with a technical problem. Usually these were overcome fast
+with the support of other team members.
 
 During the first weeks it was quite hard to follow what other team members were
 doing, and what should be done next. It helped a lot as we started using
 Github's issue tracker, where we listed all tasks and issues that needed to be
-done, and from where we saw which tasks were already started or done, and who
-was responsible with what.
+done.
 
-\textbf{Major achievements}
+\vspace{5 mm} \noindent \textbf{Major achievements}
 
 The user interference is simple and intuitive. It is easily used and does not
 need time to learn how to use the most important functionalities. This is
-confirmed by the evaluation panel at the demo. We got a lot of good feedback
+confirmed by the evaluation panel at the demo. We got good feedback
 from industry visitors. They especially praised following aspects:
 \begin{itemize}
 \item Neat user interface
@@ -504,58 +535,54 @@ got during the course.
 
 \section{Summary and Future Work}
 
-\textbf{Summary of application and its current state}
+\vspace{5 mm} \noindent \textbf{Summary of application and its current state}
 
 The application provides a simple interface to manage tasks of different flats.
-As a user can live in several flat (or apartment), (s)he might want to divide
+As a user can live in several flats (or apartments), (s)he might want to divide
 daily tasks efficiently with other roommates. The application is destined for
-that purposes. User can maintain two different list: a list of continuous chores
-and a shopping list. Former is meant for tasks that are running all the time and
-these stays on the list even if it is set done. Latter can be used to list items
-that need to be bought irregularly and are removed from the list as they are
-purchased.
+that purposes. Users can maintain two different lists: a list of continuous
+chores and a shopping list. The former is meant for tasks that are running all
+the time and these stays on the list even if it is set done. The latter can be
+used to list items that need to be bought irregularly and are removed from the
+list as they are purchased.
 
 The application is ready and functional, and it could be used in in real life.
 It has quite limited amount of functionalities, but it still contains all core
-functionalities that are needed to use it for task management.
+functionalities that are needed.
 
-\textbf{Limitations}
+\vspace{5 mm} \noindent \textbf{Limitations}
 
-Current name of application and an user interface can make it look like it can
-be only used by people who lives in flats, like students. Of course the
-application can be used, for example, by families that lives in their own
-detached houses and want to keep track of tasks that every family member should
-do.
+The current name of the application and the user interface can make it look as
+it is only suitable for student accommodations. Of course the application can be
+used, for example, by families that live in their own houses and want to keep
+track of tasks that every family member should do.
 
 Security aspect can be seen as a limitation, as currently user's password can be
 phished, as it is sent as a plain text using POST method. It should be salted
 all the time in order to increase security.
 
-\textbf{Plans for future development}
+\vspace{5 mm} \noindent \textbf{Plans for future development}
 
 There would be a clear market for this kind of application. We should not only
 focus on people living in flats, as this application could also be used in
 regular families. There are a huge amount of households that are struggling with
-coordinating daily tasks for each family members. Using Flat Organizer
-application, parents could easily inspect what their children have done and
-when. Parents could insist them to do some specific tasks in order to get a
-reward, which could be anything between playing PS3 and getting money for a
-movie night. This could be supported by implementing a functionality that allows
-users to take a picture before and after the task and attach these onto the
-task. This would make easier to follow that tasks are really done.
+coordinating daily tasks for each family members. Using Flat Organizer, parents
+could easily inspect what their children have done and when. Parents could
+encourage their children to do tasks in order to get a reward. Another idea is
+to implement a functionality that allows users to take a picture before and
+after the task is done, and attach these to the task.
 
 There are a lot of other functionalities that could be implemented in order to
 increase the value for users and improve the user experience. The application
-should be provided as a mobile application as this kind of applications would be
-primary used on mobile devices instead of computers. In this reason, we should
+could be provided as a mobile application. For this reason, we could
 develop a mobile application, which simplifies both task logging process and
-viewing new tasks. It should also contain a notification functionality, so that
+viewing new tasks. It could also contain a notification functionality, so that
 if a user is in a shop, (s)he would be notified when the shopping list is
 edited.
 
-Currently a user needs to write every single task again and again, so instead of
-this there could be shortcut icons for most common tasks, so that a user could
-just click them to create new tasks.
+Different flats would usually have the same basic chores. Therefore a good idea
+would be to implement standards tasks for the most common ones. There could be
+shortcut icons for most common tasks for users to click on to create new tasks.
 
 There are some issues relating to technology that should be fixed if the
 application is going to be published. Currently user password is sent as a plain
@@ -575,7 +602,7 @@ same invitations. User cannot change a password, or get a new one if old is
 forgotten. User cannot filter done tasks, so the list would grow very long as
 time elapses. List all tasks a user has done in each of his/her flats.
 
-\textbf{Another nice-to-have functionalities could be}:
+\vspace{5 mm} \noindent \textbf{Another nice-to-have functionalities could be}:
 \begin{itemize}
 \item Trade in points: User can trade an amount of points to get something.
 \item Find flats: User could be able to find flats.
@@ -585,11 +612,11 @@ time elapses. List all tasks a user has done in each of his/her flats.
 \item Money spend in addition to credits: Show how much money each has spend.
 \end{itemize}
 
-\textbf{Work distribution}
+\noindent \textbf{Work distribution}
 
 Every team member has been working on every part in the system. The workload has
-been equally distributed,as all team members did approximately 33\% of all work.
-We usually worked together at the same place and used pair programming.
+been equally distributed, as all team members did approximately 33.3\% of all work.
+We usually worked together and used pair programming.
  
 
 \section{Acknowledgements}
@@ -602,19 +629,19 @@ We want to thank industrial visitors, who gave us valuable feedback during a dem
 
 \appendix
 \section{Appendix: Installation}
-\noindent System is developed using Python 2.7.2 and Django 1.4.3
+\noindent System is developed and tested using Python 2.7.2 and Django 1.4.3
 \begin{enumerate}
 \item Import the project
 \item Initialize the database by running the command "python manage.py syncdb" in terminal
 \item Import the populate.py script by running the command "python manage.py shell" > "import populate"
-\item Start the server by running the command "python manage.py runserver" 
+\item Start the server by running the command "python manage.py runserver". If not in a debug mode: "python manage.py runserver --insecure" to serve static files.
 \item Open your browser and type in your IP address and port number (standard port number is 8000).
 \item Append the /flats at the end of your ip+portnumber. Example with localhost: 127.0.0.1:8000/flats
 \item You can either choose to create your own user or log in with some existing profiles:
 \begin{enumerate}
-\item Username1: madonna PasswordUser1: madonna
-\item Username2: rihanna PasswordUser2: rihanna
-\item Username3: gary PasswordUser3: gary
+\item Username1: madonna Password: madonna
+\item Username2: rihanna Password: rihanna
+\item Username3: gary Password: gary
 \end{enumerate}
 \item To make the email function work you will need to add a SMTP server and provide a email host user and email host password in the settings.py on lines 174 - 178.
 \end{enumerate}

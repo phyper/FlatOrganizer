@@ -21,45 +21,47 @@ Warning--to sort, need author or key in x9
 Warning--to sort, need author or key in x19
 Warning--to sort, need author or key in x10
 Warning--to sort, need author or key in x11
-You've used 18 entries,
+Warning--to sort, need author or key in x20
+Warning--to sort, need author or key in x21
+You've used 20 entries,
             2118 wiz_defined-function locations,
-            533 strings with 4547 characters,
-and the built_in function-call counts, 2704 in all, are:
-= -- 234
-> -- 18
+            537 strings with 4612 characters,
+and the built_in function-call counts, 3002 in all, are:
+= -- 260
+> -- 20
 < -- 0
-+ -- 18
++ -- 20
 - -- 0
-* -- 92
-:= -- 263
-add.period$ -- 18
-call.type$ -- 18
-change.case$ -- 36
+* -- 102
+:= -- 291
+add.period$ -- 20
+call.type$ -- 20
+change.case$ -- 40
 chr.to.int$ -- 0
-cite$ -- 36
-duplicate$ -- 126
-empty$ -- 415
+cite$ -- 40
+duplicate$ -- 140
+empty$ -- 461
 format.name$ -- 0
-if$ -- 685
+if$ -- 761
 int.to.chr$ -- 0
-int.to.str$ -- 18
+int.to.str$ -- 20
 missing$ -- 0
-newline$ -- 57
+newline$ -- 63
 num.names$ -- 0
-pop$ -- 162
+pop$ -- 180
 preamble$ -- 1
-purify$ -- 36
+purify$ -- 40
 quote$ -- 0
-skip$ -- 161
+skip$ -- 179
 stack$ -- 0
-substring$ -- 90
-swap$ -- 18
+substring$ -- 100
+swap$ -- 20
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 72
-warning$ -- 18
+type$ -- 80
+warning$ -- 20
 while$ -- 0
-width$ -- 20
-write$ -- 92
-(There were 18 warnings)
+width$ -- 22
+write$ -- 102
+(There were 20 warnings)
