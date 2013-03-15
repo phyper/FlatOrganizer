@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.11.28)  15 MAR 2013 12:18
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.11.28)  15 MAR 2013 13:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -459,22 +459,22 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 42.
 (/usr/local/texlive/2012/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Underfull \hbox (badness 10000) in paragraph at lines 76--76
+Underfull \hbox (badness 10000) in paragraph at lines 77--77
 []|\T1/aer/m/n/9 Create a new task,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--76
+Underfull \hbox (badness 10000) in paragraph at lines 77--77
 \T1/aer/m/n/9 by spec-i-fy-ing name,
  []
 
 
-Underfull \hbox (badness 5726) in paragraph at lines 80--80
+Underfull \hbox (badness 5726) in paragraph at lines 81--81
 []|\T1/aer/m/n/9 See a user's re-cently
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 84--84
+Underfull \hbox (badness 10000) in paragraph at lines 85--85
 []|\T1/aer/m/n/9 Forgotten pass-word
  []
 
@@ -482,7 +482,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 84--84
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (12.2122pt too wide) in paragraph at lines 92--93
+Overfull \hbox (12.2122pt too wide) in paragraph at lines 93--94
 []\T1/aer/m/n/9 The ap-pli-ca-tion must work on the most com-mon browsers:
  []
 
@@ -490,244 +490,248 @@ Overfull \hbox (12.2122pt too wide) in paragraph at lines 92--93
 
 
 ]
-<tasks.png, id=14, 1284.8pt x 803.0pt>
-File: tasks.png Graphic file (type png)
- <use tasks.png>
-Package pdftex.def Info: tasks.png used on input line 127.
-(pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
+<Flat.png, id=14, 842.14626pt x 611.28375pt>
+File: Flat.png Graphic file (type png)
+ <use Flat.png>
+Package pdftex.def Info: Flat.png used on input line 151.
+(pdftex.def)             Requested size: 185.27275pt x 134.48283pt.
 
-Overfull \hbox (16.95544pt too wide) in paragraph at lines 127--128
-[][] 
- []
+<createItem.png, id=16, 842.14626pt x 611.28375pt>
+File: createItem.png Graphic file (type png)
+ <use createItem.png>
+Package pdftex.def Info: createItem.png used on input line 164.
+(pdftex.def)             Requested size: 210.53604pt x 152.82056pt.
 
-[2 <./tasks.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 165--166
+[2 <./Flat.png> <./createItem.png (PNG copy)>]
+<flats.png, id=21, 848.16875pt x 567.11874pt>
+File: flats.png Graphic file (type png)
+ <use flats.png>
+Package pdftex.def Info: flats.png used on input line 181.
+(pdftex.def)             Requested size: 212.04166pt x 141.77933pt.
 
- []
-
-
-Overfull \hbox (5.83963pt too wide) in paragraph at lines 175--176
-[]\T1/aer/m/n/9 User finds the shop-ping item and clicks the “-done”
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 179--180
+Underfull \hbox (badness 10000) in paragraph at lines 205--206
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--197
+Underfull \hbox (badness 10000) in paragraph at lines 220--221
 
  []
 
 
-Package natbib Warning: Citation `x14' on page \thepage  undefined on input lin
-e 200.
+Underfull \hbox (badness 10000) in paragraph at lines 238--239
 
+ []
 
-Package natbib Warning: Citation `x15' on page \thepage  undefined on input lin
-e 200.
-
-
-Package natbib Warning: Citation `x16' on page \thepage  undefined on input lin
-e 200.
-
-
-Package natbib Warning: Citation `x17' on page \thepage  undefined on input lin
-e 200.
-
-
-Package natbib Warning: Citation `x18' on page \thepage  undefined on input lin
-e 200.
-
-
-Package natbib Warning: Citation `django1' on page \thepage  undefined on input
- line 207.
-
-<3tier.png, id=18, 724.7075pt x 545.03625pt>
+[3 <./flats.png>] <3tier.png, id=26, 724.7075pt x 545.03625pt>
 File: 3tier.png Graphic file (type png)
  <use 3tier.png>
-Package pdftex.def Info: 3tier.png used on input line 216.
+Package pdftex.def Info: 3tier.png used on input line 271.
 (pdftex.def)             Requested size: 217.41393pt x 163.51213pt.
 
-<er.png, id=20, 835.12pt x 592.2125pt>
+<er.png, id=27, 835.12pt x 592.2125pt>
 File: er.png Graphic file (type png)
  <use er.png>
-Package pdftex.def Info: er.png used on input line 226.
+Package pdftex.def Info: er.png used on input line 286.
 (pdftex.def)             Requested size: 250.53793pt x 177.66512pt.
 
-Overfull \hbox (10.53793pt too wide) in paragraph at lines 226--227
-[][] 
+Overfull \hbox (10.53793pt too wide) in paragraph at lines 286--287
+ [][] 
  []
 
-[3]
 
-Package natbib Warning: Citation `x1' on page \thepage  undefined on input line
- 232.
+Overfull \hbox (8.23254pt too wide) in paragraph at lines 322--324
+[]\T1/aer/m/n/9 HTTP (Hy-per-text Trans-fer Pro-to-col) is the stan-dard World-
 
+ []
 
-Package natbib Warning: Citation `x2' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x3' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x4' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x5' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x6' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x7' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x8' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x9' on page \thepage  undefined on input line
- 232.
-
-
-Package natbib Warning: Citation `x19' on page \thepage  undefined on input lin
-e 232.
-
-
-Package natbib Warning: Citation `x10' on page \thepage  undefined on input lin
-e 234.
-
-
-Package natbib Warning: Citation `x11' on page \thepage  undefined on input lin
-e 236.
-
-<sequencediagrams.png, id=24, 459.21562pt x 539.76656pt>
+<sequencediagrams.png, id=28, 459.21562pt x 539.76656pt>
 File: sequencediagrams.png Graphic file (type png)
 
 <use sequencediagrams.png>
-Package pdftex.def Info: sequencediagrams.png used on input line 251.
+Package pdftex.def Info: sequencediagrams.png used on input line 327.
 (pdftex.def)             Requested size: 252.56937pt x 296.87253pt.
 
-Overfull \hbox (12.56937pt too wide) in paragraph at lines 251--252
-[][] 
+Overfull \hbox (12.56937pt too wide) in paragraph at lines 327--328
+ [][] 
  []
 
-LaTeX Font Info:    Try loading font information for T1+aett on input line 260.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 337.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) [4 <./3tier.png> <./er.png> <./sequencediagrams.png>]
-(/usr/local/texlive/2012/texmf-dist/tex/latex/listings/lstlang1.sty
+) [4 <./3tier.png> <./er.png>] (/usr/local/texlive/2012/texmf-dist/tex/latex/li
+stings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
 (/usr/local/texlive/2012/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
 )
-Overfull \hbox (3.96495pt too wide) in paragraph at lines 337--337
+Overfull \hbox (3.96495pt too wide) in paragraph at lines 416--416
 []|\T1/aer/bx/n/9 Technology| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--339
+Underfull \hbox (badness 10000) in paragraph at lines 418--418
 []|\T1/aer/m/n/9 Programming
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--340
+Underfull \hbox (badness 10000) in paragraph at lines 419--419
 []|\T1/aer/m/n/9 Web Frame-
  []
 
 
-Underfull \hbox (badness 1057) in paragraph at lines 341--341
+Underfull \hbox (badness 1057) in paragraph at lines 420--420
 []|\T1/aer/m/n/9 Markup Lan-
  []
 
 
-Underfull \hbox (badness 3635) in paragraph at lines 342--342
+Underfull \hbox (badness 3635) in paragraph at lines 421--421
 \T1/aer/m/n/9 tion se-man-tics of the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 342--342
+Underfull \hbox (badness 10000) in paragraph at lines 421--421
 []|\T1/aer/m/n/9 Style Sheet
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--343
+Underfull \hbox (badness 10000) in paragraph at lines 422--422
 []|\T1/aer/m/n/9 Interpreted pro-gram-
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 343--343
+Underfull \hbox (badness 1331) in paragraph at lines 422--422
 \T1/aer/m/n/9 ming lan-guage. Used
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--343
+Underfull \hbox (badness 10000) in paragraph at lines 422--422
 \T1/aer/m/n/9 as a dy-namic script
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--343
+Underfull \hbox (badness 10000) in paragraph at lines 422--422
 []|\T1/aer/m/n/9 Programming
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--346
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
 []|\T1/aer/m/n/9 CSS,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--346
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
 \T1/aer/m/n/9 JavaScript
  []
 
-[5]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+[5 <./sequencediagrams.png>] [6] (./report.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
+[]$\T1/aett/m/n/9 https : / / docs . djangoproject . com / en / dev / faq /
+ []
 
- [6]
-(./report.bbl
 
-Package natbib Warning: Empty `thebibliography' environment on input line 3.
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+[]$\T1/aett/m/n/9 http : / / www . oracle . com / technetwork / java / javaee /
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
+[]$\T1/aett/m/n/9 http : / / www . microsoft . com / web / platform /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--50
+[]$\T1/aett/m/n/9 http : / / osdcpapers . cgpublisher . com / product /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--50
+\T1/aett/m/n/9 pub . 84 / prod . 29 / m . 1 / fid % 3D174194 / Askins ,[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--53
+[]$\T1/aett/m/n/9 http : / / docforge . com / wiki / Web _ application _
+ []
 
 )
+Overfull \hbox (4.93063pt too wide) in paragraph at lines 607--608
+[]\T1/aer/m/n/9 Initialize the database by run-ning the com-mand "python
+ []
 
-Package natbib Warning: There were undefined citations.
 
-[7
+Overfull \hbox (1.18689pt too wide) in paragraph at lines 609--610
+[]\T1/aer/m/n/9 Start the server by run-ning the com-mand "python man-
+ []
 
-] (./report.aux) ) 
+[7] <flats_shot.png, id=46, 1284.8pt x 803.0pt>
+File: flats_shot.png Graphic file (type png)
+ <use flats_shot.png>
+Package pdftex.def Info: flats_shot.png used on input line 625.
+(pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
+
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 625--626
+ [][] 
+ []
+
+<tasks.png, id=47, 1284.8pt x 803.0pt>
+File: tasks.png Graphic file (type png)
+ <use tasks.png>
+Package pdftex.def Info: tasks.png used on input line 632.
+(pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
+
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 632--633
+ [][] 
+ []
+
+<profilewithtasks.png, id=48, 1284.8pt x 803.0pt>
+File: profilewithtasks.png Graphic file (type png)
+ <use profilewithtasks.png>
+Package pdftex.def Info: profilewithtasks.png used on input line 639.
+(pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
+
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 639--640
+ [][] 
+ []
+
+<profile.png, id=49, 1284.8pt x 803.0pt>
+File: profile.png Graphic file (type png)
+ <use profile.png>
+Package pdftex.def Info: profile.png used on input line 646.
+(pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
+
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 646--647
+ [][] 
+ []
+
+[8 <./flats_shot.png> <./tasks.png> <./profilewithtasks.png> <./profile.png>]
+(./report.aux) ) 
 Here is how much of TeX's memory you used:
- 5540 strings out of 493488
- 72443 string characters out of 3141325
- 206648 words of memory out of 3000000
- 8709 multiletter control sequences out of 15000+200000
+ 5612 strings out of 493488
+ 73528 string characters out of 3141325
+ 206599 words of memory out of 3000000
+ 8775 multiletter control sequences out of 15000+200000
  48670 words of font info for 66 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 42i,12n,51p,864b,1173s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.e
-nc}</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb
-></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><
-/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></us
-r/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/
-local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/lo
-cal/texlive/2012/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/tex
-live/2012/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/20
-12/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-d
-ist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/
-type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 365752 bytes).
+ 42i,12n,51p,769b,1585s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc
+}</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><
+/usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></u
+sr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/
+local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/lo
+cal/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/loca
+l/texlive/2012/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texli
+ve/2012/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2012
+/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dis
+t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/ty
+pe1/urw/times/utmri8a.pfb>
+Output written on report.pdf (8 pages, 1081102 bytes).
 PDF statistics:
- 76 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+ 87 PDF objects out of 1000 (max. 8388607)
+ 52 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
