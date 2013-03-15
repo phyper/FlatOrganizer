@@ -14,6 +14,7 @@
 \usepackage[table]{xcolor}
 \usepackage{listings,multicol}
 \usepackage{url}
+\usepackage{cite}
 \usepackage[numbers]{natbib}
 
 \begin{document}
@@ -41,14 +42,12 @@ Haakon S{\o}nsteby\\
 \maketitle
 
 \begin{abstract}
-Flat Organizer is a web application that helps people to manage tasks in households. It provides a simple interface, where users can keep a track of tasks that need to be done. The main page contains two different list: a continuous chores list, and a shopping list. A continuous chores list is meant to be for tasks that does not expire, but can be done regularly. A shopping list is for keeping list of items that should be bought to the household. In addition, Flat Organizer provides a simple view of what each member of the household has done and when. Each task will be scored based on how challenge it is to perform. Users’ points will increase as they perform tasks.
+Flat Organizer is a web application that helps people to manage tasks in households. It provides a simple interface, where users can keep a track of tasks that need to be done. The main page contains two different list: a continuous chores list, and a shopping list. A continuous chores list is meant to be for tasks that does not expire, but can be done regularly. A shopping list is for keeping list of items that should be bought to the household. In addition, Flat Organizer provides a simple view of what each member of the household has done and when. Each task will be scored based on how challenge it is to perform. Users' points will increase as they perform tasks.
 
 \end{abstract}
 
 \section{Aim of Application}
 Most people lives in one a kind of household, it might be with their family, partner, roommates or perhaps some sort of student accommodation. While living in a household there are obligations among the residents that have to be fulfilled. Flat Organizer will make sure that each person in the household will contribute to the fellowship by both listing things that have to be done, and maybe even more important, shows a record of what everyone has completed in the last period of time.
-
-The aim of Flat Organizer application is to help people living in common households by providing a platform for organizing tasks related to the specific household. The users will use this application as an everyday tool and it is designed for that purpose. The user should be able to conduct the desired task quickly and easily without any distraction. The interaction will take place in the user{'}s browser. //May need some rewriting
 
 \subsection{Functional Requirements}
 
@@ -78,7 +77,7 @@ We used so called MoSCoW technique to prioritize required functionalities. There
 	FR-2.3	& Select a task, and set a task as done	& M \\ \hline
 	FR-2.4	& Delete a task	& S \\ \hline
 	FR-3.1	& View high score by user & S \\ \hline
-	FR-3.2	& See a user{'}s recently completed tasks	& S \\ \hline
+	FR-3.2	& See a user's recently completed tasks	& S \\ \hline
 	Fr-4.1	& Create a new account, providing first name, last name, email, and 		password	& M \\ \hline
 	Fr-4.2	& Log in with their credentials	& M \\ \hline
 	Fr-4.3	& Log in with their Facebook/Gmail account	& W \\ \hline
@@ -91,7 +90,7 @@ We used so called MoSCoW technique to prioritize required functionalities. There
 \begin{itemize}
 \item Responsive UI, screen resolution down to 800x600 px must be supported
 \item The application must work on the most common browsers: Google Chrome and Mozilla Firefox 
-\item All data must be available in the data storage even though the user {“}deletes{”} it.
+\item All data must be available in the data storage even though the user deletes it.
 \item Security and authorization over entire application
 \item All operations should be performed within a second, as after a couple seconds a user will start thinking that something is broken.
 \item Any personal information should not be accessed by outsider.
@@ -104,19 +103,17 @@ The implemented application will be used on laptop or desktop as it is not desig
 
 \subsection{Design goals}
 
-The overall design goals is allowing users to create and join flats, create and complete tasks and keep track of who did what in a flat. This should be accomplished by letting the user interact with an interface following the KISS [Reference needed?] guidelines. This is a functional, target driven application, so the number of disturbing elements should be minimized and the focus should rather be on letting the user do his/her’s desired task in a simplistic, neat way. Less is more. 
+The overall design goals is allowing users to create and join flats, create and complete tasks and keep track of who did what in a flat. This should be accomplished by letting the user interact with an interface following the Keep It Short and Simple (KISS) guidelines. This is a functional, target driven application, so the number of disturbing elements should be minimized and the focus should rather be on letting the user do his/her's desired task in a simplistic, neat way. Less is more. 
 
 \textbf{Constraints}
 Time is one big constraint, but managing the time and estimating the tasks so that the scope of the application is appropriate may be even harder. None of the team members has any knowledge of Django or Python, so this is a new web development framework and programing language for all team members to become comfortable in. Some team members has a small amount of HTML, CSS and JavaScript experience, but this is very basic. When it comes to the three person team size, this is both an advantage and a disadvantage. Only three people makes the project easier to manage, communication flow is easier and every group member can be involved in all parts of the system. The disadvantage is that more people would generate more inputs on ideas, most likely have more knowledge and can produce more features to an application. //Just jibber the last sentence? 
 
-\textbf{Reflective}
-Estimating the appropriate scope of the application is challenging. Especially when the web framework is new to every team member, giving no knowledge regarding the features it supports {“}out of the box{”}. To try to overcome this problem priorities are used on every functionality implemented, so that core functionality is in place and more features can be implemented if time. The team realizes that the selected scope is ambitious, but feels that it it needs to be of this size in order to work as a complete, usable application.
+Estimating the appropriate scope of the application is challenging. Especially when the web framework is new to every team member, giving no knowledge regarding the features it supports "out of the box". To try to overcome this problem priorities are used on every functionality implemented, so that core functionality is in place and more features can be implemented if time. The team realizes that the selected scope is ambitious, but feels that it it needs to be of this size in order to work as a complete, usable application.
 
 \section{Client Interface}
 
 \textbf{Wireframes}
 
-//Insert Flat page wireframe
 \begin{enumerate}
 \item Logo of the application that also works as a link back to the flat overview. 
 \item Description of the flat, containing a picture, name of the flat, and the current members. The plus icon will show a small text field that is used to invite new members
@@ -125,6 +122,12 @@ Estimating the appropriate scope of the application is challenging. Especially w
 \item The highscore list will show all the users, with their total points and last completed task, giving a quick and easy view of the score in the flat. 
 \item The users name and profile picture is clickable and gives access to a dropdown menu, giving the options to sign out. 
 \end{enumerate}
+
+\begin{figure}[!ht]
+\includegraphics[scale=0.2]{tasks}
+\caption{Main page}
+\label{fig:mainpage}
+\end{figure}	
 	
 //Insert Flat page CreateItem wireframe
 \begin{enumerate}
@@ -182,9 +185,9 @@ Estimating the appropriate scope of the application is challenging. Especially w
 \textbf{Goal of the primary user}: User want to create a new flat, as she has just moved in a new flat. In addition, she want to invite her friends, so that they can easily divide common tasks in the flat community. \\
 \textbf{Basic sequences}:
 \begin{enumerate}
-\item User clicks the {“}New flat{”} button.
+\item User clicks the "New flat" button.
 \item User fills in name and description in the modal window.
-\item User clicks the {“}Create{”} button.
+\item User clicks the "Create" button.
 \item A new flat appears on the Flats page.
 \item User clicks on the invite link.
 \item User fills in the email address of the other member.
@@ -210,23 +213,23 @@ The application layer in FlatOrganizer is implemented with Django, a Python Web 
 The data layer, the database, is a SQLite database that is a lightweight database management system and easily used with Django applications.
 
 \begin{figure}[!ht]
-\includegraphics[scale=0.7]{3tier}
+\includegraphics[scale=0.3]{3tier}
 \caption{ 3-Tier Architecture Diagram}
 \label{fig:3tier}
 \end{figure}
 
 
 \subsubsection{ER model}
-In Figure~\ref{fig:er} below shows the ER-model, and the database is implemented as a relational database. For the implementation we used Django{’}s SQLite support. By creating classes and relations in the model (models.py) we are able to let Django handle the requests (e.g. INSERT, DELETE, SELECT statements) with its ORM (Object Relational Mapper) (Managers).
+In Figure~\ref{fig:er} below shows the ER-model, and the database is implemented as a relational database. For the implementation we used Django's SQLite support. By creating classes and relations in the model (models.py) we are able to let Django handle the requests (e.g. INSERT, DELETE, SELECT statements) with its ORM (Object Relational Mapper) (Managers).
 
 \begin{figure}[!ht]
-\includegraphics[scale=0.7]{er}
+\includegraphics[scale=0.3]{er}
 \caption{ ER diagram}
 \label{fig:er}
 \end{figure}
 
 \textbf{Web Framework: Django}
-Django suits our project perfectly and is a recognized and easy to use Python web framework. However there are many web frameworks out there. Other frameworks are for example Flask (Python) \citenum{x1}, Pylon (Python) \cite{x2}, Grok (Python) \cite{x3} and TurboGears (Python) \cite{x4}, JSF (Java) \cite{x5}, Apache Struts (Java) \cite{x6}, CakePHP (PHP) \cite{x7}, ASP (.NET) \cite{x8} and maybe the strongest competitor Ruby on Rails (Rails) \cite{x9} [i]. They all support N-tier architecture with focus on web development.
+Django suits our project perfectly and is a recognized and easy to use Python web framework. However there are many web frameworks out there. Other frameworks are for example Flask (Python) \citenum{x1}, Pylon (Python) \cite{x2}, Grok (Python) \cite{x3} and TurboGears (Python) \cite{x4}, JSF (Java) \cite{x5}, Apache Struts (Java) \cite{x6}, CakePHP (PHP) \cite{x7}, ASP (.NET) \cite{x8} and maybe the strongest competitor Ruby on Rails (Rails) \cite{x9} \cite{x19}. They all support N-tier architecture with focus on web development.
  
 Web Application Frameworks focus on building web applications, and the main advantages are functionality such as session management and user authentication, data persistence and template systems \cite{x10}.
 
@@ -244,6 +247,11 @@ HTTP (Hypertext Transfer Protocol) is the standard World-Wide-Web protocol for s
 
 An example message could look like this
 
+\begin{figure}[!ht]
+\includegraphics[scale=0.55]{sequencediagrams}
+\caption{Sequence diagrams}
+\label{fig:sequence}
+\end{figure}
  
 \textbf{Database Request Format}
 The connection between the database and the application is SQLite format. These transactions/requests are handled by Django.
@@ -328,13 +336,13 @@ There are no known issues (bugs), but take a look at the improvement section for
     \hline
 	 \textbf{Technology} & \textbf{Description} & \textbf{Category} \\ \hline
 	
-	Python &	Object oriented and dynamic programming language.&	Programming Language \\ \hline
-	Django	&High-level Python Web framework based.&	Web Framework \\ \hline
-	HTML	&Creates web pages.	&Markup Language \\ \hline
+	Python & Object oriented and dynamic programming language. &	Programming Language \\ \hline
+	Django & High-level Python Web framework based.&	Web Framework \\ \hline
+	HTML & Creates web pages.	&Markup Language \\ \hline
 	CSS	& Describes the presentation semantics of the markup language.&	Style Sheet Language \\ \hline
-	JavaScript	&Interpreted programming language. Used as a dynamic script language to alter DOM.&	Programming Language \\ \hline
-	jQuery	&Makes HTML document traversal and manipulation easier. Multi and cross browser support.&	JavaScript Library \\ \hline
-	Bootstrap&	A collection of tools for creating and styling web pages.&	CSS, JavaScript extension    \\
+	JavaScript & Interpreted programming language. Used as a dynamic script language to alter DOM. & Programming Language \\ \hline
+	jQuery & Makes HTML document traversal and manipulation easier. Multi and cross browser support. &	JavaScript Library \\ \hline
+	Bootstrap & A collection of tools for creating and styling web pages. & CSS, JavaScript extension \\
 	
     \hline
     \end{tabular}

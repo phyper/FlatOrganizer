@@ -1,9 +1,9 @@
 
-main.pdf: report.tex report.bib
+main.pdf: report.tex sources.bib
 	pdflatex report
 	bibtex report
 	pdflatex report
 	pdflatex report
 
 clean:
-	rm report.log
+	rm report.log report.aux report.bbl report.blg  
