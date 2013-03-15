@@ -1,20 +1,16 @@
-from django.template import RequestContext, loader
+from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
-from flats.models import Flat, Flat_Member, UserProfile, UserCreateForm, UserEditForm, UserProfileForm, NewFlatForm, NewTaskForm, EditFlatInfoForm, Task, Assigned_Task, Invitation
-from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
-from django.contrib.auth.forms import PasswordResetForm, PasswordChangeForm, UserCreationForm
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render_to_response
+from flats.models import Flat, Flat_Member, UserProfile, Task, Assigned_Task, Invitation
+from flats.forms import UserCreateForm, UserEditForm, UserProfileForm, NewFlatForm, NewTaskForm, EditFlatInfoForm
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.core.context_processors import csrf
-from crispy_forms.helper import FormHelper
 from django.http import Http404
-from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.exceptions import PermissionDenied
 from tasklist.settings import MEDIA_ROOT
-from django.core.files import File
 from django.core.mail import EmailMessage
 from tasklist.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 

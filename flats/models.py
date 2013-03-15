@@ -1,11 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from django import forms
-import datetime
-from PIL import Image
-from django.forms import ModelForm
-from django.forms import CharField, Form, PasswordInput
 
 CATEGORY_CHOICES = (('Shopping', 'Shopping'),
                     ('Cleaning', 'Cleaning'),
@@ -17,14 +11,6 @@ class UserProfile (models.Model):
 	num_stars = models.IntegerField(default=0, editable=False)
 	amount_of_points = models.IntegerField(default=0, editable=False)
 	picture = models.ImageField(upload_to='imgs', blank=True)
-
-	#Accessing a users profile is done by calling user.get_profile(), 
-	#but in order to use this function, Django needs to know where to 
-	#look for the profile object.
-	#So add this line to settings.py : AUTH_PROFILE_MODULE = "account.UserProfile"
-
-	#def __unicode__(self):
-	#   return self.user.username
 
 class Flat_Manager(models.Manager):
 	def get_query_set(self):
@@ -106,66 +92,9 @@ class Assigned_Task(models.Model):
     class Meta:
         get_latest_by = 'completion_date'
 
-
 class Invitation(models.Model):
         flat = models.ForeignKey(Flat)
         email = models.EmailField()
 
         def __unicode__(self):
             return  self.email
-
-class UserCreateForm(UserCreationForm):
-	email = forms.EmailField(required = True)
-	password1 = CharField(widget=PasswordInput())
-	password2 = CharField(widget=PasswordInput())
-	
-	class Meta:
-		model = User
-		fields = ["first_name", "last_name", "email", "username", "password1", "password2"]
-
-class UserProfileForm(forms.ModelForm):
-	class Meta:	        
-		model = UserProfile
-		fields = ['picture']
-	
-class UserEditForm(forms.ModelForm):
-    first_name = forms.CharField(required = True)
-    last_name = forms.CharField(required = True)
-    email = forms.EmailField(required = True)
-    class Meta:
-        model = User
-        fields = ["first_name", "last_name", "email"]
-        widgets = {
-            'first_name' : forms.TextInput(attrs = {'placeholder': 'First name'}),
-            'last_name' : forms.TextInput(attrs = {'placeholder': 'Last name'}),
-            'email' : forms.TextInput(attrs = {'placeholder': 'E-mail'}),
-            }
-
-class NewTaskForm(forms.ModelForm):
-    class Meta:
-        model = Task
-        fields = ["name", "description", "credits", "category"]
-
-        widgets = {
-            'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
-            'description' : forms.TextInput(attrs = {'placeholder': 'Description'}),
-            'credits' : forms.TextInput(attrs = {'placeholder': 'Credits'}),
-            }
-
-class NewFlatForm(forms.ModelForm):
-	class Meta:
-		model = Flat
-		fields = ["name", "description"]
-		widgets = {
-			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
-			'description' : forms.Textarea(attrs = {'placeholder': 'Description'}),
-		}
-		
-class EditFlatInfoForm(forms.ModelForm):
-	class Meta:
-		model = Flat
-		fields = ["name", "description"]
-		widgets = {
-			'name' : forms.TextInput(attrs = {'placeholder': 'Name'}),
-			'description' : forms.Textarea(attrs = {'placeholder': 'Description'}),
-		}
