@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.11.28)  15 MAR 2013 13:54
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.11.28)  15 MAR 2013 14:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -658,52 +658,52 @@ Underfull \hbox (badness 10000) in paragraph at lines 52--53
  []
 
 )
-Overfull \hbox (4.93063pt too wide) in paragraph at lines 607--608
+Overfull \hbox (4.93063pt too wide) in paragraph at lines 608--609
 []\T1/aer/m/n/9 Initialize the database by run-ning the com-mand "python
  []
 
-
-Overfull \hbox (1.18689pt too wide) in paragraph at lines 609--610
+[7]
+Overfull \hbox (1.18689pt too wide) in paragraph at lines 610--611
 []\T1/aer/m/n/9 Start the server by run-ning the com-mand "python man-
  []
 
-[7] <flats_shot.png, id=46, 1284.8pt x 803.0pt>
+<flats_shot.png, id=46, 1284.8pt x 803.0pt>
 File: flats_shot.png Graphic file (type png)
  <use flats_shot.png>
-Package pdftex.def Info: flats_shot.png used on input line 625.
+Package pdftex.def Info: flats_shot.png used on input line 626.
 (pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
 
-Overfull \hbox (16.95544pt too wide) in paragraph at lines 625--626
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 626--627
  [][] 
  []
 
 <tasks.png, id=47, 1284.8pt x 803.0pt>
 File: tasks.png Graphic file (type png)
  <use tasks.png>
-Package pdftex.def Info: tasks.png used on input line 632.
+Package pdftex.def Info: tasks.png used on input line 633.
 (pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
 
-Overfull \hbox (16.95544pt too wide) in paragraph at lines 632--633
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 633--634
  [][] 
  []
 
 <profilewithtasks.png, id=48, 1284.8pt x 803.0pt>
 File: profilewithtasks.png Graphic file (type png)
  <use profilewithtasks.png>
-Package pdftex.def Info: profilewithtasks.png used on input line 639.
+Package pdftex.def Info: profilewithtasks.png used on input line 640.
 (pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
 
-Overfull \hbox (16.95544pt too wide) in paragraph at lines 639--640
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 640--641
  [][] 
  []
 
 <profile.png, id=49, 1284.8pt x 803.0pt>
 File: profile.png Graphic file (type png)
  <use profile.png>
-Package pdftex.def Info: profile.png used on input line 646.
+Package pdftex.def Info: profile.png used on input line 647.
 (pdftex.def)             Requested size: 256.95544pt x 160.59715pt.
 
-Overfull \hbox (16.95544pt too wide) in paragraph at lines 646--647
+Overfull \hbox (16.95544pt too wide) in paragraph at lines 647--648
  [][] 
  []
 
@@ -728,7 +728,7 @@ ve/2012/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2012
 /texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on report.pdf (8 pages, 1081102 bytes).
+Output written on report.pdf (8 pages, 1081513 bytes).
 PDF statistics:
  87 PDF objects out of 1000 (max. 8388607)
  52 compressed objects within 1 object stream
